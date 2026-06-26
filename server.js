@@ -6,13 +6,12 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 
-const { initSchema } = require('./src/db');
-const { exposeUser } = require('./src/middleware/auth');
+const { requireAuth, exposeUser } = require('./src/middleware/auth');
 const ms = require('./src/auth/microsoft');
 
-const publicRoutes = require('./src/routes/public');
-const adminRoutes = require('./src/routes/admin');
+const loginRoutes = require('./src/routes/login');
 const authRoutes = require('./src/routes/auth');
+const publicRoutes = require('./src/routes/public');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,9 +29,6 @@ if (IS_PROD && (!SESSION_SECRET || SESSION_SECRET.length < 32)) {
 // permite que Express confíe en X-Forwarded-Proto para emitir la cookie `secure`.
 if (IS_PROD) app.set('trust proxy', 1);
 
-// Asegura que el esquema exista (idempotente).
-initSchema();
-
 // --- Motor de vistas ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -41,16 +37,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// --- Estáticos ---
-app.use('/assets', express.static(path.join(__dirname, 'assets')));     // imágenes y logos entregados
-// Archivos subidos: nunca dejar que el navegador "adivine" el tipo (evita XSS por sniffing).
-app.use(
-  '/uploads',
-  express.static(path.join(__dirname, 'public', 'uploads'), {
-    setHeaders: (res) => res.setHeader('X-Content-Type-Options', 'nosniff'),
-  })
-);
-app.use(express.static(path.join(__dirname, 'public')));                 // css, js
+// --- Estáticos (accesibles sin sesión: el login necesita CSS, logo, etc.) ---
+app.use('/assets', express.static(path.join(__dirname, 'assets')));     // imágenes y logos
+app.use(express.static(path.join(__dirname, 'public')));                // css, js
 
 // --- Sesión ---
 app.use(
@@ -88,10 +77,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// --- Rutas ---
+// --- Rutas de autenticación (PÚBLICAS, antes del muro de sesión) ---
+app.use('/', loginRoutes);   // /login, /logout (local)
+app.use('/auth', authRoutes); // SSO Microsoft
+
+// --- A partir de aquí, TODO el sitio exige sesión válida (intranet) ---
+app.use(requireAuth);
+
+// --- Rutas del sitio (protegidas) ---
 app.use('/', publicRoutes);
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
 
 // --- 404 ---
 app.use((req, res) => {
@@ -104,8 +98,7 @@ app.use((req, res) => {
 });
 
 // --- Manejador de errores ---
-// El stack solo se muestra si DEBUG_ERRORS=true (explícito); por defecto, mensaje genérico
-// para no filtrar rutas internas ni versiones, aunque NODE_ENV no esté en 'production'.
+// El stack solo se muestra si DEBUG_ERRORS=true (explícito); por defecto, mensaje genérico.
 const SHOW_STACK = process.env.DEBUG_ERRORS === 'true';
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
@@ -116,9 +109,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n  conTIgo Soprole`);
-  console.log(`  ► Sitio:  http://localhost:${PORT}`);
-  console.log(`  ► Admin:  http://localhost:${PORT}/admin`);
+  console.log(`\n  conTIgo Soprole · versión estática`);
+  console.log(`  ► Sitio (requiere login):  http://localhost:${PORT}`);
+  console.log(`  ► Login:  http://localhost:${PORT}/login`);
   console.log(`  ► SSO Microsoft: ${ms.isConfigured() ? 'ACTIVO' : 'inactivo (login local)'}\n`);
 });
 

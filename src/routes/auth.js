@@ -1,9 +1,11 @@
 'use strict';
 
 /**
- * Rutas del SSO de Microsoft (Azure AD).
+ * Rutas del SSO de Microsoft (Azure AD) — VERSIÓN ESTÁTICA.
  * Activas solo cuando AUTH_MICROSOFT_ENABLED=true y las credenciales están
  * completas. Si no, devuelven un aviso amable y el usuario usa el login local.
+ * Tras un inicio de sesión válido se entra al sitio (`/`), que está protegido
+ * completamente por autenticación (intranet).
  */
 
 const crypto = require('crypto');
@@ -15,10 +17,11 @@ const ms = require('../auth/microsoft');
 router.get('/login', async (req, res, next) => {
   const client = ms.getClient();
   if (!client) {
-    return res.status(503).render('admin/login', {
+    return res.status(503).render('pages/login', {
       title: 'Iniciar sesión',
       error: 'El inicio de sesión con Microsoft aún no está configurado. Usa el acceso local.',
       ssoEnabled: false,
+      localEnabled: true,
     });
   }
   try {
@@ -42,16 +45,17 @@ router.get('/login', async (req, res, next) => {
 // Callback de Microsoft: intercambia el código por tokens y crea la sesión.
 router.get('/redirect', async (req, res, next) => {
   const client = ms.getClient();
-  if (!client) return res.redirect('/admin/login');
+  if (!client) return res.redirect('/login');
   try {
     // Verifica el state contra la sesión (defensa CSRF) y consúmelo.
     const expected = req.session.oauth || {};
     delete req.session.oauth;
     if (!expected.state || req.query.state !== expected.state) {
-      return res.status(403).render('admin/login', {
+      return res.status(403).render('pages/login', {
         title: 'Acceso denegado',
         error: 'La solicitud de inicio de sesión no es válida o expiró. Inténtalo de nuevo.',
         ssoEnabled: ms.isConfigured(),
+        localEnabled: true,
       });
     }
 
@@ -63,10 +67,11 @@ router.get('/redirect', async (req, res, next) => {
 
     // Verifica el nonce del id_token (anti-replay/inyección OIDC).
     if (expected.nonce && tokenResponse.idTokenClaims?.nonce !== expected.nonce) {
-      return res.status(403).render('admin/login', {
+      return res.status(403).render('pages/login', {
         title: 'Acceso denegado',
         error: 'No se pudo validar la respuesta de Microsoft (nonce). Inténtalo de nuevo.',
         ssoEnabled: ms.isConfigured(),
+        localEnabled: true,
       });
     }
 
@@ -74,10 +79,11 @@ router.get('/redirect', async (req, res, next) => {
     const email = account.username || tokenResponse.idTokenClaims?.preferred_username || '';
 
     if (!ms.isEmailAllowed(email)) {
-      return res.status(403).render('admin/login', {
+      return res.status(403).render('pages/login', {
         title: 'Acceso denegado',
-        error: `La cuenta ${email} no está autorizada para este panel.`,
+        error: `La cuenta ${email} no está autorizada para acceder a este sitio.`,
         ssoEnabled: ms.isConfigured(),
+        localEnabled: true,
       });
     }
 
@@ -86,7 +92,7 @@ router.get('/redirect', async (req, res, next) => {
       name: account.name || email,
       provider: 'microsoft',
     };
-    const returnTo = req.session.returnTo || '/admin';
+    const returnTo = req.session.returnTo || '/';
     delete req.session.returnTo;
     res.redirect(returnTo);
   } catch (err) {
@@ -94,18 +100,7 @@ router.get('/redirect', async (req, res, next) => {
   }
 });
 
-// Cierre de sesión (local y/o Microsoft).
-router.get('/logout', (req, res) => {
-  const wasMicrosoft = req.session?.user?.provider === 'microsoft';
-  req.session.destroy(() => {
-    if (wasMicrosoft && ms.isConfigured()) {
-      const url =
-        `https://login.microsoftonline.com/${ms.config.tenantId}/oauth2/v2.0/logout` +
-        `?post_logout_redirect_uri=${encodeURIComponent(ms.config.postLogoutRedirectUri)}`;
-      return res.redirect(url);
-    }
-    res.redirect('/');
-  });
-});
+// El cierre de sesión se maneja de forma unificada en /logout (src/routes/login.js),
+// tanto para login local como para Microsoft.
 
 module.exports = router;

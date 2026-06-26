@@ -1,14 +1,12 @@
 {
-  "name": "contigo-soprole",
+  "name": "contigo-soprole-static",
   "version": "1.0.0",
-  "description": "Sitio web conTIgo (Soprole TI) — Node.js + Express + EJS + SQLite con capa de administración de contenidos y SSO Microsoft (Azure AD) listo para conectar.",
+  "description": "Sitio web conTIgo (Soprole TI) — versión ESTÁTICA: Node.js + Express + EJS con contenido congelado (sin base de datos ni CMS) y acceso protegido por SSO Microsoft (Azure AD) con login local de respaldo.",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "seed": "node src/db/seed.js",
-    "reset-db": "node src/db/seed.js --reset"
+    "dev": "node --watch server.js"
   },
   "engines": {
     "node": ">=18"
@@ -18,19 +16,17 @@
     "contigo",
     "ti",
     "express",
-    "cms"
+    "static",
+    "sso"
   ],
   "author": "MGC Global Group",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
     "@azure/msal-node": "^2.16.2",
-    "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.8.1",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "express-session": "^1.18.1",
-    "multer": "^2.2.0"
+    "express-session": "^1.18.1"
   }
 }

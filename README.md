@@ -1,122 +1,78 @@
-# conTIgo · Soprole
+# conTIgo · Soprole — versión ESTÁTICA
 
-Sitio web del equipo de TI de Soprole (**conTIgo**), con secciones públicas y una
-**capa de administración** para editar todo el contenido sin tocar código.
-Construido en **Node.js + Express + EJS + SQLite**, con **inicio de sesión Microsoft
-(Azure AD / SSO) preparado para conectar**.
+Sitio web del equipo de TI de Soprole (**conTIgo**) en su variante **estática**:
+el contenido está **congelado** (sin base de datos ni CMS) y **todo el sitio
+está protegido por inicio de sesión Microsoft (Azure AD / SSO)**, con un login
+local de respaldo.
+
+> 🔀 **Ramas del repositorio**
+> - **`con-cms`** — versión con CMS: el contenido se edita desde `/admin` (Express + EJS + SQLite). El SSO protege el panel.
+> - **`estatico`** — *(esta rama)* versión estática: contenido congelado en un archivo, sin BD ni `/admin`, y el SSO protege **el sitio completo**.
+>
+> Ambas comparten las mismas vistas y el mismo flujo de SSO Microsoft.
 
 ---
 
 ## 🚀 Puesta en marcha
 
-Requisitos: **Node.js ≥ 18** (probado con Node 22).
+Requisitos: **Node.js ≥ 18** (probado con Node 22 y 24).
 
 ```bash
 # 1. Instalar dependencias
 npm install
 
 # 2. Crear el archivo de entorno
-cp .env.example .env        # luego edita .env si quieres
+cp .env.example .env        # luego edita .env
 
-# 3. Cargar el contenido inicial (textos de los mockups) y crear el admin
-npm run seed
-
-# 4. Levantar el servidor
+# 3. Levantar el servidor
 npm start                   # o: npm run dev  (recarga en caliente)
 ```
 
-- Sitio:  http://localhost:3000
-- Admin:  http://localhost:3000/admin
+- Sitio:  http://localhost:3000  → redirige al login si no hay sesión
+- Login:  http://localhost:3000/login
 
-**Credenciales del admin local** (definidas en `.env`):
-`admin@soprole.cl` / `Cambiar.123` — cámbialas en `.env` y vuelve a correr `npm run seed`.
+**Acceso local de respaldo** (definido en `.env`):
+`admin@soprole.cl` / `Cambiar.123` — cámbialo en `.env`.
+En **producción** la contraseña por defecto se rechaza: define una propia o
+activa el SSO de Microsoft.
+
+> No hay paso de `seed` ni base de datos: el contenido ya viene incluido.
 
 ---
 
-## 🗄️ Base de datos
+## 🗂️ Contenido congelado (sin base de datos)
 
-El sitio usa **SQLite** (a través de `better-sqlite3`). Es una base de datos embebida
-en un único archivo: **`data/contigo.db`**, que se crea automáticamente.
+Todo el texto, las imágenes y las colecciones (tarjetas, testimonios,
+estadísticas, pestañas de roles) viven en un único archivo:
 
-> ⚠️ **Importante:** ni la base de datos (`data/contigo.db`) ni el archivo `.env`
-> están en el repositorio (están en `.gitignore`). Por eso, **después de clonar el
-> proyecto hay que generarlos** con los pasos de abajo. Si no, el sitio arranca sin
-> contenido o sin poder entrar al admin.
-
-### Dejar la base de datos funcionando (desde cero / tras clonar)
-
-```bash
-npm install                 # instala dependencias (incluye el motor better-sqlite3)
-cp .env.example .env        # crea tu .env (define ADMIN_EMAIL / ADMIN_PASSWORD, etc.)
-npm run seed                # crea las tablas y carga el contenido inicial + el admin
-npm start                   # levanta el sitio
+```
+src/content/content.json
 ```
 
-Tras `npm run seed` ya existe `data/contigo.db` con todos los textos, imágenes,
-tarjetas, testimonios y estadísticas, además del usuario administrador.
+Fue **exportado desde la base de datos del CMS** (rama `con-cms`). El modelo
+`src/models/content.js` lo lee y expone la misma API que antes
+(`getAll`, `newsCards`, `testimonials`, `stats`, `roleTabs`), de modo que las
+vistas EJS **no cambian**.
 
-### Scripts de base de datos
+### Actualizar contenido
 
-| Comando            | Qué hace |
-|--------------------|----------|
-| `npm run seed`     | Crea el esquema si falta y **siembra solo lo que falte**. Respeta lo ya editado desde `/admin` (no pisa textos ni colecciones existentes). Seguro de correr varias veces. |
-| `npm run reset-db` | **Borra todo el contenido** y lo vuelve a sembrar desde cero. Útil en desarrollo o si cambió la estructura de tablas. |
-
-### ¿Qué crea el `seed`?
-
-- Las tablas: `content` (textos e imágenes), `news_cards`, `testimonials`, `stats`,
-  `role_tabs`, `submissions` (mensajes de contacto) y `settings`.
-- El **usuario administrador local** (correo y contraseña tomados de `.env`).
-- Todo el contenido inicial del sitio.
-
-### Cambiar la contraseña o el correo del admin
-
-Edita `ADMIN_EMAIL` / `ADMIN_PASSWORD` en `.env` y vuelve a correr `npm run seed`.
-(En producción, el `seed` **no acepta** la contraseña por defecto: hay que definir una propia.)
-
-### Notas técnicas
-
-- `better-sqlite3` es un módulo **nativo**; `npm install` descarga el binario
-  precompilado para tu versión de Node. Si la instalación fallara en Windows por
-  compilación, instala las *build tools* (Visual Studio Build Tools + Python) y
-  reinstala con `npm install`.
-- La carpeta `data/` se crea sola en el primer arranque o al correr el `seed`.
-- Migrar más adelante a **PostgreSQL/MySQL** solo afecta `src/db/` y
-  `src/models/content.js`; las rutas y vistas no cambian.
+- **Edición puntual:** edita `src/content/content.json` y reinicia el servidor.
+- **Re-exportar desde el CMS:** si el contenido se editó en la rama `con-cms`
+  (vía `/admin`), vuelve a exportar el JSON desde esa rama y reemplaza el archivo.
+- Las imágenes referenciadas viven en `assets/` (servidas en `/assets`).
 
 ---
 
-## 🗺️ Páginas
+## 🔐 Acceso: SSO Microsoft (Azure AD) + login local
 
-| Ruta          | Contenido |
-|---------------|-----------|
-| `/`           | **Inicio**: hero "Si funciona, es porque estamos conTIgo / Con todas las personas, sistemas y procesos", 2 tarjetas, CTA de iniciativa, testimonios y video. |
-| `/proyectos`  | **Proyectos**: Marco Metodológico, Capacitación, pestañas de roles y estadísticas. |
-| `/contacto`   | Formulario de contacto / captación de leads. |
+**Todo el sitio exige sesión** (intranet). Hay dos vías:
 
----
+1. **Microsoft SSO (producción).** Flujo OAuth2/OIDC ya implementado con MSAL
+   (`src/auth/microsoft.js` + `src/routes/auth.js`). Inactivo hasta configurarlo.
+2. **Login local de respaldo.** Correo + contraseña de `.env`
+   (`ADMIN_EMAIL` / `ADMIN_PASSWORD`). Útil en desarrollo y mientras no esté el SSO.
 
-## 🛠️ Panel de administración (`/admin`)
-
-Todo el contenido visible del sitio es editable:
-
-- **Textos e imágenes** — todos los campos de cada página (con subida de imágenes).
-- **Tarjetas / Noticias** — las del Home y las de "ConTIgo al día" (crear/editar/eliminar).
-- **Testimonios** — citas de colaboradores.
-- **Estadísticas** — los indicadores de la página Proyectos.
-- **Pestañas de roles** — el contenido de "Rol 1…4" en Capacitación.
-- **Mensajes de contacto** — bandeja con los leads recibidos.
-
-Las imágenes subidas se guardan en `public/uploads/`.
-
----
-
-## 🔐 Inicio de sesión con Microsoft (SSO) — listo para conectar
-
-No se desarrolló un sistema propio de usuarios: la identidad la gestiona Microsoft
-(AD corporativo). El flujo OAuth2/OIDC ya está implementado con **MSAL**
-(`src/auth/microsoft.js` + `src/routes/auth.js`) y permanece **inactivo** hasta
-que se configure. Para activarlo:
+### Activar el SSO de Microsoft
 
 1. Registrar la aplicación en **Azure → App registrations**:
    - **Redirect URI (Web):** `https://TU-DOMINIO/auth/redirect`
@@ -131,10 +87,24 @@ que se configure. Para activarlo:
    AZURE_REDIRECT_URI=https://TU-DOMINIO/auth/redirect
    AUTH_ALLOWED_DOMAINS=soprole.cl
    ```
-3. Reiniciar el servidor. **No se requiere ningún cambio de código.**
-   El botón "Iniciar sesión con Microsoft" aparecerá automáticamente en el login.
+3. Reiniciar el servidor. El botón "Iniciar sesión con Microsoft" aparece
+   automáticamente en el login. **No requiere cambios de código.**
 
-Mientras el SSO esté inactivo, el panel usa el login local de `.env`.
+> ℹ️ El SSO es *server-side* (cliente confidencial con *client secret*), por eso
+> esta versión mantiene un proceso Node/Express en lugar de ser archivos HTML
+> puros sobre un CDN.
+
+---
+
+## 🗺️ Páginas
+
+| Ruta          | Contenido |
+|---------------|-----------|
+| `/`           | **Inicio**: hero, tarjetas, CTA, testimonios y video. |
+| `/proyectos`  | **Proyectos**: Marco Metodológico, Capacitación, pestañas de roles y estadísticas. |
+| `/contacto`   | Datos de contacto de la Mesa de Ayuda (sin formulario). |
+| `/login`      | Inicio de sesión (local + Microsoft). |
+| `/logout`     | Cierre de sesión. |
 
 ---
 
@@ -142,19 +112,17 @@ Mientras el SSO esté inactivo, el panel usa el login local de `.env`.
 
 ```
 .
-├── assets/                  # Imágenes y logos entregados (se sirven en /assets)
-├── data/                    # Base de datos SQLite (se crea sola; ignorada por git)
+├── assets/                  # Imágenes y logos (se sirven en /assets)
 ├── public/
-│   ├── css/                 # styles.css (sitio) + admin.css (panel)
-│   ├── js/main.js           # menú móvil, tabs, reproductor de video
-│   └── uploads/             # imágenes subidas desde el admin
+│   ├── css/styles.css       # estilos del sitio
+│   └── js/main.js           # menú móvil, tabs, reproductor de video
 ├── src/
 │   ├── auth/microsoft.js    # SSO Microsoft (MSAL) — preparado
-│   ├── db/                  # conexión, schema.sql y seed (contenido inicial)
-│   ├── middleware/auth.js   # protección de rutas del admin
-│   ├── models/content.js    # única capa de acceso a datos
-│   └── routes/              # public.js, admin.js, auth.js
-├── views/                   # plantillas EJS (pages, partials, admin)
+│   ├── content/content.json # CONTENIDO CONGELADO (exportado del CMS)
+│   ├── middleware/auth.js    # requireAuth (protege todo el sitio) + exposeUser
+│   ├── models/content.js    # lee content.json (misma API que el CMS)
+│   └── routes/              # public.js, login.js (local), auth.js (Microsoft)
+├── views/                   # plantillas EJS (pages, partials)
 ├── server.js                # punto de entrada Express
 └── .env.example
 ```
@@ -170,51 +138,27 @@ En `.env`:
 
 ---
 
-## 🌐 Despliegue / habilitación de seguridad corporativa
+## 🌐 Despliegue
 
 - El sitio corre en el puerto `PORT` (por defecto 3000) detrás del hosting/reverse-proxy.
-- **IP pública:** debe entregarla el proveedor de hosting donde se publique
-  (no es un valor del código). Coordinar con Soprole para habilitarla en los
-  controles de seguridad corporativos.
 - En producción: definir `NODE_ENV=production`, un `SESSION_SECRET` largo y
   aleatorio, y servir tras HTTPS (las cookies se marcan `secure` automáticamente).
+- Con `NODE_ENV=production` y SSO inactivo, el login local **solo** funciona si
+  defines una contraseña propia (la por defecto se rechaza).
 
 ---
 
-## 📝 Notas técnicas
-
-- **Base de datos:** SQLite (cero configuración). El acceso está aislado en
-  `src/models/content.js` y `src/db/`, de modo que migrar a PostgreSQL/MySQL más
-  adelante solo afecta esa capa.
-- **Store de sesión:** en desarrollo se usa el store en memoria. Para producción
-  conviene un store persistente (p. ej. `connect-sqlite3` o Redis).
-- **Logo de Soprole en el footer:** actualmente es un texto estilizado de marcador.
-  Reemplazar por el logo oficial cuando el cliente lo entregue (dejarlo en `/assets`).
-- **Imágenes de personas/stock:** los mockups usan fotografías que no venían como
-  archivos sueltos; las secciones muestran marcadores y son **subibles desde el admin**.
-- **Aviso de seguridad (npm audit):** queda una advertencia *moderada* transitiva
-  en `@azure/msal-node` (dependencia `uuid`). Su corrección es un cambio mayor del
-  módulo de SSO; abordar al activar el SSO de Microsoft.
-
-## 🔒 Endurecimiento aplicado y pendiente
-
-Tras una revisión de seguridad se aplicaron estas medidas:
+## 🔒 Seguridad aplicada
 
 - **`SESSION_SECRET` obligatorio en producción** (arranque falla si falta o es corto).
-- **`trust proxy` en producción** para que la cookie `secure` funcione tras un reverse-proxy
-  (evita el bucle de login del admin al desplegar).
+- **`trust proxy` en producción** para que la cookie `secure` funcione tras un reverse-proxy.
 - **Cookie de sesión** `httpOnly` + `sameSite: 'lax'` + `secure` en producción.
-- **Subida de archivos**: SVG bloqueado (evita XSS), la extensión en disco se deriva del
-  tipo validado (no del nombre del cliente), y `/uploads` se sirve con `X-Content-Type-Options: nosniff`.
-- **Login**: rate-limit en memoria (8 intentos / 15 min) y rechazo de la contraseña por
-  defecto en producción.
-- **Errores**: el stack solo se muestra con `DEBUG_ERRORS=true`; por defecto, mensaje genérico.
+- **Login local**: comparación en tiempo constante, rate-limit en memoria
+  (8 intentos / 15 min) y rechazo de la contraseña por defecto en producción.
 - **SSO**: el flujo OAuth incluye validación de `state` y `nonce` (anti-CSRF de login).
 
-Pendiente recomendado al pasar a producción (no crítico para la base):
+Pendiente recomendado al pasar a producción:
 
-- **Tokens CSRF** por formulario en `/admin` (hoy mitigado con `sameSite`).
-- **Validación por *magic bytes*** del contenido subido (además del tipo declarado).
 - **Store de sesión persistente** (Redis/`connect-sqlite3`) y **rate-limit compartido**
   si se corre en múltiples instancias.
-- Considerar **helmet** para cabeceras de seguridad y `NODE_ENV=production` en el deploy.
+- Considerar **helmet** para cabeceras de seguridad.

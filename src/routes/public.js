@@ -1,8 +1,10 @@
 'use strict';
 
 /**
- * Rutas públicas del sitio. Cada página obtiene su contenido desde el modelo,
- * de modo que TODO el texto e imágenes son editables desde /admin.
+ * Rutas del sitio — VERSIÓN ESTÁTICA.
+ * Cada página obtiene su contenido del modelo, que ahora lee de un archivo
+ * JSON congelado (sin base de datos ni CMS). Todo el sitio está protegido por
+ * autenticación (ver server.js / requireAuth).
  */
 
 const express = require('express');
@@ -17,7 +19,7 @@ function baseLocals() {
   };
 }
 
-// --- Home (Landing Contigo.jpg) ---
+// --- Home ---
 router.get('/', (req, res) => {
   res.render('pages/home', {
     title: 'conTIgo · Soprole',
@@ -27,7 +29,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// --- Proyectos (Landing Contigo _ Proyectos.jpg) ---
+// --- Proyectos ---
 router.get('/proyectos', (req, res) => {
   res.render('pages/proyectos', {
     title: 'Proyectos · conTIgo Soprole',
@@ -38,31 +40,13 @@ router.get('/proyectos', (req, res) => {
   });
 });
 
-// --- Contacto (formulario) ---
+// --- Contacto (solo información estática; sin formulario ni almacenamiento) ---
 router.get('/contacto', (req, res) => {
   res.render('pages/contacto', {
     title: 'Contacto · conTIgo Soprole',
     active: 'contacto',
     ...baseLocals(),
-    sent: req.query.sent === '1',
-    error: null,
   });
-});
-
-router.post('/contacto', (req, res) => {
-  const { name, email, phone, subject, message } = req.body;
-  if (!name || !email || !message) {
-    return res.status(400).render('pages/contacto', {
-      title: 'Contacto · conTIgo Soprole',
-      active: 'contacto',
-      ...baseLocals(),
-      sent: false,
-      error: 'Por favor completa nombre, correo y mensaje.',
-      form: req.body,
-    });
-  }
-  Content.createSubmission({ name, email, phone, subject, message });
-  res.redirect('/contacto?sent=1');
 });
 
 module.exports = router;

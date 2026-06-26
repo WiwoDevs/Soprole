@@ -1,0 +1,203 @@
+{
+  "_comment": "Contenido CONGELADO del sitio (version estatica). Exportado desde la base de datos SQLite del CMS. Para actualizar textos/imagenes, edita este archivo y reinicia el servidor (o re-exporta desde la rama con-cms).",
+  "content": {
+    "contigo.hero.title": "Si funciona, es porque estamos conTIgo.",
+    "contigo.hero.tagline": "Somos tu socio estratégico",
+    "contigo.hero.image": "/assets/public/07bb58b749e26ad47782445866d8bf6e99d763b0.png",
+    "contigo.news.title": "ConTIgo al día",
+    "contacto.title": "Contacto",
+    "contacto.subtitle": "Cuéntanos en qué podemos ayudarte y te responderemos a la brevedad.",
+    "global.brand.logo": "/assets/Logo Contigo.png",
+    "global.nav.search_placeholder": "¿Qué estás buscando?",
+    "global.nav.cta": "Contacto",
+    "global.footer.title": "Mesa de Ayuda",
+    "global.footer.email": "mesadeayuda@soprole.cl",
+    "global.footer.phone": "224365100",
+    "global.footer.anexo": "5100",
+    "global.footer.copyright": "© 2026 Soprole Contigo. Todos los derechos reservados.",
+    "video.url": "",
+    "video.poster": "/assets/public/36bf97e37c52b5ab42c9b6b65ff208d8b863c688.jpg",
+    "home.hero.title": "Si funciona, es porque estamos conTIgo.",
+    "home.hero.line1": "Con todas las personas.",
+    "home.hero.line2": "Con todos los sistemas.",
+    "home.hero.line3": "Con todos los procesos.",
+    "home.hero.subtitle": "Y seguiremos estando, para colaborar juntos y potenciar a cada área en sus desafíos.",
+    "home.hero.image": "/assets/public/3dd5e114974685c253f3718004b3a4afbc23f121.png",
+    "home.hero.image_bg": "/assets/public/d6e865f8fc39b272403aaecaf75f31260f62a2e6.png",
+    "home.cta.title": "¿Quieres solicitar una nueva iniciativa?",
+    "home.cta.button": "Haz click aquí",
+    "home.cta.link": "/contacto",
+    "proyectos.hero.title": "Proyectos",
+    "proyectos.hero.image": "/assets/public/35fff7383be103f486dddf43fdb06bd7c96c9bac.jpg",
+    "proyectos.marco.title": "Marco Metodológico",
+    "proyectos.marco.body": "Con la implementación de herramientas avanzadas, el equipo de TI está llevando la digitalización interna a nuevas alturas. Explora cómo están usando tecnologías de vanguardia para mejorar la eficiencia operativa.",
+    "proyectos.marco.button": "Descarga aquí",
+    "proyectos.marco.link": "#",
+    "proyectos.marco.image": "/assets/public/83d2b43791d501934db0ce610f67f4674571442b.png",
+    "proyectos.marco.image_bg": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
+    "proyectos.capacitacion.title": "Capacitación",
+    "proyectos.capacitacion.body": "Con una combinación única de talentos y perspectivas, el equipo de TI se distingue por su enfoque colaborativo y diverso. Conoce cómo este equipo impulsa proyectos innovadores en un entorno inclusivo.",
+    "proyectos.capacitacion.video": "",
+    "proyectos.capacitacion.poster": "/assets/public/219d85522de3842ea93b678538230ea749a51ec1.png",
+    "proyectos.talento.title": "Impulsando el talento a través de la capacitación",
+    "proyectos.talento.body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
+    "proyectos.futuro.title": "Proyectos TI que impulsan el futuro",
+    "proyectos.futuro.body": "El equipo de TI desarrolla iniciativas clave para optimizar procesos, integrar sistemas y avanzar en la transformación digital. Cada proyecto busca mejorar la eficiencia, fortalecer la operación y aportar valor al negocio."
+  },
+  "news_cards": [
+    {
+      "id": 1,
+      "page": "home",
+      "title": "Nuestros proyectos tecnológicos",
+      "body": "Desarrollamos soluciones que integran personas, sistemas y procesos para que la operación funcione de manera eficiente y conectada.",
+      "image": "/assets/public/bcc40fa6b0931a279ddd602bf2c802306fdca033.jpg",
+      "link": "#",
+      "cta": "Leer más",
+      "accent": "dark",
+      "sort": 1,
+      "active": 1
+    },
+    {
+      "id": 3,
+      "page": "contigo-al-dia",
+      "title": "Innovación Tecnológica en el Equipo de TI",
+      "body": "El área de TI está implementando nuevas soluciones digitales para optimizar la operación y la experiencia de usuario. Descubre cómo el equipo está trabajando para llevar la empresa al siguiente nivel.",
+      "image": "/assets/public/a55b6a2e7d7295fe3db5815f084f0c420732b989.png",
+      "link": "#",
+      "cta": "Leer más",
+      "accent": "blue",
+      "sort": 1,
+      "active": 1
+    },
+    {
+      "id": 2,
+      "page": "home",
+      "title": "Una nueva forma de trabajar",
+      "body": "Desarrollamos soluciones que integran personas, sistemas y procesos para que la operación funcione de manera eficiente y conectada.",
+      "image": "/assets/public/5da4dae5c9922522fc08d29d54ab363d02df8e88.png",
+      "link": "#",
+      "cta": "Leer más",
+      "accent": "dark",
+      "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 4,
+      "page": "contigo-al-dia",
+      "title": "Diversidad y Colaboración en TI",
+      "body": "Con una combinación única de talentos y perspectivas, el equipo de TI se distingue por su enfoque colaborativo y diverso. Conoce cómo este equipo impulsa proyectos innovadores en un entorno inclusivo.",
+      "image": "/assets/public/0676ffde118898c77ed0083bdc9fc55123132010.png",
+      "link": "#",
+      "cta": "Leer más",
+      "accent": "red",
+      "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 5,
+      "page": "contigo-al-dia",
+      "title": "Adopción de Nuevas Tecnologías",
+      "body": "Con la implementación de herramientas avanzadas, el equipo de TI está llevando la digitalización interna a nuevas alturas. Explora cómo están usando tecnologías de vanguardia para mejorar la eficiencia operativa.",
+      "image": "/assets/public/bbd197f055c73583e7ea5961c68da92f11ecc378.png",
+      "link": "#",
+      "cta": "Leer más",
+      "accent": "blue",
+      "sort": 3,
+      "active": 1
+    }
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "quote": "Cuando trabajamos en equipo, hace que todo funcione",
+      "name": "Mónica Nuñez",
+      "role": "Especialista en TI",
+      "image": "/assets/public/1027a0587cd16892a534f425040d8000c03c10a2.png",
+      "accent": "green",
+      "sort": 1,
+      "active": 1
+    },
+    {
+      "id": 2,
+      "quote": "Cuando trabajamos en equipo, hace que todo funcione",
+      "name": "Javier Olarra",
+      "role": "Especialista en TI",
+      "image": "/assets/public/f58f3b939b17e36aea2649d17aa8a98fcb7e355a.png",
+      "accent": "blue",
+      "sort": 2,
+      "active": 1
+    }
+  ],
+  "stats": [
+    {
+      "id": 1,
+      "value": "+35%",
+      "label": "de mejora en tiempos de respuesta",
+      "accent": "red",
+      "sort": 1,
+      "active": 1
+    },
+    {
+      "id": 2,
+      "value": "98%",
+      "label": "de disponibilidad de sistemas",
+      "accent": "blue",
+      "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 3,
+      "value": "+50%",
+      "label": "de procesos automatizados",
+      "accent": "blue",
+      "sort": 3,
+      "active": 1
+    }
+  ],
+  "role_tabs": [
+    {
+      "id": 1,
+      "label": "Rol 1",
+      "title": "Impulsando el talento a través de la capacitación",
+      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
+      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
+      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
+      "tags": "Innovación|Liderazgo|Excelencia",
+      "sort": 1,
+      "active": 1
+    },
+    {
+      "id": 2,
+      "label": "Rol 2",
+      "title": "Impulsando el talento a través de la capacitación",
+      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
+      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
+      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
+      "tags": "Innovación|Liderazgo|Excelencia",
+      "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 3,
+      "label": "Rol 3",
+      "title": "Impulsando el talento a través de la capacitación",
+      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
+      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
+      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
+      "tags": "Innovación|Liderazgo|Excelencia",
+      "sort": 3,
+      "active": 1
+    },
+    {
+      "id": 4,
+      "label": "Rol 4",
+      "title": "Impulsando el talento a través de la capacitación",
+      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
+      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
+      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
+      "tags": "Innovación|Liderazgo|Excelencia",
+      "sort": 4,
+      "active": 1
+    }
+  ]
+}
