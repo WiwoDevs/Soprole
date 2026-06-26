@@ -33,14 +33,66 @@ npm start                   # o: npm run dev  (recarga en caliente)
 
 ---
 
-## 🗺️ Páginas (fieles a los mockups entregados)
+## 🗄️ Base de datos
 
-| Ruta              | Mockup                              | Contenido |
-|-------------------|-------------------------------------|-----------|
-| `/`               | `Landing Contigo.jpg`               | Home: hero "Si funciona, es porque estamos conTIgo", tarjetas, CTA de iniciativa, testimonios, video |
-| `/contigo-al-dia` | `Landing Contigo _ Comentario.jpg`  | ConTIgo al día: hero de equipo + 3 tarjetas de noticias |
-| `/proyectos`      | `Landing Contigo _ Proyectos.jpg`   | Proyectos: Marco Metodológico, Capacitación, pestañas de roles, estadísticas |
-| `/contacto`       | —                                   | Formulario de contacto / captación de leads |
+El sitio usa **SQLite** (a través de `better-sqlite3`). Es una base de datos embebida
+en un único archivo: **`data/contigo.db`**, que se crea automáticamente.
+
+> ⚠️ **Importante:** ni la base de datos (`data/contigo.db`) ni el archivo `.env`
+> están en el repositorio (están en `.gitignore`). Por eso, **después de clonar el
+> proyecto hay que generarlos** con los pasos de abajo. Si no, el sitio arranca sin
+> contenido o sin poder entrar al admin.
+
+### Dejar la base de datos funcionando (desde cero / tras clonar)
+
+```bash
+npm install                 # instala dependencias (incluye el motor better-sqlite3)
+cp .env.example .env        # crea tu .env (define ADMIN_EMAIL / ADMIN_PASSWORD, etc.)
+npm run seed                # crea las tablas y carga el contenido inicial + el admin
+npm start                   # levanta el sitio
+```
+
+Tras `npm run seed` ya existe `data/contigo.db` con todos los textos, imágenes,
+tarjetas, testimonios y estadísticas, además del usuario administrador.
+
+### Scripts de base de datos
+
+| Comando            | Qué hace |
+|--------------------|----------|
+| `npm run seed`     | Crea el esquema si falta y **siembra solo lo que falte**. Respeta lo ya editado desde `/admin` (no pisa textos ni colecciones existentes). Seguro de correr varias veces. |
+| `npm run reset-db` | **Borra todo el contenido** y lo vuelve a sembrar desde cero. Útil en desarrollo o si cambió la estructura de tablas. |
+
+### ¿Qué crea el `seed`?
+
+- Las tablas: `content` (textos e imágenes), `news_cards`, `testimonials`, `stats`,
+  `role_tabs`, `submissions` (mensajes de contacto) y `settings`.
+- El **usuario administrador local** (correo y contraseña tomados de `.env`).
+- Todo el contenido inicial del sitio.
+
+### Cambiar la contraseña o el correo del admin
+
+Edita `ADMIN_EMAIL` / `ADMIN_PASSWORD` en `.env` y vuelve a correr `npm run seed`.
+(En producción, el `seed` **no acepta** la contraseña por defecto: hay que definir una propia.)
+
+### Notas técnicas
+
+- `better-sqlite3` es un módulo **nativo**; `npm install` descarga el binario
+  precompilado para tu versión de Node. Si la instalación fallara en Windows por
+  compilación, instala las *build tools* (Visual Studio Build Tools + Python) y
+  reinstala con `npm install`.
+- La carpeta `data/` se crea sola en el primer arranque o al correr el `seed`.
+- Migrar más adelante a **PostgreSQL/MySQL** solo afecta `src/db/` y
+  `src/models/content.js`; las rutas y vistas no cambian.
+
+---
+
+## 🗺️ Páginas
+
+| Ruta          | Contenido |
+|---------------|-----------|
+| `/`           | **Inicio**: hero "Si funciona, es porque estamos conTIgo / Con todas las personas, sistemas y procesos", 2 tarjetas, CTA de iniciativa, testimonios y video. |
+| `/proyectos`  | **Proyectos**: Marco Metodológico, Capacitación, pestañas de roles y estadísticas. |
+| `/contacto`   | Formulario de contacto / captación de leads. |
 
 ---
 
