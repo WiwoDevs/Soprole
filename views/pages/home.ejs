@@ -1,0 +1,76 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Panel de imagen a sangre (derecha): misma foto en dos capas que calzan perfecto -->
+  <div class="hero__media <%= c['home.hero.image'] ? '' : 'hero__media--placeholder' %>">
+    <% if (c['home.hero.image_bg']) { %>
+      <img class="hero__media-bg" src="<%= c['home.hero.image_bg'] %>" alt="" aria-hidden="true" />
+    <% } %>
+    <% if (c['home.hero.image']) { %>
+      <img class="hero__media-fg" src="<%= c['home.hero.image'] %>" alt="conTIgo Soprole" />
+    <% } else { %>
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8c93c9" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+    <% } %>
+  </div>
+
+  <div class="container">
+    <div class="hero__text">
+      <h1 class="hero__title"><%- brandify(c['home.hero.title'] || 'Si funciona, es porque estamos conTIgo.') %></h1>
+      <div class="hero__list">
+        <p><%- brandify(c['home.hero.line1']) %></p>
+        <p><%- brandify(c['home.hero.line2']) %></p>
+        <p><%- brandify(c['home.hero.line3']) %></p>
+      </div>
+      <p class="hero__subtitle"><%= c['home.hero.subtitle'] %></p>
+      <div class="hero__dots" aria-hidden="true">
+        <span class="is-active"></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,46 C300,104 560,8 800,40 C1020,70 1240,108 1440,56 L1440,90 L0,90 Z" fill="#ffffff"/>
+  </svg>
+</section>
+
+<!-- TARJETAS DESTACADAS -->
+<section class="section bg-lav">
+  <div class="container">
+    <div class="cards cards--2">
+      <% cards.forEach(function(card){ %>
+        <article class="card">
+          <div class="card__media <%= card.image ? '' : 'card__media--icon' %>">
+            <% if (card.image) { %>
+              <img src="<%= card.image %>" alt="<%= card.title %>" />
+            <% } else { %>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18M8 18v2m8-2v2"/></svg>
+            <% } %>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title accent-<%= card.accent %>"><%= card.title %></h3>
+            <p class="card__text"><%= card.body %></p>
+            <a class="btn btn--<%= card.accent === 'dark' ? 'dark' : card.accent %> card__cta" href="<%= card.link || '#' %>">
+              <%= card.cta || 'Leer más' %> <span class="plus">+</span>
+            </a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA: nueva iniciativa -->
+<section class="cta-strip">
+  <div class="container">
+    <h2 class="cta-strip__title"><%= c['home.cta.title'] || '¿Quieres solicitar una nueva iniciativa?' %></h2>
+    <a class="btn btn--orange btn--lg" href="<%= c['home.cta.link'] || '/contacto' %>">
+      <%= c['home.cta.button'] || 'Haz click aquí' %> <span class="plus">+</span>
+    </a>
+  </div>
+</section>
+
+<%- include('../partials/testimonials') %>
+<%- include('../partials/video') %>
+<%- include('../partials/footer') %>

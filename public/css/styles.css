@@ -1,0 +1,412 @@
+/* =========================================================================
+   conTIgo Soprole — Design System
+   Reproduce la identidad de los mockups: paleta del logo (cian→azul→morado→
+   rojo), fondos lavanda con "blobs" rosados, tarjetas redondeadas y Poppins.
+   ========================================================================= */
+
+:root {
+  /* Paleta de marca */
+  --cyan: #21b3f0;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-heading: #2e6fb7;
+  --indigo: #3b2bb0;
+  --purple: #6a23a6;
+  --red: #ee3b2b;
+  --red-orange: #f04a26;
+  --orange: #f1592a;
+  --soprole-red: #e2231a;
+  --green: #16a085;
+  --dark: #15152a;
+
+  --gradient-brand: linear-gradient(90deg, var(--cyan) 0%, var(--blue) 30%, var(--purple) 65%, var(--red) 100%);
+  --gradient-video: linear-gradient(120deg, #d61f6e 0%, #7b2ff7 45%, #1b2ad8 100%);
+
+  /* Neutros */
+  --ink: #2b2b38;
+  --ink-soft: #5b5b6b;
+  --muted: #8b8b99;
+  --line: #e7e6f2;
+  --bg: #ffffff;
+  --bg-lav: #f4f2fc;
+  --bg-lav-2: #eef0fb;
+  --card: #ffffff;
+
+  /* Sistema */
+  --radius: 22px;
+  --radius-sm: 14px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 6px 18px rgba(40, 30, 90, 0.06);
+  --shadow: 0 14px 40px rgba(40, 30, 90, 0.10);
+  --shadow-lg: 0 24px 60px rgba(40, 30, 90, 0.16);
+  --container: 1180px;
+  --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Layout ---------- */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+.section { padding: 72px 0; position: relative; }
+.section--tight { padding: 48px 0; }
+.text-center { text-align: center; }
+
+/* Gradientes y blobs decorativos compartidos */
+.bg-lav { background: linear-gradient(180deg, #ffffff 0%, var(--bg-lav) 100%); }
+.blob {
+  position: absolute; z-index: 0; pointer-events: none;
+  background-repeat: no-repeat; background-size: contain;
+}
+
+/* ---------- Tipografía utilitaria ---------- */
+.eyebrow { font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: .8rem; }
+.title-red { color: var(--red-orange); font-weight: 800; }
+.title-blue { color: var(--blue-heading); font-weight: 800; }
+.section-title { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 800; margin: 0 0 14px; }
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* Marca "conTIgo" resaltada dentro de los títulos */
+.brand-word {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-weight: 800;
+}
+.brand-ti { font-weight: 800; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: none; border-radius: var(--radius-pill);
+  padding: 12px 26px; font-weight: 600; font-size: .95rem;
+  color: #fff; transition: transform .15s ease, box-shadow .15s ease, opacity .15s;
+  box-shadow: var(--shadow-sm);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn .plus { font-weight: 700; }
+.btn--blue { background: var(--blue-dark); }
+.btn--orange { background: var(--orange); }
+.btn--red { background: var(--red); }
+.btn--dark { background: var(--dark); }
+.btn--green { background: var(--green); }
+.btn--ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.btn--lg { padding: 14px 32px; font-size: 1rem; }
+
+/* =========================================================================
+   HEADER / NAV
+   ========================================================================= */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid rgba(231, 230, 242, 0.7);
+}
+.nav {
+  display: flex; align-items: center; gap: 22px;
+  height: 74px;
+}
+.nav__logo img { height: 34px; width: auto; }
+.nav__links { display: flex; align-items: center; gap: 26px; margin-left: 14px; }
+.nav__link { font-size: .92rem; font-weight: 500; color: var(--ink-soft); position: relative; padding: 6px 0; }
+.nav__link:hover { color: var(--ink); }
+.nav__link.is-active { color: var(--ink); font-weight: 700; }
+.nav__link.is-active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px;
+  border-radius: 3px; background: var(--gradient-brand);
+}
+.nav__spacer { flex: 1; }
+.nav__search {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: var(--radius-pill); padding: 8px 16px; min-width: 220px;
+  color: var(--muted);
+}
+.nav__search input { border: none; outline: none; background: transparent; font-size: .9rem; width: 100%; color: var(--ink); }
+.nav__cta { background: var(--blue-dark); color: #fff; border-radius: var(--radius-pill); padding: 10px 22px; font-weight: 600; font-size: .9rem; }
+.nav__burger { display: none; background: none; border: none; font-size: 1.6rem; color: var(--ink); }
+
+/* =========================================================================
+   HERO
+   ========================================================================= */
+/* Hero variante Home (texto izquierda, panel de imagen a sangre a la derecha) */
+.hero {
+  position: relative; overflow: hidden; display: flex; align-items: center;
+  min-height: 720px;
+  background: linear-gradient(160deg, #ffffff 0%, var(--bg-lav) 55%, #efe9fb 100%);
+}
+.hero .container { position: relative; z-index: 4; width: 100%; }
+.hero__text { position: relative; z-index: 4; max-width: 580px; padding: 24px 0 80px; }
+/* Ola divisoria al pie del hero: va POR DELANTE del equipo (lo recorta limpio) */
+.hero-wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 96px; z-index: 3; display: block; pointer-events: none; }
+.hero__title { font-size: clamp(2.2rem, 4.6vw, 3.4rem); font-weight: 800; line-height: 1.08; margin: 0 0 22px; color: var(--blue-heading); }
+.hero__title .accent { color: var(--green); }
+.hero__list { margin: 0 0 18px; }
+.hero__list p { margin: 2px 0; font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 600; color: var(--blue); }
+.hero__list b { color: var(--indigo); }
+.hero__subtitle { color: var(--ink-soft); max-width: 460px; font-size: .98rem; }
+/* Panel de imagen a SANGRE (derecha), grande, con borde curvo (ola) y tinte suave.
+   La MISMA foto en dos capas que CALZAN PERFECTO: recorte nítido sobre su
+   versión con fondo difuminada (mismo encuadre exacto). */
+.hero__media {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 58%; z-index: 1;
+  background: radial-gradient(125% 95% at 72% 32%, #eef0fb 0%, #ece8f9 52%, #f3e9f7 100%);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M20,0 C5,28 5,72 20,100 L100,100 L100,0 Z' fill='black'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M20,0 C5,28 5,72 20,100 L100,100 L100,0 Z' fill='black'/></svg>");
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.hero__media-bg, .hero__media-fg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center bottom;
+  transform: scale(1.14); transform-origin: center bottom;
+}
+.hero__media-bg {
+  filter: blur(7px) saturate(.98) brightness(1.04);
+  opacity: .9; z-index: 0;
+  -webkit-mask-image: radial-gradient(ellipse at 52% 50%, #000 60%, transparent 86%);
+  mask-image: radial-gradient(ellipse at 52% 50%, #000 60%, transparent 86%);
+}
+.hero__media-fg { z-index: 1; }
+/* Tinte de color suave sobre el panel (como el Figma) */
+.hero__media::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(110deg, rgba(244,242,252,.6) 0%, rgba(244,242,252,0) 26%),
+    radial-gradient(70% 55% at 32% 100%, rgba(150,110,255,.22), transparent 72%);
+}
+.hero__media--placeholder { background: linear-gradient(135deg, #c9d6ff, #e2e2f7); display: grid; place-items: center; }
+.hero__dots { display: flex; gap: 8px; margin-top: 22px; }
+.hero__dots span { width: 9px; height: 9px; border-radius: 50%; background: #c9c6e0; }
+.hero__dots span.is-active { background: var(--blue); width: 22px; border-radius: 6px; }
+
+/* Hero variante "banner" (imagen full con título centrado) — Proyectos */
+.hero-banner {
+  position: relative; min-height: 470px; display: grid; place-items: center;
+  text-align: center; color: #fff; overflow: hidden;
+  background: linear-gradient(180deg, #dfe7f5 0%, #ffffff 100%);
+}
+/* Imagen de fondo DIFUMINADA: blur + desaturada y aclarada */
+.hero-banner__img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: blur(3px) saturate(.8) brightness(1.06); transform: scale(1.06);
+}
+/* Velo que aclara y desvanece a blanco hacia abajo (para que el recorte del
+   Marco se funda con la sección siguiente). */
+.hero-banner::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(70,90,130,.30) 0%, rgba(255,255,255,.10) 45%, #ffffff 100%);
+}
+.hero-banner__inner { position: relative; z-index: 2; padding: 30px 24px 90px; }
+.hero-banner__title { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 800; text-shadow: 0 4px 26px rgba(20,30,60,.45); margin: 0; }
+.hero-banner__tagline { font-size: 1.05rem; font-style: italic; opacity: .95; }
+.hero-banner__tagline b { font-style: normal; font-weight: 700; }
+.hero-banner .hero-wave { z-index: 3; height: 100px; }
+
+/* =========================================================================
+   TARJETAS (news/destacados)
+   ========================================================================= */
+.cards { display: grid; gap: 26px; }
+.cards--2 { grid-template-columns: repeat(2, 1fr); max-width: 880px; margin: 0 auto; }
+.cards--3 { grid-template-columns: repeat(3, 1fr); }
+.card {
+  background: var(--card); border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); display: flex; flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.card__media { aspect-ratio: 16 / 10; background: linear-gradient(135deg, #dfe6fb, #efe7fb); position: relative; overflow: hidden; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; }
+.card__media--icon { display: grid; place-items: center; color: #aeb6e0; font-size: 2.4rem; }
+.card__body { padding: 22px 22px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.card__title { font-size: 1.18rem; font-weight: 800; margin: 0; line-height: 1.25; }
+.card__title.accent-blue { color: var(--blue-heading); }
+.card__title.accent-red { color: var(--red-orange); }
+.card__title.accent-dark { color: var(--blue-heading); }
+.card__text { color: var(--ink-soft); font-size: .9rem; margin: 0; flex: 1; }
+.card__cta { margin-top: 6px; align-self: flex-start; }
+
+/* =========================================================================
+   CTA banner ("¿Quieres solicitar una nueva iniciativa?")
+   ========================================================================= */
+.cta-strip { text-align: center; padding: 60px 0; }
+.cta-strip__title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: var(--red-orange); margin: 0 0 22px; }
+.cta-strip__title b { color: var(--red-orange); }
+
+/* =========================================================================
+   TESTIMONIOS
+   ========================================================================= */
+.testimonials { position: relative; }
+.testimonials__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+/* Sin caja interna: el recorte sin fondo se funde con el degradado suave de la tarjeta */
+.testimonial {
+  position: relative;
+  display: grid; grid-template-columns: 200px 1fr; align-items: stretch;
+  border-radius: var(--radius); overflow: hidden; min-height: 240px;
+}
+.testimonial--reverse { grid-template-columns: 1fr 200px; }
+.testimonial--reverse .testimonial__photo { order: 2; }
+.testimonial--reverse .testimonial__content { order: 1; text-align: right; }
+/* Degradados de fondo (efecto de transparencia) por acento */
+.testimonial--green { background: linear-gradient(110deg, #fbe0cf 0%, #fdf2ec 42%, #eef1fb 100%); }
+.testimonial--blue  { background: linear-gradient(250deg, #e3eafc 0%, #eef1fb 46%, #f4f0fb 100%); }
+.testimonial__photo { align-self: stretch; display: flex; align-items: flex-end; justify-content: center; }
+.testimonial__photo img { width: 100%; height: 100%; max-height: 260px; object-fit: cover; object-position: center bottom; }
+.testimonial__photo-ph { width: 100%; height: 100%; display: grid; place-items: center; color: #aab; }
+.testimonial__content { display: flex; flex-direction: column; justify-content: center; padding: 26px 22px; }
+.testimonial__quote { font-style: italic; font-weight: 700; font-size: 1.08rem; margin: 0 0 12px; }
+.testimonial__quote.accent-green { color: var(--green); }
+.testimonial__quote.accent-blue { color: var(--blue-heading); }
+.testimonial__name { font-weight: 700; margin: 0; }
+.testimonial__role { color: var(--muted); font-size: .85rem; margin: 0; }
+
+/* =========================================================================
+   VIDEO destacado
+   ========================================================================= */
+.video-band { background: var(--gradient-video); padding: 70px 0; }
+.video {
+  position: relative; max-width: 760px; margin: 0 auto; aspect-ratio: 16 / 9;
+  min-height: 240px;
+  border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, #241a3d, #1c1430) center/cover no-repeat;
+}
+.capacita .video { margin: 0; width: 100%; }
+.video img { width: 100%; height: 100%; object-fit: cover; opacity: .9; }
+.video__play {
+  position: absolute; inset: 0; margin: auto; width: 84px; height: 84px;
+  display: grid; place-items: center; border: none; border-radius: 50%;
+  background: rgba(255,255,255,.85); color: var(--blue-dark);
+}
+.video__play svg { width: 30px; height: 30px; margin-left: 4px; }
+.video iframe, .video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* =========================================================================
+   PROYECTOS — Marco metodológico
+   ========================================================================= */
+.marco { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+/* Marco: misma técnica de dos capas. El fondo difuminado se fusiona con la
+   imagen de leche del hero (que solapa por arriba); el recorte va nítido encima. */
+.marco__media { position: relative; min-height: 360px; }
+.marco__media-bg, .marco__media-fg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center bottom;
+}
+.marco__media-bg {
+  filter: blur(6px) saturate(.95) brightness(1.04); opacity: .8; z-index: 0;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 54%, transparent 84%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 54%, transparent 84%);
+}
+.marco__media-fg { z-index: 1; }
+@media (min-width: 981px) {
+  .marco__media { margin-top: -120px; z-index: 3; min-height: 460px; }
+}
+.marco__title { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 800; color: var(--blue-heading); margin: 0 0 16px; }
+.marco__text { color: var(--ink-soft); margin: 0 0 22px; }
+
+/* Capacitación (texto + video) */
+.capacita { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.capacita__text { color: var(--ink-soft); }
+
+/* Tabs de roles */
+.tabs { background: linear-gradient(135deg, #ece9fb, #eef2fc); border-radius: 28px; padding: 30px; }
+.tabs__nav { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 26px; }
+.tab-btn {
+  border: none; border-radius: var(--radius-pill); padding: 10px 30px; font-weight: 600;
+  background: #d9d7ec; color: #6a6a82; transition: all .15s;
+}
+.tab-btn.is-active { background: var(--blue-dark); color: #fff; box-shadow: var(--shadow-sm); }
+.tab-panel { display: none; grid-template-columns: 240px 1fr 300px; gap: 28px; align-items: center; }
+.tab-panel.is-active { display: grid; }
+.tab-panel__media { border-radius: 18px; overflow: hidden; background: #d7d7ea; min-height: 220px; align-self: stretch; }
+.tab-panel__media img { width: 100%; height: 100%; object-fit: cover; }
+.tab-panel__media--right { box-shadow: var(--shadow-sm); }
+.tab-panel__title { color: var(--indigo); font-weight: 800; font-size: 1.4rem; margin: 0 0 14px; }
+.tab-panel__text { color: var(--ink-soft); font-size: .92rem; }
+.tab-panel__tags { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; }
+.tab-panel__tags span { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .85rem; }
+.tab-panel__tags span:nth-child(1){ color: var(--red); }
+.tab-panel__tags span:nth-child(2){ color: var(--blue); }
+.tab-panel__tags span:nth-child(3){ color: var(--purple); }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center; }
+.stat__icon { font-size: 2.4rem; margin-bottom: 8px; }
+.stat__value { font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 800; line-height: 1; }
+.stat__value.accent-red { color: var(--red-orange); }
+.stat__value.accent-blue { color: var(--blue); }
+.stat__label { color: var(--ink-soft); font-size: .92rem; margin-top: 6px; }
+
+/* =========================================================================
+   FORMULARIO DE CONTACTO
+   ========================================================================= */
+.form-card { max-width: 680px; margin: 0 auto; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 34px; }
+.form-row { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.field label { font-weight: 600; font-size: .88rem; }
+.field input, .field textarea, .field select {
+  border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font: inherit; outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.field input:focus, .field textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+.alert { padding: 14px 18px; border-radius: 12px; margin-bottom: 18px; font-size: .92rem; }
+.alert--ok { background: #e6f7f0; color: #0d7a52; }
+.alert--err { background: #fdecec; color: #c0392b; }
+
+/* =========================================================================
+   FOOTER
+   ========================================================================= */
+.site-footer { background: linear-gradient(180deg, #fff 0%, #fbf3ef 100%); padding: 56px 0 28px; border-top: 1px solid var(--line); }
+.footer__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.footer__soprole { font-weight: 800; font-size: 1.9rem; color: var(--soprole-red); letter-spacing: -.02em; line-height: 1; }
+.footer__soprole small { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .25em; }
+.footer__help h4 { color: var(--ink); margin: 0 0 12px; font-size: 1.05rem; }
+.footer__help p { margin: 4px 0; color: var(--ink-soft); font-size: .92rem; display: flex; align-items: center; gap: 8px; }
+.footer__bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+.footer__bottom a { color: var(--muted); }
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+@media (max-width: 980px) {
+  .hero { display: block; min-height: auto; }
+  .hero__media {
+    position: relative; width: 100%; height: 360px;
+    -webkit-mask-image: none; mask-image: none;
+  }
+  .hero__text { max-width: none; padding: 28px 0 60px; }
+  .cards--3 { grid-template-columns: 1fr; }
+  .testimonials__grid { grid-template-columns: 1fr; }
+  .marco, .capacita { grid-template-columns: 1fr; }
+  .tab-panel.is-active { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; gap: 36px; }
+  .footer__grid { grid-template-columns: 1fr; }
+  .nav__search { display: none; }
+}
+@media (max-width: 760px) {
+  .nav__links { display: none; }
+  .nav__burger { display: block; }
+  .nav.is-open .nav__links {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+    position: absolute; top: 74px; left: 0; right: 0; background: #fff;
+    padding: 20px 24px; box-shadow: var(--shadow); border-bottom: 1px solid var(--line);
+  }
+  .cards--2 { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .testimonial, .testimonial--reverse { grid-template-columns: 90px 1fr; }
+  .testimonial--reverse .testimonial__media { order: 0; }
+}

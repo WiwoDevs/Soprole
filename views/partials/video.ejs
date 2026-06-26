@@ -1,0 +1,10 @@
+<section class="video-band">
+  <div class="container">
+    <div class="video" data-video="<%= c['video.url'] || '' %>" <% if (c['video.poster']) { %>style="background-image:url('<%= c['video.poster'] %>')"<% } %>>
+      <% if (c['video.poster']) { %><img src="<%= c['video.poster'] %>" alt="Video conTIgo" /><% } %>
+      <button class="video__play" aria-label="Reproducir video">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+  </div>
+</section>

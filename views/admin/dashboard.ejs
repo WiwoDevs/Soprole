@@ -1,0 +1,36 @@
+<%- include('partials/head', { heading: 'Panel de administración' }) %>
+
+<p class="muted" style="margin-top:-12px;margin-bottom:24px;">
+  Edita todo el contenido del sitio conTIgo. Los cambios se publican al instante.
+</p>
+
+<div class="grid-cards">
+  <div class="stat-card"><div class="n"><%= counts.news_cards %></div><div class="l">Tarjetas / Noticias</div></div>
+  <div class="stat-card"><div class="n"><%= counts.testimonials %></div><div class="l">Testimonios</div></div>
+  <div class="stat-card"><div class="n"><%= counts.stats %></div><div class="l">Estadísticas</div></div>
+  <div class="stat-card"><div class="n"><%= counts.role_tabs %></div><div class="l">Pestañas de roles</div></div>
+  <div class="stat-card"><div class="n"><%= counts.submissions %></div><div class="l">Mensajes recibidos</div></div>
+</div>
+
+<div class="panel">
+  <h2>Accesos rápidos</h2>
+  <p class="panel__hint">Tareas más frecuentes de mantención de contenido.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+    <a class="btn" href="/admin/content">Editar textos e imágenes</a>
+    <a class="btn btn--ghost" href="/admin/collection/news_cards">Gestionar tarjetas</a>
+    <a class="btn btn--ghost" href="/admin/collection/testimonials">Gestionar testimonios</a>
+    <a class="btn btn--ghost" href="/admin/submissions">Ver mensajes</a>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Estado del inicio de sesión</h2>
+  <p class="panel__hint">Gestión de identidades centralizada en Microsoft (AD corporativo).</p>
+  <% if (ssoEnabled) { %>
+    <span class="tag" style="background:#e6f7f0;color:#0d7a52;">● SSO Microsoft ACTIVO</span>
+  <% } else { %>
+    <span class="tag" style="background:#fff3e0;color:#b9770e;">● Login local (SSO Microsoft preparado, pendiente de configurar Azure AD)</span>
+  <% } %>
+</div>
+
+<%- include('partials/foot') %>

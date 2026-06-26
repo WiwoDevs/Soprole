@@ -1,0 +1,32 @@
+<footer class="site-footer" id="mesa-de-ayuda">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <!-- Logo Soprole: reemplazar por el oficial en /assets cuando lo entregue el cliente -->
+        <div class="footer__soprole">Soprole<small>Desde 1949</small></div>
+      </div>
+
+      <div class="footer__help">
+        <h4><%= c['global.footer.title'] || 'Mesa de Ayuda' %></h4>
+        <p>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <a href="mailto:<%= c['global.footer.email'] %>"><%= c['global.footer.email'] || 'mesadeayuda@soprole.cl' %></a>
+        </p>
+        <p>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.74-1.05a2 2 0 0 1 2.11-.45c.74.34 1.53.57 2.34.7A2 2 0 0 1 22 16.92Z"/></svg>
+          Teléfono: <%= c['global.footer.phone'] || '224365100' %>
+        </p>
+        <p style="padding-left: 24px;">Anexo: <%= c['global.footer.anexo'] || '5100' %></p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span><%= c['global.footer.copyright'] || '© 2026 Soprole Contigo. Todos los derechos reservados.' %></span>
+      <span><a href="/contacto">Contacto</a> · <a href="https://soprole.cl" target="_blank" rel="noopener">soprole.cl</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<!-- HERO banner -->
+<section class="hero-banner">
+  <% if (c['proyectos.hero.image']) { %>
+    <img class="hero-banner__img" src="<%= c['proyectos.hero.image'] %>" alt="Proyectos" />
+  <% } %>
+  <div class="hero-banner__inner">
+    <h1 class="hero-banner__title"><%= c['proyectos.hero.title'] || 'Proyectos' %></h1>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,52 C300,110 560,12 800,46 C1020,76 1240,116 1440,60 L1440,100 L0,100 Z" fill="#ffffff"/>
+  </svg>
+</section>
+
+<!-- Marco Metodológico -->
+<section class="section bg-lav">
+  <div class="container">
+    <div class="marco">
+      <div class="marco__media">
+        <% if (c['proyectos.marco.image_bg']) { %>
+          <img class="marco__media-bg" src="<%= c['proyectos.marco.image_bg'] %>" alt="" aria-hidden="true" />
+        <% } %>
+        <% if (c['proyectos.marco.image']) { %>
+          <img class="marco__media-fg" src="<%= c['proyectos.marco.image'] %>" alt="Marco Metodológico" />
+        <% } else { %>
+          <div style="width:100%;height:100%;min-height:320px;display:grid;place-items:center;color:#9aa3d6;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14 3v5h5"/></svg>
+          </div>
+        <% } %>
+      </div>
+      <div class="marco__text-col">
+        <h2 class="marco__title"><%= c['proyectos.marco.title'] || 'Marco Metodológico' %></h2>
+        <p class="marco__text"><%= c['proyectos.marco.body'] %></p>
+        <a class="btn btn--orange btn--lg" href="<%= c['proyectos.marco.link'] || '#' %>">
+          <%= c['proyectos.marco.button'] || 'Descarga aquí' %>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Capacitación -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title text-center title-red"><%= c['proyectos.capacitacion.title'] || 'Capacitación' %></h2>
+    <div class="capacita" style="margin-top:30px;">
+      <p class="capacita__text"><%= c['proyectos.capacitacion.body'] %></p>
+      <div class="video" data-video="<%= c['proyectos.capacitacion.video'] || '' %>" <% if (c['proyectos.capacitacion.poster']) { %>style="background-image:url('<%= c['proyectos.capacitacion.poster'] %>')"<% } %>>
+        <% if (c['proyectos.capacitacion.poster']) { %><img src="<%= c['proyectos.capacitacion.poster'] %>" alt="Capacitación conTIgo" /><% } %>
+        <button class="video__play" aria-label="Reproducir video">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pestañas de roles / Talento -->
+<section class="section">
+  <div class="container">
+    <div class="tabs" data-tabs>
+      <div class="tabs__nav">
+        <% roleTabs.forEach(function(tab, i){ %>
+          <button class="tab-btn <%= i === 0 ? 'is-active' : '' %>" data-tab="tab-<%= tab.id %>"><%= tab.label %></button>
+        <% }) %>
+      </div>
+
+      <% roleTabs.forEach(function(tab, i){ %>
+        <div class="tab-panel <%= i === 0 ? 'is-active' : '' %>" data-tab="tab-<%= tab.id %>">
+          <div class="tab-panel__media">
+            <% if (tab.image) { %>
+              <img src="<%= tab.image %>" alt="<%= tab.label %>" />
+            <% } else { %>
+              <div style="width:100%;height:100%;min-height:200px;display:grid;place-items:center;color:#9aa3d6;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+              </div>
+            <% } %>
+          </div>
+          <div class="tab-panel__content">
+            <h3 class="tab-panel__title"><%= tab.title %></h3>
+            <p class="tab-panel__text"><%= tab.body %></p>
+            <% if (tab.tags) { %>
+              <div class="tab-panel__tags">
+                <% tab.tags.split('|').forEach(function(tag){ %>
+                  <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><%= tag.trim() %></span>
+                <% }) %>
+              </div>
+            <% } %>
+          </div>
+          <% if (tab.image2) { %>
+            <div class="tab-panel__media tab-panel__media--right">
+              <img src="<%= tab.image2 %>" alt="<%= tab.label %>" />
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- Proyectos TI que impulsan el futuro -->
+<section class="section bg-lav">
+  <div class="container text-center">
+    <h2 class="section-title title-blue"><%= c['proyectos.futuro.title'] || 'Proyectos TI que impulsan el futuro' %></h2>
+    <p style="max-width:680px;margin:0 auto 44px;color:var(--ink-soft);"><%= c['proyectos.futuro.body'] %></p>
+    <div class="stats">
+      <% stats.forEach(function(s){ %>
+        <div class="stat">
+          <div class="stat__icon">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="<%= s.accent === 'red' ? '#f04a26' : '#2563eb' %>" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div class="stat__value accent-<%= s.accent %>"><%= s.value %></div>
+          <div class="stat__label"><%= s.label %></div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

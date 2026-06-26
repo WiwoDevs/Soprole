@@ -1,0 +1,26 @@
+<header class="site-header">
+  <div class="container">
+    <nav class="nav">
+      <a class="nav__logo" href="/" aria-label="conTIgo Soprole">
+        <img src="<%= c['global.brand.logo'] || '/assets/Logo Contigo.png' %>" alt="conTIgo" />
+      </a>
+
+      <div class="nav__links">
+        <a class="nav__link <%= active === 'home' ? 'is-active' : '' %>" href="/">Inicio</a>
+        <a class="nav__link <%= active === 'proyectos' ? 'is-active' : '' %>" href="/proyectos">Proyectos</a>
+        <a class="nav__link" href="#mesa-de-ayuda">Mesa de Ayuda</a>
+      </div>
+
+      <div class="nav__spacer"></div>
+
+      <form class="nav__search" role="search" onsubmit="return false;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="<%= c['global.nav.search_placeholder'] || '¿Qué estás buscando?' %>" aria-label="Buscar" />
+      </form>
+
+      <a class="nav__cta" href="/contacto"><%= c['global.nav.cta'] || 'Contacto' %></a>
+
+      <button class="nav__burger" aria-label="Abrir menú">☰</button>
+    </nav>
+  </div>
+</header>

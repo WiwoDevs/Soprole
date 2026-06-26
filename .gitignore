@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (¡nunca commitear secretos!)
+.env
+
+# Base de datos local
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# Archivos subidos desde el panel de administración
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
