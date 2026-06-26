@@ -35,11 +35,20 @@
   </svg>
 </section>
 
-<!-- TARJETAS DESTACADAS -->
+<!-- TARJETAS DESTACADAS / NOTAS ÁREA TI -->
 <section class="section bg-lav">
   <div class="container">
-    <div class="cards cards--2">
-      <% cards.forEach(function(card){ %>
+    <% if (c['contigo.news.title']) { %>
+      <h2 class="section-title text-center title-blue" style="margin-bottom:30px;"><%= c['contigo.news.title'] %></h2>
+    <% } %>
+    <div class="cards cards--3">
+      <%
+        cards.forEach(function(card){
+          var parts = String(card.body || '').split('\n\n').map(function(s){ return s.trim(); }).filter(Boolean);
+          var lead = parts[0] || '';
+          var rest = parts.slice(1);
+          var hasFull = rest.length > 0;
+      %>
         <article class="card">
           <div class="card__media <%= card.image ? '' : 'card__media--icon' %>">
             <% if (card.image) { %>
@@ -50,27 +59,42 @@
           </div>
           <div class="card__body">
             <h3 class="card__title accent-<%= card.accent %>"><%= card.title %></h3>
-            <p class="card__text"><%= card.body %></p>
-            <a class="btn btn--<%= card.accent === 'dark' ? 'dark' : card.accent %> card__cta" href="<%= card.link || '#' %>">
-              <%= card.cta || 'Leer más' %> <span class="plus">+</span>
-            </a>
+            <p class="card__text"><%= lead %></p>
+            <% if (hasFull) { %>
+              <button type="button" class="btn btn--<%= card.accent === 'dark' ? 'dark' : card.accent %> card__cta" data-note-open="note-<%= card.id %>">
+                <%= card.cta || 'Leer más' %> <span class="plus">+</span>
+              </button>
+            <% } else if (card.link && card.link !== '#') { %>
+              <a class="btn btn--<%= card.accent === 'dark' ? 'dark' : card.accent %> card__cta" href="<%= card.link %>">
+                <%= card.cta || 'Leer más' %> <span class="plus">+</span>
+              </a>
+            <% } %>
           </div>
+
+          <% if (hasFull) { %>
+            <!-- Nota completa (oculta): la usa el modal de "Leer más" -->
+            <template id="note-<%= card.id %>">
+              <h2 class="note__title accent-<%= card.accent %>"><%= card.title %></h2>
+              <% if (lead) { %><p class="note__lead"><%= lead %></p><% } %>
+              <% rest.forEach(function(p){ %><p><%= p %></p><% }) %>
+            </template>
+          <% } %>
         </article>
       <% }) %>
     </div>
   </div>
 </section>
 
-<!-- CTA: nueva iniciativa -->
-<section class="cta-strip">
-  <div class="container">
-    <h2 class="cta-strip__title"><%= c['home.cta.title'] || '¿Quieres solicitar una nueva iniciativa?' %></h2>
-    <a class="btn btn--orange btn--lg" href="<%= c['home.cta.link'] || '/contacto' %>">
-      <%= c['home.cta.button'] || 'Haz click aquí' %> <span class="plus">+</span>
-    </a>
-  </div>
-</section>
-
 <%- include('../partials/testimonials') %>
 <%- include('../partials/video') %>
+
+<!-- Modal: nota completa ("Leer más") -->
+<div class="modal" id="note-modal" hidden>
+  <div class="modal__backdrop" data-note-close></div>
+  <div class="modal__dialog" role="dialog" aria-modal="true" aria-label="Nota completa">
+    <button class="modal__close" type="button" data-note-close aria-label="Cerrar">&times;</button>
+    <div class="modal__content"></div>
+  </div>
+</div>
+
 <%- include('../partials/footer') %>

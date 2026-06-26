@@ -50,7 +50,8 @@ body {
   margin: 0;
   font-family: var(--font);
   color: var(--ink);
-  background: var(--bg);
+  /* Base suave (no blanco puro) con un leve tinte lavanda/durazno */
+  background: linear-gradient(180deg, #ffffff 0%, #fbf7fb 42%, #f5f2fc 100%);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -66,7 +67,11 @@ button { font-family: inherit; cursor: pointer; }
 .text-center { text-align: center; }
 
 /* Gradientes y blobs decorativos compartidos */
-.bg-lav { background: linear-gradient(180deg, #ffffff 0%, var(--bg-lav) 100%); }
+.bg-lav {
+  background:
+    radial-gradient(60% 50% at 85% 8%, rgba(241, 120, 70, .08), transparent 70%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg-lav) 100%);
+}
 .blob {
   position: absolute; z-index: 0; pointer-events: none;
   background-repeat: no-repeat; background-size: contain;
@@ -174,22 +179,33 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero__media-bg, .hero__media-fg {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; object-position: center bottom;
-  transform: scale(1.14); transform-origin: center bottom;
+  /* cover: la foto LLENA el panel (sin huecos a los lados). Encuadre bajado para
+     mostrar más cuerpo y menos fondo superior. Ambas capas con el MISMO fit y
+     posición para que calcen exacto. */
+  object-fit: cover; object-position: center 16%;
+  transform: scale(1.04); transform-origin: center top;
 }
 .hero__media-bg {
   filter: blur(7px) saturate(.98) brightness(1.04);
   opacity: .9; z-index: 0;
-  -webkit-mask-image: radial-gradient(ellipse at 52% 50%, #000 60%, transparent 86%);
-  mask-image: radial-gradient(ellipse at 52% 50%, #000 60%, transparent 86%);
+  /* Difumina los bordes del recuadro del fondo para que no se vea el encuadre */
+  -webkit-mask-image: radial-gradient(78% 80% at 52% 48%, #000 42%, transparent 80%);
+  mask-image: radial-gradient(78% 80% at 52% 48%, #000 42%, transparent 80%);
 }
 .hero__media-fg { z-index: 1; }
-/* Tinte de color suave sobre el panel (como el Figma) */
+/* Fundidos del color del panel sobre la foto: ocultan el encuadre (arriba/lados)
+   y, sobre todo, disuelven los pies abajo para que no "floten" (como el mockup). */
 .hero__media::after {
   content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background:
-    linear-gradient(110deg, rgba(244,242,252,.6) 0%, rgba(244,242,252,0) 26%),
-    radial-gradient(70% 55% at 32% 100%, rgba(150,110,255,.22), transparent 72%);
+    /* Fundido inferior: disuelve piernas/pies */
+    linear-gradient(to top, #efe9f7 0%, #efe9f7 5%, rgba(239,233,247,0) 30%),
+    /* Borde superior del encuadre */
+    linear-gradient(to bottom, #f1ecf9 0%, rgba(241,236,249,0) 13%),
+    /* Borde izquierdo (lado de la curva) */
+    linear-gradient(to right, #f1ecf9 0%, rgba(241,236,249,0) 8%),
+    /* Tinte de color suave (como el Figma) */
+    radial-gradient(70% 55% at 30% 100%, rgba(150,110,255,.14), transparent 72%);
 }
 .hero__media--placeholder { background: linear-gradient(135deg, #c9d6ff, #e2e2f7); display: grid; place-items: center; }
 .hero__dots { display: flex; gap: 8px; margin-top: 22px; }
@@ -253,24 +269,43 @@ button { font-family: inherit; cursor: pointer; }
    TESTIMONIOS
    ========================================================================= */
 .testimonials { position: relative; }
-.testimonials__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
-/* Sin caja interna: el recorte sin fondo se funde con el degradado suave de la tarjeta */
+/* Difuminado de fondo: glow durazno (izq) + azul (der), como en el mockup */
+.testimonials::before {
+  content: ""; position: absolute; left: -8%; right: -8%; top: -40px; bottom: -60px;
+  z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(46% 82% at 13% 56%, rgba(241, 120, 70, .22), transparent 70%),
+    radial-gradient(46% 82% at 87% 46%, rgba(45, 110, 235, .20), transparent 72%);
+}
+/* La banda de testimonios se ensancha hacia los bordes (como en el mockup) */
+.testimonials > .container { position: relative; z-index: 1; max-width: 1520px; padding: 0 40px; }
+/* padding-top: aire para que el recorte de la foto sobresalga por arriba */
+.testimonials__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; padding-top: 50px; }
+/* La tarjeta es una caja de color baja; la foto la "rebasa" por arriba (pop-out) */
 .testimonial {
   position: relative;
-  display: grid; grid-template-columns: 200px 1fr; align-items: stretch;
-  border-radius: var(--radius); overflow: hidden; min-height: 240px;
+  display: grid; grid-template-columns: 240px 1fr; align-items: stretch;
+  border-radius: 22px; min-height: 172px;
+  /* sin overflow: hidden -> la foto puede salirse del marco */
 }
-.testimonial--reverse { grid-template-columns: 1fr 200px; }
+.testimonial--reverse { grid-template-columns: 1fr 240px; }
 .testimonial--reverse .testimonial__photo { order: 2; }
 .testimonial--reverse .testimonial__content { order: 1; text-align: right; }
-/* Degradados de fondo (efecto de transparencia) por acento */
-.testimonial--green { background: linear-gradient(110deg, #fbe0cf 0%, #fdf2ec 42%, #eef1fb 100%); }
-.testimonial--blue  { background: linear-gradient(250deg, #e3eafc 0%, #eef1fb 46%, #f4f0fb 100%); }
-.testimonial__photo { align-self: stretch; display: flex; align-items: flex-end; justify-content: center; }
-.testimonial__photo img { width: 100%; height: 100%; max-height: 260px; object-fit: cover; object-position: center bottom; }
+/* Degradados suaves por acento (glow de color hacia el lado de la foto) */
+.testimonial--green { background: radial-gradient(135% 135% at 6% 0%, #ffd7c4 0%, #fdece3 30%, #f3f1fb 66%); }
+.testimonial--blue  { background: radial-gradient(135% 135% at 94% 0%, #d9e4fb 0%, #e9edfb 32%, #f4f0fb 68%); }
+.testimonial__photo { position: relative; align-self: stretch; }
+/* La foto se ancla al borde (inferior + lado exterior) y crece hacia arriba,
+   saliéndose de la tarjeta como en el mockup */
+.testimonial__photo img {
+  position: absolute; bottom: 0; height: 290px; width: auto; max-width: 170%;
+  object-fit: contain; object-position: bottom;
+}
+.testimonial:not(.testimonial--reverse) .testimonial__photo img { left: 0; }
+.testimonial--reverse .testimonial__photo img { right: 0; }
 .testimonial__photo-ph { width: 100%; height: 100%; display: grid; place-items: center; color: #aab; }
-.testimonial__content { display: flex; flex-direction: column; justify-content: center; padding: 26px 22px; }
-.testimonial__quote { font-style: italic; font-weight: 700; font-size: 1.08rem; margin: 0 0 12px; }
+.testimonial__content { display: flex; flex-direction: column; justify-content: center; padding: 22px 26px; }
+.testimonial__quote { font-style: italic; font-weight: 700; font-size: 1.08rem; line-height: 1.4; margin: 0 0 12px; }
 .testimonial__quote.accent-green { color: var(--green); }
 .testimonial__quote.accent-blue { color: var(--blue-heading); }
 .testimonial__name { font-weight: 700; margin: 0; }
@@ -371,7 +406,13 @@ button { font-family: inherit; cursor: pointer; }
 /* =========================================================================
    FOOTER
    ========================================================================= */
-.site-footer { background: linear-gradient(180deg, #fff 0%, #fbf3ef 100%); padding: 56px 0 28px; border-top: 1px solid var(--line); }
+.site-footer {
+  background:
+    radial-gradient(55% 120% at 12% 0%, rgba(241, 120, 70, .16), transparent 60%),
+    radial-gradient(55% 120% at 88% 10%, rgba(226, 35, 26, .10), transparent 62%),
+    linear-gradient(180deg, #fff 0%, #fbf3ef 100%);
+  padding: 56px 0 28px; border-top: 1px solid var(--line);
+}
 .footer__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
 .footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .footer__soprole { font-weight: 800; font-size: 1.9rem; color: var(--soprole-red); letter-spacing: -.02em; line-height: 1; }
@@ -392,7 +433,8 @@ button { font-family: inherit; cursor: pointer; }
   }
   .hero__text { max-width: none; padding: 28px 0 60px; }
   .cards--3 { grid-template-columns: 1fr; }
-  .testimonials__grid { grid-template-columns: 1fr; }
+  /* Apiladas: más separación para que el recorte saliente no toque la tarjeta de arriba */
+  .testimonials__grid { grid-template-columns: 1fr; gap: 58px; }
   .marco, .capacita { grid-template-columns: 1fr; }
   .tab-panel.is-active { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr; gap: 36px; }
@@ -409,6 +451,47 @@ button { font-family: inherit; cursor: pointer; }
   }
   .cards--2 { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
-  .testimonial, .testimonial--reverse { grid-template-columns: 90px 1fr; }
-  .testimonial--reverse .testimonial__media { order: 0; }
+  .testimonial, .testimonial--reverse { grid-template-columns: 130px 1fr; }
+  .testimonial__photo img { height: 190px; }
+}
+
+/* =========================================================================
+   MODAL (nota completa · "Leer más")
+   ========================================================================= */
+.modal[hidden] { display: none; }
+.modal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.modal__backdrop {
+  position: absolute; inset: 0; background: rgba(20, 26, 60, .55);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.modal__dialog {
+  position: relative; z-index: 1; width: 100%; max-width: 760px;
+  max-height: 86vh; overflow-y: auto; background: #fff; border-radius: 18px;
+  box-shadow: 0 30px 80px rgba(20, 30, 80, .35); padding: 40px 44px;
+  animation: modal-in .18s ease;
+}
+@keyframes modal-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.modal__close {
+  position: absolute; top: 14px; right: 16px; width: 40px; height: 40px;
+  border: none; background: #f0f1fa; border-radius: 50%; font-size: 1.5rem;
+  line-height: 1; color: var(--ink); cursor: pointer; transition: background .15s ease;
+}
+.modal__close:hover { background: #e3e6f5; }
+.note__title { font-size: 1.5rem; font-weight: 800; line-height: 1.22; margin: 0 0 14px; padding-right: 44px; }
+.note__lead { font-size: 1.06rem; font-weight: 600; color: var(--ink); margin: 0 0 18px; }
+.modal__content p { color: var(--ink-soft); line-height: 1.72; margin: 0 0 14px; }
+.modal__content p:last-child { margin-bottom: 0; }
+body.modal-open { overflow: hidden; }
+
+/* Recorta el teaser de la tarjeta para igualar alturas */
+.card__text {
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  .modal__dialog { padding: 32px 22px; }
+  .note__title { font-size: 1.28rem; }
 }

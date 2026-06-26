@@ -34,7 +34,7 @@
     play.addEventListener('click', function () {
       var url = box.getAttribute('data-video');
       if (!url) {
-        alert('Aún no se ha configurado el video. Cárgalo desde el panel de administración.');
+        alert('Aún no se ha configurado el video.');
         return;
       }
       var embed = toEmbed(url);
@@ -55,5 +55,43 @@
     }
     // Archivo de video directo
     return '<video src="' + url + '" controls autoplay></video>';
+  }
+
+  // --- Modal de notas ("Leer más") ---
+  var noteModal = document.getElementById('note-modal');
+  if (noteModal) {
+    var modalContent = noteModal.querySelector('.modal__content');
+
+    function openNote(id) {
+      var tpl = document.getElementById(id);
+      if (!tpl || !modalContent) return;
+      modalContent.innerHTML = '';
+      modalContent.appendChild(tpl.content.cloneNode(true));
+      noteModal.hidden = false;
+      document.body.classList.add('modal-open');
+      noteModal.querySelector('.modal__dialog').scrollTop = 0;
+      var closeBtn = noteModal.querySelector('.modal__close');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeNote() {
+      noteModal.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (modalContent) modalContent.innerHTML = '';
+    }
+
+    document.querySelectorAll('[data-note-open]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openNote(btn.getAttribute('data-note-open'));
+      });
+    });
+
+    noteModal.querySelectorAll('[data-note-close]').forEach(function (el) {
+      el.addEventListener('click', closeNote);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !noteModal.hidden) closeNote();
+    });
   }
 })();

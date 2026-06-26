@@ -48,12 +48,12 @@
     {
       "id": 1,
       "page": "home",
-      "title": "Nuestros proyectos tecnológicos",
-      "body": "Desarrollamos soluciones que integran personas, sistemas y procesos para que la operación funcione de manera eficiente y conectada.",
+      "title": "Tecnología que genera valor: el rol estratégico de TI en Soprole",
+      "body": "Más allá del soporte, TI impulsa la competitividad y la continuidad del negocio.\n\nLa Gerencia de Tecnología e Información (GSI) de Soprole cumple un rol clave en el funcionamiento y evolución de la compañía. Ya no se trata solo de “mantener sistemas”, sino de habilitar el negocio, generar valor y acompañar la transformación digital en todas las áreas.\n\nHoy, TI está presente en cada proceso relevante de la organización. Desde el soporte a plataformas críticas —como SAP, ventas móviles o soluciones logísticas— hasta el desarrollo de nuevas capacidades como analítica de datos e inteligencia artificial, el área actúa como un partner estratégico del negocio. Su propósito es claro: gestionar, mantener y proteger la infraestructura tecnológica para asegurar la continuidad operativa, la seguridad de los datos y la competitividad de la empresa.\n\nEste enfoque se traduce en múltiples líneas de acción. Por un lado, el soporte continuo a usuarios y sistemas permite asegurar la operación diaria sin interrupciones. La mesa de ayuda TI y SAP, junto con el soporte a canales digitales y B2B, garantizan que los procesos comerciales, financieros y logísticos se mantengan funcionando de forma estable.\n\nPor otro lado, GSI impulsa iniciativas que transforman la forma de trabajar. Proyectos como WMS, omnicanalidad o SAP HANA no solo modernizan la tecnología, sino que mejoran la eficiencia, la trazabilidad y la toma de decisiones. A esto se suma el avance en analítica, con el desarrollo de lagos de datos y aplicaciones basadas en inteligencia artificial, que permiten convertir la información en valor tangible para el negocio.\n\nUn aspecto crítico del rol de TI es la ciberseguridad. En un entorno cada vez más digital, proteger los activos informáticos es fundamental. Esto incluye la gestión de accesos, monitoreo de riesgos, ejercicios de seguridad y prevención de intrusiones, asegurando que la información esté siempre resguardada.\n\nLa integración con otras áreas es otro pilar clave. TI trabaja de manera transversal con Finanzas, Supply, Operaciones, Marketing y Personas, participando activamente en iniciativas que van desde la planificación de la producción hasta la automatización de procesos y el control financiero.\n\nFinalmente, el aporte de TI se refleja en su impacto en la estrategia corporativa. Al habilitar nuevas capacidades, optimizar procesos y garantizar la continuidad operativa, GSI contribuye directamente a la generación de valor para Soprole.\n\nEn este contexto, el desafío es seguir evolucionando hacia una TI cada vez más integrada, ágil y orientada al negocio, donde la tecnología no solo soporte, sino que lidere el cambio.",
       "image": "/assets/public/bcc40fa6b0931a279ddd602bf2c802306fdca033.jpg",
-      "link": "#",
+      "link": "",
       "cta": "Leer más",
-      "accent": "dark",
+      "accent": "blue",
       "sort": 1,
       "active": 1
     },
@@ -72,13 +72,25 @@
     {
       "id": 2,
       "page": "home",
-      "title": "Una nueva forma de trabajar",
-      "body": "Desarrollamos soluciones que integran personas, sistemas y procesos para que la operación funcione de manera eficiente y conectada.",
+      "title": "Seguridad y continuidad: pilares invisibles que sostienen la operación",
+      "body": "Cómo TI asegura que los procesos críticos funcionen sin interrupciones.\n\nEn el día a día de Soprole, miles de procesos ocurren de manera simultánea: ventas, distribución, facturación, producción. Detrás de todos ellos existe un elemento común que muchas veces pasa desapercibido: la infraestructura tecnológica.\n\nLa Gerencia de TI tiene como misión garantizar la continuidad operativa y la seguridad de la información, asegurando que sistemas, redes y datos estén siempre disponibles y protegidos.\n\nUno de los principales focos es la continuidad. Esto implica mantener funcionando plataformas críticas como SAP, sistemas logísticos y herramientas de ventas, evitando caídas que puedan impactar la operación. Para lograrlo, se implementan sistemas de monitoreo, gestión de incidentes y planes de contingencia que permiten actuar de forma rápida ante cualquier eventualidad.\n\nLa seguridad también es un componente fundamental. En un entorno digital, los riesgos son constantes: accesos no autorizados, ataques externos o pérdida de información. Por eso, TI trabaja en múltiples frentes, incluyendo control de accesos, monitoreo continuo y pruebas de vulnerabilidad, además de prácticas de hacking ético que permiten anticipar amenazas.\n\nOtro aspecto relevante es la gestión de los datos. La información es uno de los activos más valiosos de la organización, y su resguardo es clave no solo para la operación, sino también para el cumplimiento normativo y la toma de decisiones.\n\nA esto se suma la coordinación con las áreas de negocio. La continuidad no es solo tecnológica, sino también organizacional. Por ello, TI colabora con distintas gerencias para asegurar que los procesos críticos cuenten con el soporte necesario y puedan operar incluso en escenarios adversos.\n\nEn definitiva, el trabajo del área es muchas veces invisible, pero esencial. Sin una infraestructura segura y estable, la operación simplemente no sería posible.\n\nPor eso, fortalecer estos pilares seguirá siendo una prioridad estratégica para la organización.",
       "image": "/assets/public/5da4dae5c9922522fc08d29d54ab363d02df8e88.png",
-      "link": "#",
+      "link": "",
+      "cta": "Leer más",
+      "accent": "red",
+      "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 6,
+      "page": "home",
+      "title": "Transformación digital: integrando tecnología y negocio",
+      "body": "Una agenda que conecta innovación, datos y eficiencia operativa.\n\nLa transformación digital en Soprole no es un concepto abstracto, sino una realidad en constante evolución. Impulsada por la Gerencia de TI, esta transformación busca integrar tecnología y negocio para mejorar la eficiencia, la toma de decisiones y la experiencia de los usuarios.\n\nUno de los principales ejes es la digitalización de procesos. A través de proyectos estratégicos, se están optimizando áreas clave como logística, planificación y finanzas. Iniciativas como WMS, SAP HANA y omnicanalidad reflejan este avance, permitiendo una operación más integrada y eficiente.\n\nOtro foco relevante es la gestión de datos. La implementación de soluciones de analítica y la creación de lagos de datos permiten consolidar información desde distintos sistemas, facilitando la generación de reportes y el análisis avanzado. Esto habilita una toma de decisiones más informada y oportuna.\n\nLa transformación digital también implica nuevas formas de trabajo. La incorporación de herramientas colaborativas, metodologías ágiles y prácticas de innovación permite a los equipos adaptarse rápidamente a los cambios y responder de manera efectiva a las necesidades del negocio.\n\nUn elemento diferenciador es la integración con otras áreas. TI no trabaja de forma aislada, sino en estrecha colaboración con Supply, Finanzas, Operaciones y Marketing, asegurando que cada iniciativa tecnológica responda a una necesidad real del negocio.\n\nAdemás, la organización ha incorporado capacidades emergentes como inteligencia artificial, que abren nuevas oportunidades para optimizar procesos y generar valor.\n\nEl desafío hacia adelante es consolidar esta agenda de digitalización, asegurando que cada iniciativa esté alineada con la estrategia corporativa y contribuya al crecimiento de la compañía.",
+      "image": "/assets/public/bbd197f055c73583e7ea5961c68da92f11ecc378.png",
+      "link": "",
       "cta": "Leer más",
       "accent": "dark",
-      "sort": 2,
+      "sort": 3,
       "active": 1
     },
     {
