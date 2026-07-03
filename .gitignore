@@ -13,6 +13,8 @@ data/*.db-shm
 # Archivos subidos desde el panel de administración
 public/uploads/*
 !public/uploads/.gitkeep
+assets/public/uploads/*
+!assets/public/uploads/.gitkeep
 
 # Logs
 *.log
@@ -23,3 +25,7 @@ npm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Build estático y paquetes de despliegue
+dist/
+*.zip

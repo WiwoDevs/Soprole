@@ -165,7 +165,24 @@ button { font-family: inherit; cursor: pointer; }
 .hero__list { margin: 0 0 18px; }
 .hero__list p { margin: 2px 0; font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 600; color: var(--blue); }
 .hero__list b { color: var(--indigo); }
+/* Línea con efecto "máquina de escribir" (una a la vez, cicla) */
+.hero__typed { min-height: 1.7em; display: flex; align-items: center; }
+.hero__caret {
+  display: inline-block; width: 2px; height: 1.15em; margin-left: 3px;
+  background: var(--blue); vertical-align: -0.16em; border-radius: 2px;
+  animation: hero-caret 1s step-end infinite;
+}
+@keyframes hero-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero__caret { animation: none; } }
 .hero__subtitle { color: var(--ink-soft); max-width: 460px; font-size: .98rem; }
+/* Bajada sobre la imagen del hero ("Somos tu socio estratégico") */
+.hero__tagline {
+  position: absolute; z-index: 3; bottom: 108px; right: 7%; max-width: 62%;
+  text-align: right; font-style: italic; font-weight: 600; color: #fff;
+  font-size: clamp(1.1rem, 1.9vw, 1.7rem); line-height: 1.25; letter-spacing: .01em;
+  text-shadow: 0 2px 16px rgba(28, 20, 60, .55), 0 1px 3px rgba(0, 0, 0, .38);
+  pointer-events: none;
+}
 /* Panel de imagen a SANGRE (derecha), grande, con borde curvo (ola) y tinte suave.
    La MISMA foto en dos capas que CALZAN PERFECTO: recorte nítido sobre su
    versión con fondo difuminada (mismo encuadre exacto). */
@@ -257,6 +274,36 @@ button { font-family: inherit; cursor: pointer; }
 .card__title.accent-dark { color: var(--blue-heading); }
 .card__text { color: var(--ink-soft); font-size: .9rem; margin: 0; flex: 1; }
 .card__cta { margin-top: 6px; align-self: flex-start; }
+
+/* ---------- Carrusel de tarjetas (news) ---------- */
+.carousel { position: relative; }
+.carousel__track {
+  display: flex; gap: 26px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; padding: 8px 4px 14px;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.carousel__track::-webkit-scrollbar { display: none; }
+.carousel__track > .card {
+  flex: 0 0 calc((100% - 52px) / 3); /* 3 por vista (2 separaciones de 26px) */
+  scroll-snap-align: start;
+}
+.carousel__btn {
+  position: absolute; top: 42%; transform: translateY(-50%); z-index: 6;
+  width: 48px; height: 48px; border-radius: 50%; border: none;
+  background: #fff; color: var(--blue-dark); box-shadow: var(--shadow);
+  display: grid; place-items: center;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.carousel__btn:hover { transform: translateY(-50%) scale(1.07); box-shadow: var(--shadow-lg); }
+.carousel__btn:disabled { opacity: 0; pointer-events: none; }
+.carousel__btn--prev { left: -12px; }
+.carousel__btn--next { right: -12px; }
+.carousel__dots { display: flex; justify-content: center; gap: 8px; margin-top: 22px; }
+.carousel__dots button {
+  width: 9px; height: 9px; padding: 0; border: none; border-radius: 50%;
+  background: #c9c6e0; cursor: pointer; transition: background .15s ease, width .15s ease;
+}
+.carousel__dots button.is-active { background: var(--blue); width: 22px; border-radius: 6px; }
 
 /* =========================================================================
    CTA banner ("¿Quieres solicitar una nueva iniciativa?")
@@ -379,6 +426,21 @@ button { font-family: inherit; cursor: pointer; }
 .tab-panel__tags span:nth-child(2){ color: var(--blue); }
 .tab-panel__tags span:nth-child(3){ color: var(--purple); }
 
+/* Cápsulas conTIgo (carrusel de video) */
+.capsules { background: linear-gradient(135deg, #ece9fb, #eef2fc); border-radius: 28px; padding: 30px; }
+.capsules__nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 26px; }
+.capsules__nav .tabs__nav { margin-bottom: 0; }
+.capsules__arrow {
+  flex: none; width: 42px; height: 42px; border-radius: 50%; border: none;
+  background: #fff; color: var(--blue-dark); box-shadow: var(--shadow-sm);
+  display: grid; place-items: center; transition: transform .15s ease, box-shadow .15s ease;
+}
+.capsules__arrow:hover { transform: scale(1.07); box-shadow: var(--shadow); }
+.capsule { grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.capsule__title { color: var(--indigo); font-weight: 800; font-size: clamp(1.4rem, 2.4vw, 1.9rem); margin: 0 0 14px; }
+.capsule__text { color: var(--ink-soft); font-size: 1rem; margin: 0; }
+.capsule__media .video { margin: 0; width: 100%; max-width: none; }
+
 /* Stats */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center; }
 .stat__icon { font-size: 2.4rem; margin-bottom: 8px; }
@@ -432,7 +494,10 @@ button { font-family: inherit; cursor: pointer; }
     -webkit-mask-image: none; mask-image: none;
   }
   .hero__text { max-width: none; padding: 28px 0 60px; }
+  .hero__tagline { bottom: 16px; right: 5%; max-width: 70%; font-size: 1.05rem; }
   .cards--3 { grid-template-columns: 1fr; }
+  .carousel__track > .card { flex-basis: calc((100% - 26px) / 2); } /* 2 por vista en tablet */
+  .capsules__arrow { display: none; } /* en móvil/tablet se navega con las pestañas */
   /* Apiladas: más separación para que el recorte saliente no toque la tarjeta de arriba */
   .testimonials__grid { grid-template-columns: 1fr; gap: 58px; }
   .marco, .capacita { grid-template-columns: 1fr; }
@@ -450,6 +515,9 @@ button { font-family: inherit; cursor: pointer; }
     padding: 20px 24px; box-shadow: var(--shadow); border-bottom: 1px solid var(--line);
   }
   .cards--2 { grid-template-columns: 1fr; }
+  .carousel__track > .card { flex-basis: 100%; } /* 1 por vista en móvil */
+  .carousel__btn--prev { left: -6px; }
+  .carousel__btn--next { right: -6px; }
   .form-row { grid-template-columns: 1fr; }
   .testimonial, .testimonial--reverse { grid-template-columns: 130px 1fr; }
   .testimonial__photo img { height: 190px; }

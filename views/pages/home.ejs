@@ -13,15 +13,22 @@
     <% } else { %>
       <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8c93c9" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
     <% } %>
+    <% if (c['contigo.hero.tagline']) { %>
+      <span class="hero__tagline"><%= c['contigo.hero.tagline'] %></span>
+    <% } %>
   </div>
 
   <div class="container">
     <div class="hero__text">
       <h1 class="hero__title"><%- brandify(c['home.hero.title'] || 'Si funciona, es porque estamos conTIgo.') %></h1>
+      <%
+        var typedLines = [c['home.hero.line1'], c['home.hero.line2'], c['home.hero.line3']]
+          .map(function (s) { return (s || '').trim(); }).filter(Boolean);
+      %>
       <div class="hero__list">
-        <p><%- brandify(c['home.hero.line1']) %></p>
-        <p><%- brandify(c['home.hero.line2']) %></p>
-        <p><%- brandify(c['home.hero.line3']) %></p>
+        <p class="hero__typed" data-typed='<%= JSON.stringify(typedLines) %>'>
+          <span class="hero__typed-text"><%= typedLines[0] || '' %></span><span class="hero__caret" aria-hidden="true"></span>
+        </p>
       </div>
       <p class="hero__subtitle"><%= c['home.hero.subtitle'] %></p>
       <div class="hero__dots" aria-hidden="true">
@@ -41,7 +48,12 @@
     <% if (c['contigo.news.title']) { %>
       <h2 class="section-title text-center title-blue" style="margin-bottom:30px;"><%= c['contigo.news.title'] %></h2>
     <% } %>
-    <div class="cards cards--3">
+    <div class="carousel" data-carousel>
+      <button class="carousel__btn carousel__btn--prev" type="button" data-carousel-prev aria-label="Ver anteriores">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+
+      <div class="carousel__track" data-carousel-track>
       <%
         cards.forEach(function(card){
           var parts = String(card.body || '').split('\n\n').map(function(s){ return s.trim(); }).filter(Boolean);
@@ -81,6 +93,13 @@
           <% } %>
         </article>
       <% }) %>
+      </div>
+
+      <button class="carousel__btn carousel__btn--next" type="button" data-carousel-next aria-label="Ver siguientes">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <div class="carousel__dots" data-carousel-dots aria-hidden="true"></div>
     </div>
   </div>
 </section>

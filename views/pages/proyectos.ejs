@@ -58,43 +58,45 @@
   </div>
 </section>
 
-<!-- Pestañas de roles / Talento -->
+<!-- Cápsulas conTIgo (carrusel · preparadas para reproducir video) -->
 <section class="section">
   <div class="container">
-    <div class="tabs" data-tabs>
-      <div class="tabs__nav">
-        <% roleTabs.forEach(function(tab, i){ %>
-          <button class="tab-btn <%= i === 0 ? 'is-active' : '' %>" data-tab="tab-<%= tab.id %>"><%= tab.label %></button>
-        <% }) %>
+    <div class="text-center" style="margin-bottom:30px;">
+      <h2 class="section-title title-blue"><%= c['proyectos.capsulas.title'] || 'Cápsulas conTIgo' %></h2>
+      <% if (c['proyectos.capsulas.subtitle']) { %>
+        <p style="max-width:640px;margin:0 auto;color:var(--ink-soft);"><%= c['proyectos.capsulas.subtitle'] %></p>
+      <% } %>
+    </div>
+
+    <div class="capsules" data-tabs>
+      <div class="capsules__nav">
+        <button class="capsules__arrow" type="button" data-tab-prev aria-label="Cápsula anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="tabs__nav">
+          <% roleTabs.forEach(function(tab, i){ %>
+            <button class="tab-btn <%= i === 0 ? 'is-active' : '' %>" data-tab="cap-<%= tab.id %>"><%= tab.label %></button>
+          <% }) %>
+        </div>
+        <button class="capsules__arrow" type="button" data-tab-next aria-label="Cápsula siguiente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
       </div>
 
       <% roleTabs.forEach(function(tab, i){ %>
-        <div class="tab-panel <%= i === 0 ? 'is-active' : '' %>" data-tab="tab-<%= tab.id %>">
-          <div class="tab-panel__media">
-            <% if (tab.image) { %>
-              <img src="<%= tab.image %>" alt="<%= tab.label %>" />
-            <% } else { %>
-              <div style="width:100%;height:100%;min-height:200px;display:grid;place-items:center;color:#9aa3d6;">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-              </div>
-            <% } %>
+        <div class="tab-panel capsule <%= i === 0 ? 'is-active' : '' %>" data-tab="cap-<%= tab.id %>">
+          <div class="capsule__content">
+            <h3 class="capsule__title"><%= tab.title %></h3>
+            <p class="capsule__text"><%= tab.body %></p>
           </div>
-          <div class="tab-panel__content">
-            <h3 class="tab-panel__title"><%= tab.title %></h3>
-            <p class="tab-panel__text"><%= tab.body %></p>
-            <% if (tab.tags) { %>
-              <div class="tab-panel__tags">
-                <% tab.tags.split('|').forEach(function(tag){ %>
-                  <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><%= tag.trim() %></span>
-                <% }) %>
-              </div>
-            <% } %>
-          </div>
-          <% if (tab.image2) { %>
-            <div class="tab-panel__media tab-panel__media--right">
-              <img src="<%= tab.image2 %>" alt="<%= tab.label %>" />
+          <div class="capsule__media">
+            <div class="video" data-video="<%= tab.video || '' %>" <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
+              <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="Cápsula: <%= tab.title %>" /><% } %>
+              <button class="video__play" type="button" aria-label="Reproducir cápsula">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
             </div>
-          <% } %>
+          </div>
         </div>
       <% }) %>
     </div>

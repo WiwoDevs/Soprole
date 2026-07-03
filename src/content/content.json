@@ -39,6 +39,8 @@
     "proyectos.capacitacion.body": "Con una combinación única de talentos y perspectivas, el equipo de TI se distingue por su enfoque colaborativo y diverso. Conoce cómo este equipo impulsa proyectos innovadores en un entorno inclusivo.",
     "proyectos.capacitacion.video": "",
     "proyectos.capacitacion.poster": "/assets/public/219d85522de3842ea93b678538230ea749a51ec1.png",
+    "proyectos.capsulas.title": "Cápsulas conTIgo",
+    "proyectos.capsulas.subtitle": "Conoce el modelo conTIgo en breves cápsulas de video.",
     "proyectos.talento.title": "Impulsando el talento a través de la capacitación",
     "proyectos.talento.body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
     "proyectos.futuro.title": "Proyectos TI que impulsan el futuro",
@@ -116,6 +118,42 @@
       "accent": "blue",
       "sort": 3,
       "active": 1
+    },
+    {
+      "id": 7,
+      "page": "home",
+      "title": "conTIgo: la nueva forma de gestionar proyectos tecnológicos",
+      "body": "Un modelo que alinea negocio y TI con foco en valor.\n\nSoprole ha dado un paso clave en la evolución de su gestión de proyectos con la implementación del modelo conTIgo, una metodología que redefine la forma en que se gestionan las iniciativas tecnológicas. Este modelo busca alinear negocio y TI, aumentar la visibilidad y asegurar la generación de valor, estableciendo un marco común para todos los proyectos.\n\nUno de los principales aportes de conTIgo es su enfoque en el valor. Cada iniciativa se evalúa no solo por su costo o complejidad, sino por el impacto que puede generar en la organización. Esto permite priorizar de manera objetiva y enfocar los recursos en aquellas iniciativas que realmente aportan beneficios.\n\nEl modelo también incorpora principios clave como la trazabilidad end-to-end, la proporcionalidad y un gobierno claro que facilita la toma de decisiones sin perder agilidad.\n\nA nivel operativo, conTIgo estructura el ciclo de vida de los proyectos desde la idea inicial hasta la entrega de resultados. Este proceso incluye etapas como iniciativa, evaluación, aprobación, ejecución y seguimiento de beneficios, asegurando un control completo del proceso.\n\nOtro elemento relevante es la integración de distintos enfoques metodológicos. El modelo combina prácticas ágiles y predictivas, permitiendo adaptarse a la naturaleza de cada proyecto. Esto significa que se puede mantener el control y la gobernanza, sin perder flexibilidad y velocidad de ejecución.\n\nFinalmente, conTIgo pone un fuerte énfasis en la adopción del cambio. Reconoce que el éxito de un proyecto no depende solo de la entrega técnica, sino de la capacidad de los usuarios para incorporar la solución en su trabajo diario.\n\nCon este modelo, Soprole avanza hacia una gestión moderna, colaborativa y orientada a resultados.",
+      "image": "/assets/public/a55b6a2e7d7295fe3db5815f084f0c420732b989.png",
+      "link": "",
+      "cta": "Leer más",
+      "accent": "blue",
+      "sort": 4,
+      "active": 1
+    },
+    {
+      "id": 8,
+      "page": "home",
+      "title": "Del portafolio al resultado: cómo se transforman las ideas en valor",
+      "body": "Un proceso estructurado que asegura que cada iniciativa aporte al negocio.\n\nEn Soprole, cada proyecto comienza con una idea. Sin embargo, no todas las ideas se transforman en iniciativas ejecutadas. Para ello, existe un proceso estructurado que permite evaluar, priorizar y ejecutar las propuestas de manera ordenada.\n\nEl modelo conTIgo define un flujo claro que parte desde la idea (input) y culmina con un resultado concreto (output). En este recorrido, las iniciativas pasan por distintas etapas donde se analiza su impacto, esfuerzo y alineación estratégica.\n\nEl primer paso es la gestión de la demanda, donde se registran todas las iniciativas. Esto asegura una única puerta de entrada y permite comparar las propuestas bajo criterios comunes como valor, esfuerzo y prioridad.\n\nPosteriormente, las iniciativas son evaluadas y clasificadas en función de su impacto y esfuerzo, utilizando herramientas como la matriz de priorización. Esto permite identificar rápidamente aquellas iniciativas con mayor potencial de valor.\n\nUna vez aprobadas, las iniciativas se transforman en proyectos formales, con alcance definido, presupuesto asignado y responsables claros. A partir de ahí, se inicia la fase de ejecución, donde se construye la solución.\n\nEl modelo también contempla el seguimiento de los beneficios, una etapa clave que permite validar si el proyecto cumplió con los resultados esperados. Esto asegura que la inversión realizada realmente genere valor para el negocio.\n\nAdemás, el portafolio de proyectos permite tener una visión consolidada de todas las iniciativas, facilitando la toma de decisiones a nivel estratégico.\n\nEn este contexto, la gestión de proyectos deja de ser solo ejecución y pasa a ser una herramienta clave de gestión estratégica.",
+      "image": "/assets/public/0676ffde118898c77ed0083bdc9fc55123132010.png",
+      "link": "",
+      "cta": "Leer más",
+      "accent": "red",
+      "sort": 5,
+      "active": 1
+    },
+    {
+      "id": 9,
+      "page": "home",
+      "title": "Más allá del Go Live: el rol del cambio y la adopción en los proyectos",
+      "body": "Por qué el éxito de un proyecto depende de las personas.\n\nTradicionalmente, los proyectos se medían por su cumplimiento en plazo, costo y alcance. Sin embargo, hoy existe un factor clave que define su verdadero éxito: la adopción por parte de los usuarios.\n\nEl modelo conTIgo incorpora la gestión del cambio organizacional como un componente central, reconociendo que la entrega técnica no es suficiente si la solución no se utiliza correctamente.\n\nLa gestión del cambio comienza desde las etapas tempranas del proyecto, identificando impactos en procesos, roles y personas. Esto permite anticipar riesgos y preparar a los usuarios para el cambio.\n\nUno de los elementos clave es la comunicación. Explicar el propósito del proyecto, sus beneficios y su impacto ayuda a reducir la incertidumbre y facilita la adopción.\n\nOtro aspecto relevante es la capacitación. Preparar a los usuarios para utilizar la nueva solución asegura una transición más fluida y reduce errores en la operación.\n\nEl acompañamiento no termina con el Go Live. Durante la etapa de estabilización, se realiza soporte intensivo, recogiendo feedback y ajustando la solución si es necesario.\n\nAdemás, el modelo incorpora medición de satisfacción, permitiendo evaluar la percepción del negocio respecto al proyecto y detectar oportunidades de mejora.\n\nFinalmente, el seguimiento de beneficios permite validar si los resultados esperados se materializan en la práctica.\n\nEn este contexto, el éxito de un proyecto no depende solo de la tecnología, sino de las personas que la utilizan. Por eso, la gestión del cambio se convierte en un factor clave para asegurar que las iniciativas realmente generen valor.",
+      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
+      "link": "",
+      "cta": "Leer más",
+      "accent": "dark",
+      "sort": 6,
+      "active": 1
     }
   ],
   "testimonials": [
@@ -143,24 +181,24 @@
   "stats": [
     {
       "id": 1,
-      "value": "+35%",
-      "label": "de mejora en tiempos de respuesta",
+      "value": "162",
+      "label": "N° Proyectos año 2026",
       "accent": "red",
       "sort": 1,
       "active": 1
     },
     {
       "id": 2,
-      "value": "98%",
-      "label": "de disponibilidad de sistemas",
+      "value": "73",
+      "label": "N° Iniciativas año 2026",
       "accent": "blue",
       "sort": 2,
       "active": 1
     },
     {
       "id": 3,
-      "value": "+50%",
-      "label": "de procesos automatizados",
+      "value": "235",
+      "label": "Total Compañía",
       "accent": "blue",
       "sort": 3,
       "active": 1
@@ -169,45 +207,41 @@
   "role_tabs": [
     {
       "id": 1,
-      "label": "Rol 1",
-      "title": "Impulsando el talento a través de la capacitación",
-      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
-      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
-      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
-      "tags": "Innovación|Liderazgo|Excelencia",
+      "label": "¿Qué es ConTIgo?",
+      "title": "¿Qué es conTIgo?",
+      "body": "Conoce conTIgo, la nueva forma de gestionar iniciativas y proyectos tecnológicos en Soprole, promoviendo mayor visibilidad, alineamiento y generación de valor para el negocio.",
+      "video": "",
+      "poster": "/assets/public/36bf97e37c52b5ab42c9b6b65ff208d8b863c688.jpg",
       "sort": 1,
       "active": 1
     },
     {
       "id": 2,
-      "label": "Rol 2",
-      "title": "Impulsando el talento a través de la capacitación",
-      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
-      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
-      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
-      "tags": "Innovación|Liderazgo|Excelencia",
+      "label": "Metodología",
+      "title": "Metodología",
+      "body": "La metodología conTIgo se basa en principios que orientan la toma de decisiones, la colaboración entre equipos y la generación de valor para el negocio.",
+      "video": "",
+      "poster": "/assets/public/36bf97e37c52b5ab42c9b6b65ff208d8b863c688.jpg",
       "sort": 2,
       "active": 1
     },
     {
       "id": 3,
-      "label": "Rol 3",
-      "title": "Impulsando el talento a través de la capacitación",
-      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
-      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
-      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
-      "tags": "Innovación|Liderazgo|Excelencia",
+      "label": "Alcance",
+      "title": "Alcance",
+      "body": "El alcance de conTIgo define cómo las iniciativas ingresan, se evalúan y avanzan dentro de un modelo común de gestión y gobernanza.",
+      "video": "",
+      "poster": "/assets/public/36bf97e37c52b5ab42c9b6b65ff208d8b863c688.jpg",
       "sort": 3,
       "active": 1
     },
     {
       "id": 4,
-      "label": "Rol 4",
-      "title": "Impulsando el talento a través de la capacitación",
-      "body": "La capacitación es un pilar fundamental para el crecimiento de Soprole, impulsando el desarrollo continuo de sus equipos y fortaleciendo sus capacidades frente a los desafíos del entorno digital. A través de programas formativos, talleres especializados y aprendizaje colaborativo, la compañía promueve una cultura donde el conocimiento se comparte y evoluciona constantemente.",
-      "image": "/assets/public/4bc87e001c37b87ae3a555e52e80b27912946364.png",
-      "image2": "/assets/public/e117d6da0fb16e1b23ab4bf32d5a705e23ed1637.png",
-      "tags": "Innovación|Liderazgo|Excelencia",
+      "label": "Roles y gobernanza",
+      "title": "Roles y gobernanza",
+      "body": "La gobernanza de conTIgo define los roles, responsabilidades y niveles de decisión que permiten alinear estrategia, priorización y ejecución.",
+      "video": "",
+      "poster": "/assets/public/36bf97e37c52b5ab42c9b6b65ff208d8b863c688.jpg",
       "sort": 4,
       "active": 1
     }
