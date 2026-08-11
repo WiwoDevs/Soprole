@@ -1,7 +1,18 @@
 <section class="video-band">
   <div class="container">
+    <% if (c['video.title'] || c['video.subtitle']) { %>
+      <div class="video-band__head text-center">
+        <% if (c['video.title']) { %>
+          <h2 class="section-title video-band__title"><%= c['video.title'] %></h2>
+        <% } %>
+        <% if (c['video.subtitle']) { %>
+          <p class="video-band__subtitle"><%- brandify(c['video.subtitle']) %></p>
+        <% } %>
+      </div>
+    <% } %>
+
     <div class="video" data-video="<%= c['video.url'] || '' %>" <% if (c['video.poster']) { %>style="background-image:url('<%= c['video.poster'] %>')"<% } %>>
-      <% if (c['video.poster']) { %><img src="<%= c['video.poster'] %>" alt="Video conTIgo" /><% } %>
+      <% if (c['video.poster']) { %><img src="<%= c['video.poster'] %>" alt="<%= c['video.title'] || 'Video conTIgo' %>" /><% } %>
       <button class="video__play" aria-label="Reproducir video">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </button>

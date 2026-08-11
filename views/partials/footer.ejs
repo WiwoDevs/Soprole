@@ -2,8 +2,11 @@
   <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <!-- Logo Soprole: reemplazar por el oficial en /assets cuando lo entregue el cliente -->
-        <div class="footer__soprole">Soprole<small>Desde 1949</small></div>
+        <% if (c['global.soprole.logo']) { %>
+          <img class="footer__soprole-logo" src="<%= c['global.soprole.logo'] %>" alt="Soprole" />
+        <% } else { %>
+          <div class="footer__soprole">Soprole<small>Desde 1949</small></div>
+        <% } %>
       </div>
 
       <div class="footer__help">

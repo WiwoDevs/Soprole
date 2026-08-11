@@ -69,6 +69,9 @@
     function activate(index) {
       if (index < 0) index = buttons.length - 1;
       if (index >= buttons.length) index = 0;
+      // Sin esto, el panel se oculta pero el video sigue sonando de fondo.
+      // Sin devolver el foco: el panel saliente pasa a display:none.
+      if (typeof cerrarVideo === 'function') cerrarVideo(false);
       current = index;
       buttons.forEach(function (b) { b.classList.remove('is-active'); });
       panels.forEach(function (p) { p.classList.remove('is-active'); });
@@ -154,34 +157,148 @@
     sync();
   });
 
-  // --- Reproductor de video (reemplaza la portada por el embed/video) ---
-  document.querySelectorAll('.video').forEach(function (box) {
+  // --- Reproductor de video ---------------------------------------------
+  // Sustituye la portada por el reproductor y sabe VOLVER a la portada, para
+  // que no quede un video sonando al cambiar de cápsula. Solo puede haber uno
+  // abierto a la vez.
+  var videoAbierto = null; // { box, portada, play }
+
+  function cerrarVideo(devolverFoco) {
+    if (!videoAbierto) return;
+    var abierto = videoAbierto;
+    videoAbierto = null;
+
+    // Detiene explícitamente antes de vaciar: en algunos navegadores un
+    // <video> suelto sigue sonando si solo se quita del DOM.
+    var v = abierto.box.querySelector('video');
+    if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (e) {} }
+
+    abierto.box.innerHTML = abierto.portada;
+    abierto.box.classList.remove('is-playing');
+    enlazarPlay(abierto.box);
+
+    // Solo devolvemos el foco cuando el cierre fue una acción del usuario. Si
+    // se cierra por cambio de pestaña, el panel queda display:none y enfocar
+    // un elemento oculto manda el foco al <body>.
+    if (devolverFoco) {
+      var btn = abierto.box.querySelector('.video__play');
+      if (btn) btn.focus();
+    }
+  }
+
+  function abrirVideo(box) {
+    var url = box.getAttribute('data-video');
+    if (!url) return;
+
+    cerrarVideo(false);
+
+    var portada = box.innerHTML;
+    var poster = box.querySelector('img');
+    box.innerHTML = '';
+    box.classList.add('is-playing');
+    box.appendChild(construirReproductor(url, poster ? poster.getAttribute('src') : ''));
+
+    var cerrar = document.createElement('button');
+    cerrar.type = 'button';
+    cerrar.className = 'video__close';
+    cerrar.setAttribute('aria-label', 'Cerrar el video');
+    cerrar.innerHTML = '&times;';
+    cerrar.addEventListener('click', function () { cerrarVideo(true); });
+    box.appendChild(cerrar);
+
+    videoAbierto = { box: box, portada: portada };
+
+    var v = box.querySelector('video');
+    if (v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    cerrar.focus();
+  }
+
+  function construirReproductor(url, poster) {
+    var yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+    var vm = url.match(/vimeo\.com\/(\d+)/);
+
+    if (yt || vm) {
+      var frame = document.createElement('iframe');
+      frame.src = yt
+        ? 'https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0'
+        : 'https://player.vimeo.com/video/' + vm[1] + '?autoplay=1';
+      frame.setAttribute('allow', 'autoplay; encrypted-media; fullscreen');
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('title', 'Reproductor de video');
+      return frame;
+    }
+
+    // Archivo de video directo (nuestro /media, o cualquier URL de archivo).
+    var v = document.createElement('video');
+    v.src = url;                    // vía propiedad: nunca concatenando HTML
+    v.controls = true;
+    v.setAttribute('playsinline', ''); // iOS: reproduce en línea, sin forzar pantalla completa
+    v.preload = 'auto';
+    if (poster) v.poster = poster;     // evita el rectángulo negro mientras carga
+    return v;
+  }
+
+  function enlazarPlay(box) {
     var play = box.querySelector('.video__play');
     if (!play) return;
-    play.addEventListener('click', function () {
-      var url = box.getAttribute('data-video');
-      if (!url) {
-        alert('Aún no se ha configurado el video.');
-        return;
-      }
-      var embed = toEmbed(url);
-      box.innerHTML = embed;
-    });
+    // Sin URL configurada no hay alert(): el botón queda inerte y anunciado
+    // como deshabilitado. El estado "próximamente" lo pinta la plantilla.
+    if (!box.getAttribute('data-video')) {
+      play.setAttribute('aria-disabled', 'true');
+      play.classList.add('video__play--soon');
+      play.title = 'Disponible próximamente';
+      return;
+    }
+    play.addEventListener('click', function () { abrirVideo(box); });
+  }
+
+  document.querySelectorAll('.video').forEach(function (box) {
+    if (box.classList.contains('video--link')) return; // enlace externo: no es reproductor
+    enlazarPlay(box);
   });
 
-  function toEmbed(url) {
-    // YouTube
-    var yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
-    if (yt) {
-      return '<iframe src="https://www.youtube.com/embed/' + yt[1] + '?autoplay=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+  // Escape cierra el video. Ojo: no llega si el foco está dentro de un iframe
+  // de terceros — por eso el botón de cerrar es el mecanismo principal.
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && videoAbierto) cerrarVideo(true);
+  });
+
+  // --- Contadores dinámicos (cuentan desde 0 al entrar en pantalla) ---
+  var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count-to]'));
+  if (counters.length) {
+    var reduceCount = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function runCounter(el) {
+      var target = parseInt(el.getAttribute('data-count-to'), 10);
+      if (isNaN(target)) return;
+      if (reduceCount) { el.textContent = String(target); return; }
+
+      var DURATION = 1600;
+      var start = null;
+      function step(now) {
+        if (start === null) start = now;
+        var p = Math.min(1, (now - start) / DURATION);
+        // easeOutCubic: arranca rápido y frena al llegar al valor final
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (p < 1) window.requestAnimationFrame(step);
+        else el.textContent = String(target);
+      }
+      window.requestAnimationFrame(step);
     }
-    // Vimeo
-    var vm = url.match(/vimeo\.com\/(\d+)/);
-    if (vm) {
-      return '<iframe src="https://player.vimeo.com/video/' + vm[1] + '?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>';
+
+    if ('IntersectionObserver' in window) {
+      var counterObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          runCounter(entry.target);
+          counterObserver.unobserve(entry.target); // se anima una sola vez
+        });
+      }, { threshold: 0.4 });
+      counters.forEach(function (el) { counterObserver.observe(el); });
+    } else {
+      counters.forEach(runCounter);
     }
-    // Archivo de video directo
-    return '<video src="' + url + '" controls autoplay></video>';
   }
 
   // --- Modal de notas ("Leer más") ---

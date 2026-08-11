@@ -42,18 +42,37 @@
   </div>
 </section>
 
-<!-- Capacitación -->
+<!-- Nuestro Team (carrusel de fotos del equipo) -->
 <section class="section">
   <div class="container">
-    <h2 class="section-title text-center title-red"><%= c['proyectos.capacitacion.title'] || 'Capacitación' %></h2>
+    <h2 class="section-title text-center title-red"><%= c['proyectos.capacitacion.title'] || 'Nuestro Team' %></h2>
     <div class="capacita" style="margin-top:30px;">
       <p class="capacita__text"><%= c['proyectos.capacitacion.body'] %></p>
-      <div class="video" data-video="<%= c['proyectos.capacitacion.video'] || '' %>" <% if (c['proyectos.capacitacion.poster']) { %>style="background-image:url('<%= c['proyectos.capacitacion.poster'] %>')"<% } %>>
-        <% if (c['proyectos.capacitacion.poster']) { %><img src="<%= c['proyectos.capacitacion.poster'] %>" alt="Capacitación conTIgo" /><% } %>
-        <button class="video__play" aria-label="Reproducir video">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
+
+      <% if (typeof teamPhotos !== 'undefined' && teamPhotos.length) { %>
+        <div class="carousel team-carousel" data-carousel>
+          <button class="carousel__btn carousel__btn--prev" type="button" data-carousel-prev aria-label="Foto anterior">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+
+          <div class="carousel__track" data-carousel-track>
+            <% teamPhotos.forEach(function(photo){ %>
+              <figure class="team-slide">
+                <img src="<%= photo.image %>" alt="<%= photo.caption || 'Equipo conTIgo' %>" loading="lazy" />
+                <% if (photo.caption) { %>
+                  <figcaption class="team-slide__caption"><%= photo.caption %></figcaption>
+                <% } %>
+              </figure>
+            <% }) %>
+          </div>
+
+          <button class="carousel__btn carousel__btn--next" type="button" data-carousel-next aria-label="Foto siguiente">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+
+          <div class="carousel__dots" data-carousel-dots aria-hidden="true"></div>
+        </div>
+      <% } %>
     </div>
   </div>
 </section>
@@ -90,12 +109,25 @@
             <p class="capsule__text"><%= tab.body %></p>
           </div>
           <div class="capsule__media">
-            <div class="video" data-video="<%= tab.video || '' %>" <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
-              <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="Cápsula: <%= tab.title %>" /><% } %>
-              <button class="video__play" type="button" aria-label="Reproducir cápsula">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-            </div>
+            <% if (tab.link) { %>
+              <!-- Con link definido: la miniatura lleva a la cápsula en Buk -->
+              <a class="video video--link" href="<%= tab.link %>" target="_blank" rel="noopener"
+                 aria-label="Ver la cápsula «<%= tab.title %>» en Buk"
+                 <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
+                <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="Cápsula: <%= tab.title %>" /><% } %>
+                <span class="video__play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </span>
+                <span class="capsule__badge">Ver en Buk</span>
+              </a>
+            <% } else { %>
+              <div class="video" data-video="<%= tab.video || '' %>" <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
+                <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="Cápsula: <%= tab.title %>" /><% } %>
+                <button class="video__play" type="button" aria-label="Reproducir cápsula">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+              </div>
+            <% } %>
           </div>
         </div>
       <% }) %>
@@ -114,7 +146,9 @@
           <div class="stat__icon">
             <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="<%= s.accent === 'red' ? '#f04a26' : '#2563eb' %>" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           </div>
-          <div class="stat__value accent-<%= s.accent %>"><%= s.value %></div>
+          <div class="stat__value accent-<%= s.accent %>">
+            <span class="stat__num" data-count-to="<%= s.value %>">0</span><span class="stat__plus">+</span>
+          </div>
           <div class="stat__label"><%= s.label %></div>
         </div>
       <% }) %>

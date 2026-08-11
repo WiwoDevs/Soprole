@@ -563,3 +563,89 @@ body.modal-open { overflow: hidden; }
   .modal__dialog { padding: 32px 22px; }
   .note__title { font-size: 1.28rem; }
 }
+
+/* =========================================================================
+   AJUSTES SOPROLE — observaciones del cliente (ago. 2026)
+   ========================================================================= */
+
+/* Logo oficial de Soprole en el pie (reemplaza el placeholder de texto).
+   El SVG trae margen interno en su viewBox, por eso el ancho es generoso. */
+.footer__soprole-logo { width: 150px; height: auto; display: block; }
+
+/* Encabezado del video corporativo (sobre el degradado, texto en blanco) */
+.video-band__head { margin-bottom: 30px; }
+.video-band__title { color: #fff; margin: 0 0 10px; }
+.video-band__subtitle {
+  color: rgba(255, 255, 255, .88); max-width: 640px; margin: 0 auto;
+  font-size: 1rem; line-height: 1.5;
+}
+.video-band__subtitle .brand-word { color: #fff; }
+
+/* Carrusel "Nuestro Team": una foto por vista dentro de su columna */
+.team-carousel .carousel__track > .team-slide { flex: 0 0 100%; scroll-snap-align: start; }
+.team-slide { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.team-slide img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.team-slide__caption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 20px 14px;
+  color: #fff; font-size: .9rem; font-weight: 600;
+  background: linear-gradient(to top, rgba(20, 18, 45, .78), rgba(20, 18, 45, 0));
+}
+
+/* Cápsula enlazada a Buk: misma caja del video, pero como enlace */
+.video--link { display: block; text-decoration: none; }
+.video--link .video__play { pointer-events: none; }
+.capsule__badge {
+  position: absolute; right: 14px; bottom: 14px; z-index: 2;
+  background: var(--blue-dark); color: #fff; font-size: .78rem; font-weight: 700;
+  padding: 7px 14px; border-radius: var(--radius-pill); box-shadow: var(--shadow-sm);
+}
+
+/* Botón de cerrar el video (vuelve a la portada) */
+.video__close {
+  position: absolute; top: 10px; right: 10px; z-index: 3;
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border: none; border-radius: 50%; cursor: pointer;
+  background: rgba(0, 0, 0, .58); color: #fff; font-size: 1.5rem; line-height: 1;
+  /* Aro claro: despega el botón de un fotograma oscuro */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .28);
+  transition: background .15s ease;
+}
+.video__close:hover { background: rgba(0, 0, 0, .8); }
+.video.is-playing { background: #000; }
+
+/* Cápsula aún sin video ni link: el play queda inerte, sin alert() */
+.video__play--soon { opacity: .45; cursor: default; }
+
+/* Foco visible: sobre las cajas oscuras el contorno por defecto se pierde */
+.video__play:focus-visible,
+.video__close:focus-visible,
+.video--link:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* Contadores dinámicos */
+.stat__num { font-variant-numeric: tabular-nums; }
+.stat__plus { margin-left: 2px; }
+
+/* Encuadre del hero para la FOTO GRUPAL del área.
+   El panel es angosto y alto; con `cover` (pensado para un recorte de una sola
+   persona) la foto de equipo perdería a casi todos por los lados. Se usa el
+   patrón de dos capas: el fondo llena el panel difuminado y la capa nítida se
+   muestra completa con `contain`. */
+.hero__media-fg { object-fit: contain; object-position: center 46%; }
+.hero__media-bg { object-position: center center; }
+/* El fundido inferior estaba calibrado para "disolver los pies" de un recorte
+   vertical; con la foto grupal se suaviza para no comerse la primera fila. */
+.hero__media::after {
+  background:
+    linear-gradient(to top, #efe9f7 0%, rgba(239,233,247,.55) 6%, rgba(239,233,247,0) 20%),
+    linear-gradient(to bottom, #f1ecf9 0%, rgba(241,236,249,0) 10%),
+    linear-gradient(to right, #f1ecf9 0%, rgba(241,236,249,0) 8%),
+    radial-gradient(70% 55% at 30% 100%, rgba(150,110,255,.14), transparent 72%);
+}
+
+@media (max-width: 980px) {
+  .footer__soprole-logo { width: 120px; }
+  .team-slide img { aspect-ratio: 16 / 9; }
+}

@@ -74,6 +74,7 @@ const PAGES = [
       active: 'proyectos',
       stats: Content.stats(),
       roleTabs: Content.roleTabs(),
+      teamPhotos: Content.teamPhotos(),
     },
   },
   {
@@ -83,7 +84,41 @@ const PAGES = [
   },
 ];
 
+// --------------------------------------------------------------------------
+// Guardia de seguridad del build estático.
+// dist/ se sirve SIN login (ese es su propósito), así que un video interno
+// referenciado por ruta local quedaría publicado en internet. Se comprueba por
+// EXTENSIÓN y sobre todas las colecciones, no solo sobre las claves sueltas.
+// --------------------------------------------------------------------------
+function assertSinMediosLocales() {
+  const c = Content.getAll();
+  const candidatos = [
+    ['video.url', c['video.url']],
+    ['proyectos.capacitacion.video', c['proyectos.capacitacion.video']],
+    ...Content.roleTabs().map((t) => [`cápsula "${t.label}"`, t.video]),
+  ];
+
+  const esMedioLocal = (u) =>
+    u && !/^https?:\/\//i.test(u) && /\.(mp4|webm|m4v|mov|avi|mkv)(\?|#|$)/i.test(u);
+
+  const malos = candidatos.filter(([, url]) => esMedioLocal(url));
+  if (malos.length) {
+    console.error('\n  ✗ Build abortado: hay video servido desde una ruta local.\n');
+    malos.forEach(([clave, url]) => console.error(`      ${clave}  ->  ${url}`));
+    console.error(
+      '\n  dist/ NO tiene login: publicar ahí un video interno equivale a exponerlo.\n' +
+        '  Para el build estático el video debe ser una URL externa controlada por\n' +
+        '  Soprole (enlace de SharePoint). Para servirlo localmente, usa el servidor\n' +
+        '  Node (npm start), que monta /media detrás de sesión.\n'
+    );
+    process.exit(1);
+  }
+}
+
 async function build() {
+  // 0) Nada de medios internos en un dist/ público
+  assertSinMediosLocales();
+
   // 1) dist/ limpio
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(DIST, { recursive: true });
