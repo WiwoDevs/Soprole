@@ -19,6 +19,7 @@ const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 const ms = require('../auth/microsoft');
+const { loginSession } = require('../middleware/auth');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const DEFAULT_PASSWORD = 'Cambiar.123';
@@ -32,12 +33,29 @@ const LOCAL_LOGIN_ENABLED =
   Boolean(ADMIN_EMAIL && ADMIN_PASSWORD) &&
   !(IS_PROD && ADMIN_PASSWORD === DEFAULT_PASSWORD);
 
-// Comparación en tiempo constante (evita fugas por temporización).
+/**
+ * Comparación en tiempo constante.
+ * Se compara el HASH de ambos valores, no los valores crudos: así la
+ * comparación es de longitud fija y no filtra la longitud de la contraseña
+ * (con timingSafeEqual sobre los originales había que comprobar la longitud
+ * antes, que es en sí misma una fuga).
+ */
 function safeEqual(a, b) {
-  const ba = Buffer.from(String(a));
-  const bb = Buffer.from(String(b));
-  if (ba.length !== bb.length) return false;
-  return crypto.timingSafeEqual(ba, bb);
+  const ha = crypto.createHash('sha256').update(String(a)).digest();
+  const hb = crypto.createHash('sha256').update(String(b)).digest();
+  return crypto.timingSafeEqual(ha, hb);
+}
+
+/** Rechaza peticiones cuyo Origin no sea el propio sitio (CSRF de login). */
+function mismoOrigen(req) {
+  const origin = req.get('origin');
+  if (!origin) return true; // navegación normal: no manda Origin
+  try {
+    const o = new URL(origin);
+    return o.host === req.get('host');
+  } catch {
+    return false;
+  }
 }
 
 // --------------------------------------------------------------------------
@@ -79,7 +97,10 @@ router.get('/login', (req, res) => {
   renderLogin(res, 200);
 });
 
-router.post('/login', express.urlencoded({ extended: true }), (req, res) => {
+router.post('/login', express.urlencoded({ extended: true }), (req, res, next) => {
+  if (!mismoOrigen(req)) {
+    return renderLogin(res, 403, { error: 'Solicitud rechazada por seguridad. Vuelve a cargar la página.' });
+  }
   if (!LOCAL_LOGIN_ENABLED) {
     return renderLogin(res, 403, {
       error: 'El acceso local no está disponible. Inicia sesión con Microsoft.',
@@ -102,10 +123,10 @@ router.post('/login', express.urlencoded({ extended: true }), (req, res) => {
   }
 
   loginAttempts.delete(req.ip || 'unknown'); // login correcto: limpia el contador
-  req.session.user = { email: ADMIN_EMAIL, name: 'Equipo conTIgo', provider: 'local' };
-  const returnTo = req.session.returnTo || '/';
-  delete req.session.returnTo;
-  res.redirect(returnTo);
+
+  // Regenera la sesión: sin esto, el identificador que el navegador ya tenía
+  // antes de autenticar seguía siendo válido después (fijación de sesión).
+  loginSession(req, res, { email: ADMIN_EMAIL, name: 'Equipo conTIgo', provider: 'local' }, next);
 });
 
 router.get('/logout', (req, res) => {
@@ -121,4 +142,7 @@ router.get('/logout', (req, res) => {
   });
 });
 
+// Se expone para que server.js pueda verificar al arrancar que existe al menos
+// una vía de acceso (ver la guardia de arranque).
 module.exports = router;
+module.exports.localLoginEnabled = LOCAL_LOGIN_ENABLED;

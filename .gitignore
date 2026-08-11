@@ -29,3 +29,8 @@ Thumbs.db
 # Build estático y paquetes de despliegue
 dist/
 *.zip
+
+# Medios pesados: el video se sirve desde /media (ver server.js) pero NUNCA
+# entra al repositorio — un mp4 de cientos de MB queda para siempre en el
+# historial de git y supera el límite por archivo de GitHub.
+media/
