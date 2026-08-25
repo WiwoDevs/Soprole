@@ -172,7 +172,7 @@
     var teamNext = teamCarousel.querySelector('[data-carousel-next]');
     var reduceTeam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var FOTO_MS = 5000;     // cuanto se queda una foto antes de avanzar
+    var FOTO_MS = 7000;    // cuanto se queda una foto antes de avanzar
     var temporizador = null;
     var manual = false;     // el usuario tomo el control: no avanzamos solos
 
@@ -185,7 +185,13 @@
       // Se reutiliza el boton del carrusel para no duplicar la logica de
       // desplazamiento; al llegar al final vuelve al principio.
       if (teamNext && !teamNext.disabled) teamNext.click();
-      else teamTrack.scrollTo({ left: 0, behavior: 'smooth' });
+      // Al volver al principio, salto INSTANTANEO y no suave: un
+      // desplazamiento animado a lo largo de 27 slides los va cruzando uno a
+      // uno, y cada uno que pasa por pantalla se activa y empieza a descargar
+      // su video. Con mas de 300 MB en total, eso es justo lo que la carga
+      // perezosa intenta evitar. Ojo: 'auto' NO sirve, porque delega en el
+      // scroll-behavior: smooth del CSS; hay que pedir 'instant' explicitamente.
+      else teamTrack.scrollTo({ left: 0, behavior: 'instant' });
     }
 
     function entra(slide) {
@@ -218,10 +224,12 @@
     }
 
     var teamObserver = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) {
-        if (e.isIntersecting) entra(e.target);
-        else sale(e.target);
-      });
+      // Primero las salidas y despues las entradas: si se procesaran en el
+      // orden que llegan, la salida del slide anterior podria borrar el
+      // temporizador que la entrada del nuevo acaba de armar, y una foto se
+      // quedaria detenida indefinidamente.
+      entradas.forEach(function (e) { if (!e.isIntersecting) sale(e.target); });
+      entradas.forEach(function (e) { if (e.isIntersecting) entra(e.target); });
     }, { threshold: 0.6 });
 
     teamSlides.forEach(function (slide) {
