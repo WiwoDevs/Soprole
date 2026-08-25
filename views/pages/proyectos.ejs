@@ -29,6 +29,23 @@
 <section class="section bg-lav">
   <div class="container">
     <div class="marco">
+      <%# Con video configurado, el video MANDA sobre la imagen. No se pintan
+          las dos capas del recorte (fondo difuminado + primer plano): estan
+          pensadas para un PNG recortado que se funde con el hero, y un video
+          es un rectangulo opaco que no tiene nada que fundir. %>
+      <% if (c['proyectos.marco.video']) { %>
+        <div class="marco__media marco__media--video">
+          <%# Sin 'controls': es una imagen en movimiento, no un reproductor,
+              asi que no hay barra de progreso que mostrar. 'muted' es
+              obligatorio (los navegadores bloquean la reproduccion automatica
+              con sonido) y 'loop' evita que quede congelado en el ultimo
+              fotograma. Va sin src: lo asigna el JS al entrar en pantalla,
+              porque el archivo pesa 10 MB. %>
+          <video data-video-auto data-src="<%= c['proyectos.marco.video'] %>"
+                 muted loop playsinline preload="none"
+                 aria-label="<%= c['proyectos.marco.title'] || 'Marco Metodológico' %>"></video>
+        </div>
+      <% } else { %>
       <div class="marco__media">
         <% if (c['proyectos.marco.image_bg']) { %>
           <img class="marco__media-bg" src="<%= c['proyectos.marco.image_bg'] %>" alt="" aria-hidden="true" />
@@ -41,6 +58,7 @@
           </div>
         <% } %>
       </div>
+      <% } %>
       <div class="marco__text-col">
         <h2 class="marco__title"><%= c['proyectos.marco.title'] || 'Marco Metodológico' %></h2>
         <p class="marco__text"><%= c['proyectos.marco.body'] %></p>

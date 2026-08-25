@@ -173,6 +173,41 @@
   });
 
 
+  // --- Videos que se reproducen solos ------------------------------------
+  // Se usan como una imagen en movimiento dentro de una seccion, no como un
+  // reproductor: por eso van sin 'controls' y no hay barra de progreso.
+  //
+  // Se cargan al entrar en pantalla y se pausan al salir: son archivos de
+  // varios MB y no tiene sentido descargarlos ni gastar CPU decodificando algo
+  // que nadie esta viendo.
+  var autoVideos = Array.prototype.slice.call(document.querySelectorAll('[data-video-auto]'));
+  if (autoVideos.length && 'IntersectionObserver' in window) {
+    var quietoAuto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var autoObserver = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        var v = e.target;
+        if (!e.isIntersecting) {
+          if (!v.paused) v.pause();
+          return;
+        }
+        if (!v.getAttribute('src')) {
+          var src = v.getAttribute('data-src');
+          if (src) v.setAttribute('src', src);
+        }
+        // Con "reducir movimiento" activado se carga el video pero no se
+        // reproduce: queda el primer fotograma, como una foto. Quien pide al
+        // sistema que no haya animaciones no espera un video en bucle.
+        if (quietoAuto) {
+          v.setAttribute('preload', 'metadata');
+          return;
+        }
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      });
+    }, { threshold: 0.25 });
+    autoVideos.forEach(function (v) { autoObserver.observe(v); });
+  }
+
   // --- Carrusel "Nuestro Team" ------------------------------------------
   // Tres cosas a la vez:
   //  1. Carga perezosa: los 25 clips suman mas de 300 MB, asi que cada video

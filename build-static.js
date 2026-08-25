@@ -96,6 +96,7 @@ function assertSinMediosLocales() {
   const candidatos = [
     ['video.url', c['video.url']],
     ['proyectos.capacitacion.video', c['proyectos.capacitacion.video']],
+    ['proyectos.marco.video', c['proyectos.marco.video']],
     ...Content.roleTabs().map((t) => [`cápsula "${t.label}"`, t.video]),
     ...Content.teamSlides().map((s, i) => [`slide ${i + 1} de Nuestro Team`, s.video]),
   ];

@@ -721,3 +721,30 @@ body.modal-open { overflow: hidden; }
 .capsule__enlace:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
 /* Icono de enlace externo: avisa que sale del sitio, sin ocupar una linea. */
 .capsule__externo { width: 17px; height: 17px; flex: 0 0 auto; opacity: .75; }
+
+/* ---------- Marco Metodológico en video ---------- */
+/* La variante con video no usa el posicionamiento absoluto de las dos capas
+   del recorte: un video 16:9 estirado a la caja de 460px de alto quedaría
+   deformado (o con bandas negras si se contiene). Aquí la caja toma la forma
+   del video y no al revés. */
+.marco__media--video {
+  position: relative;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #0d0d18;
+}
+.marco__media--video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 981px) {
+  /* Sin el solape negativo con el hero: está pensado para que un PNG
+     recortado se funda con la imagen de leche de arriba. Un rectángulo opaco
+     montado sobre el hero se lee como un error de maquetación. */
+  .marco__media--video { margin-top: 0; min-height: 0; }
+}
