@@ -101,12 +101,27 @@
     var next = carousel.querySelector('[data-carousel-next]');
     var dotsWrap = carousel.querySelector('[data-carousel-dots]');
 
-    function pageWidth() { return track.clientWidth; }
+    function medidas() {
+      return {
+        ancho: cards[0].getBoundingClientRect().width,
+        gap: parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0,
+      };
+    }
     function perView() {
-      var cw = cards[0].getBoundingClientRect().width;
-      var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
-      if (!cw) return 1;
-      return Math.max(1, Math.round((track.clientWidth + gap) / (cw + gap)));
+      var m = medidas();
+      if (!m.ancho) return 1;
+      return Math.max(1, Math.round((track.clientWidth + m.gap) / (m.ancho + m.gap)));
+    }
+    // El ancho de una pagina es el paso REAL: tantas tarjetas por vista, cada
+    // una con su separacion. No es track.clientWidth: las tarjetas ocupan el
+    // 100% del *contenido* del track (clientWidth menos los 8px de padding
+    // lateral) y entre ellas hay 26px de gap, de modo que el paso verdadero es
+    // clientWidth + 18. Desplazarse de a clientWidth se quedaba corto en cada
+    // paso y la diferencia se iba sumando hasta descuadrar el carrusel.
+    function pageWidth() {
+      var m = medidas();
+      var ancho = (m.ancho + m.gap) * perView();
+      return ancho > 0 ? ancho : track.clientWidth;
     }
     function pageCount() { return Math.max(1, Math.ceil(cards.length / perView())); }
 
@@ -165,69 +180,152 @@
   //  2. Reproduccion automatica del slide visible, y pausa al salir.
   //  3. Avance solo: al terminar el clip pasa al siguiente. Las fotos, que no
   //     "terminan", avanzan por temporizador.
+  //
+  // El avance NO se apoya solo en el evento 'ended'. Un clip que se atasca
+  // descargando, que falla, o que el navegador nunca llega a arrancar, no
+  // emite 'ended' nunca: el carrusel se quedaba detenido para siempre. Un
+  // latido periodico vigila que el reloj del video siga corriendo y, si deja
+  // de hacerlo, pasa al siguiente igual.
   var teamCarousel = document.querySelector('.team-carousel[data-carousel]');
   if (teamCarousel && 'IntersectionObserver' in window) {
     var teamSlides = Array.prototype.slice.call(teamCarousel.querySelectorAll('.team-slide'));
     var teamTrack = teamCarousel.querySelector('[data-carousel-track]');
-    var teamNext = teamCarousel.querySelector('[data-carousel-next]');
     var reduceTeam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var FOTO_MS = 7000;    // cuanto se queda una foto antes de avanzar
-    var temporizador = null;
-    var manual = false;     // el usuario tomo el control: no avanzamos solos
+    var FOTO_MS = 7000;      // cuanto se queda una foto antes de avanzar
+    var LATIDO_MS = 500;     // cada cuanto se comprueba el estado
+    var ATASCO_MS = 6000;    // video empezado que deja de avanzar -> se abandona
+    var ARRANQUE_MS = 12000; // video que nunca llega a arrancar -> se abandona
+    var RESCATE_MS = 3000;   // ningun slide en pantalla -> se fuerza el avance
+    var ENFRIADO_MS = 1200;  // margen para que termine el desplazamiento suave
 
-    function limpiarTemporizador() {
-      if (temporizador) { clearTimeout(temporizador); temporizador = null; }
+    var manual = false;      // el usuario tomo el control: no avanzamos solos
+    var enPantalla = false;  // el carrusel esta a la vista
+    var indice = -1;         // ultimo slide que estuvo en pantalla
+    var visible = false;     // ...y si sigue ahi
+    var desdeMs = 0;         // cuando entro el slide actual
+    var sinVisibleMs = 0;    // desde cuando no hay ningun slide en pantalla
+    var ultimoTiempo = -1;   // currentTime de la comprobacion anterior
+    var quietoMs = 0;        // cuanto lleva el video sin mover su reloj
+    var ultimoAvance = 0;
+
+    function ahora() { return Date.now(); }
+
+    // Lleva el carrusel a la posicion EXACTA de un slide.
+    //
+    // Antes se hacia con teamNext.click(), que por dentro es
+    // scrollBy(track.clientWidth). Ese numero no es el paso real: cada slide
+    // mide el 100% del *contenido* del track (clientWidth menos 8px de padding)
+    // y entre slides hay 26px de separacion, asi que el paso verdadero es
+    // clientWidth + 18. Cada avance se quedaba 18px corto y el error se
+    // acumulaba; pasada una decena de slides el punto de llegada ya caia mas
+    // cerca del slide de partida que del siguiente, y scroll-snap: mandatory
+    // devolvia al mismo sitio. Como el slide nunca salia de pantalla, el
+    // IntersectionObserver no volvia a dispararse y el carrusel se quedaba
+    // pegado. Midiendo la posicion real del slide no hay nada que acumular.
+    function irA(n) {
+      if (!teamTrack || !teamSlides.length) return;
+      var i = ((n % teamSlides.length) + teamSlides.length) % teamSlides.length;
+      var destino = teamSlides[i];
+      var izquierda = teamTrack.scrollLeft
+        + destino.getBoundingClientRect().left
+        - teamTrack.getBoundingClientRect().left;
+      var tope = teamTrack.scrollWidth - teamTrack.clientWidth;
+      izquierda = Math.max(0, Math.min(Math.round(izquierda), tope));
+      // Volver al principio va INSTANTANEO: un desplazamiento animado a lo
+      // largo de 27 slides los cruza uno a uno y cada uno que pasa por
+      // pantalla arranca la descarga de su video. Con mas de 300 MB en total,
+      // eso es justo lo que la carga perezosa intenta evitar. Ojo: 'auto' NO
+      // sirve, porque delega en el scroll-behavior: smooth del CSS.
+      teamTrack.scrollTo({ left: izquierda, behavior: i === 0 ? 'instant' : 'smooth' });
     }
 
     function avanzar() {
-      if (manual || reduceTeam || !teamTrack) return;
-      // Se reutiliza el boton del carrusel para no duplicar la logica de
-      // desplazamiento; al llegar al final vuelve al principio.
-      if (teamNext && !teamNext.disabled) teamNext.click();
-      // Al volver al principio, salto INSTANTANEO y no suave: un
-      // desplazamiento animado a lo largo de 27 slides los va cruzando uno a
-      // uno, y cada uno que pasa por pantalla se activa y empieza a descargar
-      // su video. Con mas de 300 MB en total, eso es justo lo que la carga
-      // perezosa intenta evitar. Ojo: 'auto' NO sirve, porque delega en el
-      // scroll-behavior: smooth del CSS; hay que pedir 'instant' explicitamente.
-      else teamTrack.scrollTo({ left: 0, behavior: 'instant' });
+      if (manual || reduceTeam || !enPantalla) return;
+      var t = ahora();
+      // El enfriado evita dos avances encadenados cuando 'ended' y el latido
+      // coinciden, y evita insistir mientras el scroll suave sigue en curso.
+      if (t - ultimoAvance < ENFRIADO_MS) return;
+      ultimoAvance = t;
+      desdeMs = t;
+      quietoMs = 0;
+      ultimoTiempo = -1;
+      irA(indice < 0 ? 0 : indice + 1);
+    }
+
+    function videoActual() {
+      return indice >= 0 && teamSlides[indice]
+        ? teamSlides[indice].querySelector('[data-team-video]')
+        : null;
+    }
+
+    function comprobar() {
+      if (manual || reduceTeam || !enPantalla || document.hidden) return;
+
+      // Nadie en pantalla: o el desplazamiento quedo a medio camino, o el
+      // slide se paro entre dos posiciones. Se fuerza el avance.
+      if (!visible) {
+        if (sinVisibleMs && ahora() - sinVisibleMs > RESCATE_MS) avanzar();
+        return;
+      }
+
+      var v = videoActual();
+      if (!v) {
+        if (ahora() - desdeMs >= FOTO_MS) avanzar(); // slide de foto
+        return;
+      }
+      // 'ended' tambien se escucha por evento; esto es el segundo cinturon.
+      if (v.ended || v.error) { avanzar(); return; }
+
+      if (v.currentTime !== ultimoTiempo) { // el reloj corre: todo en orden
+        ultimoTiempo = v.currentTime;
+        quietoMs = 0;
+        return;
+      }
+      quietoMs += LATIDO_MS;
+      // Reintento discreto: play() a veces se queda en el aire al volver de
+      // una pestana en segundo plano o tras un corte breve de red.
+      if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      if (quietoMs >= (v.currentTime > 0 ? ATASCO_MS : ARRANQUE_MS)) avanzar();
     }
 
     function entra(slide) {
+      var i = teamSlides.indexOf(slide);
+      if (i < 0) return;
+      indice = i;
+      visible = true;
+      sinVisibleMs = 0;
+      desdeMs = ahora();
+      quietoMs = 0;
+      ultimoTiempo = -1;
+
       var v = slide.querySelector('[data-team-video]');
-      if (v) {
-        if (!v.getAttribute('src')) {
-          var src = v.getAttribute('data-src');
-          if (src) v.setAttribute('src', src);
-        }
-        if (reduceTeam) return;
-        v.currentTime = 0;
-        var p = v.play();
-        if (p && p.catch) p.catch(function () {
-          // Si el navegador bloquea la reproduccion, no dejamos el carrusel
-          // congelado: se avanza igual pasado el tiempo de una foto.
-          limpiarTemporizador();
-          temporizador = setTimeout(avanzar, FOTO_MS);
-        });
-        return;
+      if (!v) return;
+      if (!v.getAttribute('src')) {
+        var src = v.getAttribute('data-src');
+        if (src) v.setAttribute('src', src);
       }
-      // Slide de foto: no hay evento "termino", asi que se usa un reloj.
-      limpiarTemporizador();
-      temporizador = setTimeout(avanzar, FOTO_MS);
+      if (reduceTeam) return;
+      try { v.currentTime = 0; } catch (e) { /* aun sin metadatos */ }
+      var p = v.play();
+      // Si el navegador bloquea la reproduccion no hace falta hacer nada
+      // especial: el latido vera que el reloj no avanza y pasara al siguiente.
+      if (p && p.catch) p.catch(function () {});
     }
 
     function sale(slide) {
       var v = slide.querySelector('[data-team-video]');
       if (v && !v.paused) v.pause();
-      limpiarTemporizador();
+      if (teamSlides.indexOf(slide) === indice) {
+        visible = false;
+        sinVisibleMs = ahora();
+      }
     }
 
     var teamObserver = new IntersectionObserver(function (entradas) {
       // Primero las salidas y despues las entradas: si se procesaran en el
-      // orden que llegan, la salida del slide anterior podria borrar el
-      // temporizador que la entrada del nuevo acaba de armar, y una foto se
-      // quedaria detenida indefinidamente.
+      // orden que llegan, la salida del slide anterior podria borrar el estado
+      // que la entrada del nuevo acaba de fijar.
       entradas.forEach(function (e) { if (!e.isIntersecting) sale(e.target); });
       entradas.forEach(function (e) { if (e.isIntersecting) entra(e.target); });
     }, { threshold: 0.6 });
@@ -241,21 +339,40 @@
       // Si el usuario toma el control, el carrusel deja de avanzar solo:
       // esta viendo ese testimonio y no corresponde arrebatarselo.
       v.addEventListener('volumechange', function () {
-        if (!v.muted) { manual = true; limpiarTemporizador(); }
+        if (!v.muted) manual = true;
       });
       // Los videos no llevan controles nativos, asi que no hay nada que el
       // usuario pueda pulsar sobre ellos: el avance solo se detiene con las
       // flechas o los puntos del carrusel.
     });
 
-    // Tocar las flechas o los puntos tambien detiene el avance automatico.
-    // isTrusted distingue el clic de una persona del que genera avanzar() al
-    // pulsar "siguiente" por codigo: sin esa comprobacion, el primer avance
-    // automatico se desactivaba a si mismo.
+    // Fuera de pantalla el carrusel se detiene: si no, seguiria pasando slides
+    // (y descargando clips) mientras el usuario lee otra parte de la pagina.
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        enPantalla = e.isIntersecting;
+        if (enPantalla) { desdeMs = ahora(); quietoMs = 0; sinVisibleMs = ahora(); }
+      });
+    }, { threshold: 0.15 }).observe(teamCarousel);
+
+    // Al volver de otra pestana, el reloj arranca de cero: sin esto el slide a
+    // la vista se daria por vencido de inmediato.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) return;
+      desdeMs = ahora();
+      quietoMs = 0;
+      ultimoTiempo = -1;
+      sinVisibleMs = ahora();
+    });
+
+    // Tocar las flechas o los puntos detiene el avance automatico. isTrusted
+    // distingue el clic de una persona del que pudiera generar el codigo.
     teamCarousel.addEventListener('click', function (e) {
       if (!e.isTrusted) return;
-      if (e.target.closest('.carousel__btn, .carousel__dots')) { manual = true; limpiarTemporizador(); }
+      if (e.target.closest('.carousel__btn, .carousel__dots')) manual = true;
     });
+
+    setInterval(comprobar, LATIDO_MS);
   }
 
 
