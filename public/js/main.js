@@ -234,7 +234,12 @@
     var RESCATE_MS = 3000;   // ningun slide en pantalla -> se fuerza el avance
     var ENFRIADO_MS = 1200;  // margen para que termine el desplazamiento suave
 
-    var manual = false;      // el usuario tomo el control: no avanzamos solos
+    // El avance NO se detiene por interactuar. Antes, tocar una flecha o un
+    // punto lo apagaba para siempre: el usuario adelantaba un slide y el
+    // carrusel se quedaba quieto el resto de la visita, sin ninguna forma de
+    // volver a encenderlo. Ahora sigue pasando de un video al siguiente pase
+    // lo que pase; navegar a mano solo cambia desde donde continua.
+    var arrastrando = false; // dedo o boton del raton apoyado en el carrusel
     var enPantalla = false;  // el carrusel esta a la vista
     var indice = -1;         // ultimo slide que estuvo en pantalla
     var visible = false;     // ...y si sigue ahi
@@ -276,7 +281,7 @@
     }
 
     function avanzar() {
-      if (manual || reduceTeam || !enPantalla) return;
+      if (reduceTeam || !enPantalla || arrastrando) return;
       var t = ahora();
       // El enfriado evita dos avances encadenados cuando 'ended' y el latido
       // coinciden, y evita insistir mientras el scroll suave sigue en curso.
@@ -295,7 +300,7 @@
     }
 
     function comprobar() {
-      if (manual || reduceTeam || !enPantalla || document.hidden) return;
+      if (reduceTeam || !enPantalla || document.hidden) return;
 
       // Nadie en pantalla: o el desplazamiento quedo a medio camino, o el
       // slide se paro entre dos posiciones. Se fuerza el avance.
@@ -369,16 +374,8 @@
       teamObserver.observe(slide);
       var v = slide.querySelector('[data-team-video]');
       if (!v) return;
-      // Al terminar el clip, al siguiente.
+      // Al terminar el clip, al siguiente. Sin condiciones.
       v.addEventListener('ended', avanzar);
-      // Si el usuario toma el control, el carrusel deja de avanzar solo:
-      // esta viendo ese testimonio y no corresponde arrebatarselo.
-      v.addEventListener('volumechange', function () {
-        if (!v.muted) manual = true;
-      });
-      // Los videos no llevan controles nativos, asi que no hay nada que el
-      // usuario pueda pulsar sobre ellos: el avance solo se detiene con las
-      // flechas o los puntos del carrusel.
     });
 
     // Fuera de pantalla el carrusel se detiene: si no, seguiria pasando slides
@@ -400,11 +397,15 @@
       sinVisibleMs = ahora();
     });
 
-    // Tocar las flechas o los puntos detiene el avance automatico. isTrusted
-    // distingue el clic de una persona del que pudiera generar el codigo.
-    teamCarousel.addEventListener('click', function (e) {
-      if (!e.isTrusted) return;
-      if (e.target.closest('.carousel__btn, .carousel__dots')) manual = true;
+    // Lo unico que aplaza un avance es tener el dedo (o el raton) apoyado en
+    // el carrusel: no es "el usuario interactuo, apagate", es no arrancarle el
+    // slide de las manos a mitad de un gesto. Al soltar sigue como si nada,
+    // sin esperas ni reactivaciones.
+    ['pointerdown', 'pointerup', 'pointercancel', 'pointerleave'].forEach(function (evento) {
+      teamCarousel.addEventListener(evento, function (e) {
+        if (!e.isTrusted) return;
+        arrastrando = evento === 'pointerdown';
+      });
     });
 
     setInterval(comprobar, LATIDO_MS);
