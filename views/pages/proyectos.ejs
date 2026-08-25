@@ -2,16 +2,27 @@
 <%- include('../partials/header') %>
 
 <!-- HERO banner -->
-<section class="hero-banner">
+<%
+  // Sin titulo, la imagen es una pieza grafica completa (trae su propio
+  // titulo y textos): se muestra entera, sin recorte ni desenfoque, y sin
+  // la onda inferior, que taparia el contenido de la pieza.
+  var heroTitulo = (c['proyectos.hero.title'] || '').trim();
+  var heroGrafico = !heroTitulo;
+%>
+<section class="hero-banner <%= heroGrafico ? 'hero-banner--grafico' : '' %>">
   <% if (c['proyectos.hero.image']) { %>
-    <img class="hero-banner__img" src="<%= c['proyectos.hero.image'] %>" alt="Proyectos" />
+    <img class="hero-banner__img" src="<%= c['proyectos.hero.image'] %>"
+         alt="Proyectos: el exito nace de la sinergia entre personas, procesos y tecnologias" />
   <% } %>
-  <div class="hero-banner__inner">
-    <h1 class="hero-banner__title"><%= c['proyectos.hero.title'] || 'Proyectos' %></h1>
-  </div>
-  <svg class="hero-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,52 C300,110 560,12 800,46 C1020,76 1240,116 1440,60 L1440,100 L0,100 Z" fill="#ffffff"/>
-  </svg>
+
+  <% if (!heroGrafico) { %>
+    <div class="hero-banner__inner">
+      <h1 class="hero-banner__title"><%= heroTitulo %></h1>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,52 C300,110 560,12 800,46 C1020,76 1240,116 1440,60 L1440,100 L0,100 Z" fill="#ffffff"/>
+    </svg>
+  <% } %>
 </section>
 
 <!-- Marco Metodológico -->

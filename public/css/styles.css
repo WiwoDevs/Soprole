@@ -649,3 +649,24 @@ body.modal-open { overflow: hidden; }
   .footer__soprole-logo { width: 120px; }
   .team-slide img { aspect-ratio: 16 / 9; }
 }
+
+/* Banner grafico de Proyectos ---------------------------------------------
+   Cuando la pieza ya trae su propio titulo y textos, deja de ser un fondo y
+   pasa a ser CONTENIDO: se anula el recorte, el desenfoque y el velo que
+   usaba la variante original (pensada para una foto detras de un titulo). */
+.hero-banner--grafico {
+  min-height: 0;
+  display: block;
+  background: #fff;
+}
+.hero-banner--grafico .hero-banner__img {
+  position: static;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: none;
+  transform: none;
+}
+/* El velo oscuro apagaria los colores de la pieza. */
+.hero-banner--grafico::after { content: none; }
