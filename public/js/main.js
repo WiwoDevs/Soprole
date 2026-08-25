@@ -230,14 +230,25 @@
       if (!v) return;
       // Al terminar el clip, al siguiente.
       v.addEventListener('ended', avanzar);
-      // Si el usuario activa el sonido o pausa a mano, deja de avanzar solo:
-      // esta viendo ese testimonio y no queremos arrebatarselo.
-      v.addEventListener('volumechange', function () { if (!v.muted) manual = true; });
-      v.addEventListener('pause', function () { if (!v.ended) manual = true; });
+      // Si el usuario toma el control, el carrusel deja de avanzar solo:
+      // esta viendo ese testimonio y no corresponde arrebatarselo.
+      v.addEventListener('volumechange', function () {
+        if (!v.muted) { manual = true; limpiarTemporizador(); }
+      });
+      // Ojo: NO se usa el evento 'pause' para esto. El navegador lo dispara
+      // tambien al terminar el clip, justo antes de 'ended', asi que el primer
+      // video desactivaba el avance automatico para siempre. La intencion del
+      // usuario se detecta por su clic (los controles nativos emiten click
+      // sobre el propio <video>), no por un evento que el navegador genera solo.
+      v.addEventListener('click', function () { manual = true; limpiarTemporizador(); });
     });
 
     // Tocar las flechas o los puntos tambien detiene el avance automatico.
+    // isTrusted distingue el clic de una persona del que genera avanzar() al
+    // pulsar "siguiente" por codigo: sin esa comprobacion, el primer avance
+    // automatico se desactivaba a si mismo.
     teamCarousel.addEventListener('click', function (e) {
+      if (!e.isTrusted) return;
       if (e.target.closest('.carousel__btn, .carousel__dots')) { manual = true; limpiarTemporizador(); }
     });
   }
