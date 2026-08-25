@@ -161,14 +161,17 @@
           <div class="capsule__media">
             <% if (tab.link) { %>
               <!-- Con link definido: la miniatura lleva a la cápsula en Buk -->
-              <a class="video video--link" href="<%= tab.link %>" target="_blank" rel="noopener"
-                 aria-label="Ver la cápsula «<%= tab.title %>» en Buk"
+              <%# Sin icono de play: la miniatura NO reproduce nada aqui, navega a
+                  Buk. Un play prometeria reproduccion en el sitio y llevaria al
+                  usuario a otra parte. El badge "Ver en Buk" y el icono de enlace
+                  externo dicen lo que realmente ocurre. %>
+              <a class="video video--link" href="<%= tab.link %>" target="_blank" rel="noopener noreferrer"
+                 aria-label="<%= tab.title %> — abrir el curso en Buk (se abre en una pestaña nueva y requiere tu sesión de Buk)"
                  <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
-                <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="Cápsula: <%= tab.title %>" /><% } %>
-                <span class="video__play" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </span>
-                <span class="capsule__badge">Ver en Buk</span>
+                <%# El enlace ya lleva su propio nombre accesible, asi que la
+                    imagen es decorativa y no debe volver a anunciarse. %>
+                <% if (tab.poster) { %><img src="<%= tab.poster %>" alt="" loading="lazy" /><% } %>
+                <span class="capsule__badge">Ver en Buk <span aria-hidden="true">↗</span></span>
               </a>
             <% } else { %>
               <div class="video" data-video="<%= tab.video || '' %>" <% if (tab.poster) { %>style="background-image:url('<%= tab.poster %>')"<% } %>>
