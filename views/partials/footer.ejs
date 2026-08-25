@@ -31,5 +31,12 @@
 </footer>
 
 <script src="/js/main.js"></script>
+
+<%# Chatbot conTIgo. El widget se autoinicializa y se pinta como boton
+    flotante abajo a la derecha. Requiere que el dominio este autorizado
+    por Soprole; si no lo esta, el boton aparece pero el chat no abre. %>
+<% if (c['global.chatbot.script']) { %>
+  <script src="<%= c['global.chatbot.script'] %>" async></script>
+<% } %>
 </body>
 </html>

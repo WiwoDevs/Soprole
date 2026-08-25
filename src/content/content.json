@@ -9,6 +9,7 @@
     "contacto.subtitle": "Cuéntanos en qué podemos ayudarte y te responderemos a la brevedad.",
     "global.brand.logo": "/assets/Logo Contigo.png",
     "global.soprole.logo": "/assets/soprole/logo-soprole.svg",
+    "global.chatbot.script": "https://chatbot-conti.vercel.app/widget.js",
     "global.nav.search_placeholder": "¿Qué estás buscando?",
     "global.nav.cta": "Contacto",
     "global.footer.title": "Mesa de Ayuda",
