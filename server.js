@@ -87,6 +87,9 @@ app.use((req, res, next) => {
   res.locals.analyticsId = process.env.GOOGLE_ANALYTICS_ID || '';
   res.locals.metaPixelId = process.env.META_PIXEL_ID || '';
   res.locals.currentPath = req.path;
+  // Sufijo de version para CSS y JS: evita que el navegador mezcle HTML
+  // nuevo con JavaScript cacheado de una version anterior.
+  res.locals.versionar = require('./src/asset-version').versionar;
 
   // Escapa HTML y resalta la marca "conTIgo" (con la "TI" destacada).
   res.locals.esc = (s) =>

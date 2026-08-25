@@ -43,6 +43,7 @@ function baseLocals() {
     analyticsId: '',        // se puede activar poniendo el ID aquí
     metaPixelId: '',
     currentPath: '/',
+    versionar: require('./src/asset-version').versionar,
   };
 }
 
