@@ -140,7 +140,22 @@
       <% roleTabs.forEach(function(tab, i){ %>
         <div class="tab-panel capsule <%= i === 0 ? 'is-active' : '' %>" data-tab="cap-<%= tab.id %>">
           <div class="capsule__content">
-            <h3 class="capsule__title"><%= tab.title %></h3>
+            <% if (tab.link) { %>
+              <%# El titulo lleva al curso en Buk, que es donde queda el
+                  registro de la capacitacion. Se avisa que abre fuera del
+                  sitio y que requiere sesion propia de Buk. %>
+              <h3 class="capsule__title">
+                <a class="capsule__enlace" href="<%= tab.link %>" target="_blank" rel="noopener noreferrer"
+                   aria-label="<%= tab.title %> — abrir el curso en Buk (se abre en una pestaña nueva y requiere tu sesión de Buk)">
+                  <%= tab.title %>
+                  <svg class="capsule__externo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path d="M14 4h6v6M20 4l-8.5 8.5M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>
+                  </svg>
+                </a>
+              </h3>
+            <% } else { %>
+              <h3 class="capsule__title"><%= tab.title %></h3>
+            <% } %>
             <p class="capsule__text"><%= tab.body %></p>
           </div>
           <div class="capsule__media">

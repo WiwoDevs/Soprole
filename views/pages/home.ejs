@@ -86,6 +86,11 @@
           <% if (hasFull) { %>
             <!-- Nota completa (oculta): la usa el modal de "Leer más" -->
             <template id="note-<%= card.id %>">
+              <% if (card.image) { %>
+                <figure class="note__media">
+                  <img src="<%= card.image %>" alt="<%= card.title %>" loading="lazy" />
+                </figure>
+              <% } %>
               <h2 class="note__title accent-<%= card.accent %>"><%= card.title %></h2>
               <% if (lead) { %><p class="note__lead"><%= lead %></p><% } %>
               <% rest.forEach(function(p){ %><p><%= p %></p><% }) %>

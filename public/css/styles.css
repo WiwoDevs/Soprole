@@ -690,3 +690,34 @@ body.modal-open { overflow: hidden; }
 /* Los slides no se estiran a la altura del mas alto: cada uno conserva su
    proporcion y no aparece franja de fondo bajo el video. */
 .team-carousel .carousel__track { align-items: flex-start; }
+
+/* Imagen dentro de la nota completa ("Leer más") --------------------------
+   Las tarjetas ilustran con infografias que resumen el articulo, asi que se
+   muestran completas (contain) y no recortadas: recortar una infografia le
+   corta el texto. */
+.note__media {
+  margin: 0 0 22px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-lav);
+}
+.note__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  object-fit: contain;
+}
+
+/* Titulo de la capsula enlazado al curso en Buk */
+.capsule__enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  transition: color .15s ease;
+}
+.capsule__enlace:hover { color: var(--blue-dark); text-decoration: underline; }
+.capsule__enlace:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+/* Icono de enlace externo: avisa que sale del sitio, sin ocupar una linea. */
+.capsule__externo { width: 17px; height: 17px; flex: 0 0 auto; opacity: .75; }
