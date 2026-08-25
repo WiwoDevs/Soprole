@@ -204,7 +204,7 @@
       "active": 0
     }
   ],
-  "team_photos": [
+  "team_slides": [
     {
       "id": 1,
       "image": "/assets/soprole/foto-area.jpg",
@@ -217,6 +217,181 @@
       "image": "/assets/soprole/foto-contigo.jpeg",
       "caption": "Equipo conTIgo en terreno",
       "sort": 2,
+      "active": 1
+    },
+    {
+      "id": 101,
+      "video": "/media/colaborador-1.mp4",
+      "caption": "",
+      "sort": 11,
+      "active": 1
+    },
+    {
+      "id": 102,
+      "video": "/media/colaborador-2.mp4",
+      "caption": "",
+      "sort": 12,
+      "active": 1
+    },
+    {
+      "id": 103,
+      "video": "/media/colaborador-3.mp4",
+      "caption": "",
+      "sort": 13,
+      "active": 1
+    },
+    {
+      "id": 104,
+      "video": "/media/colaborador-4.mp4",
+      "caption": "",
+      "sort": 14,
+      "active": 1
+    },
+    {
+      "id": 105,
+      "video": "/media/colaborador-5.mp4",
+      "caption": "",
+      "sort": 15,
+      "active": 1
+    },
+    {
+      "id": 106,
+      "video": "/media/colaborador-6.mp4",
+      "caption": "",
+      "sort": 16,
+      "active": 1
+    },
+    {
+      "id": 107,
+      "video": "/media/colaborador-7.mp4",
+      "caption": "",
+      "sort": 17,
+      "active": 1
+    },
+    {
+      "id": 108,
+      "video": "/media/colaborador-8.mp4",
+      "caption": "",
+      "sort": 18,
+      "active": 1
+    },
+    {
+      "id": 109,
+      "video": "/media/colaborador-9.mp4",
+      "caption": "",
+      "sort": 19,
+      "active": 1
+    },
+    {
+      "id": 110,
+      "video": "/media/colaborador-10.mp4",
+      "caption": "",
+      "sort": 20,
+      "active": 1
+    },
+    {
+      "id": 111,
+      "video": "/media/colaborador-11.mp4",
+      "caption": "",
+      "sort": 21,
+      "active": 1
+    },
+    {
+      "id": 112,
+      "video": "/media/colaborador-12.mp4",
+      "caption": "",
+      "sort": 22,
+      "active": 1
+    },
+    {
+      "id": 113,
+      "video": "/media/colaborador-13.mp4",
+      "caption": "",
+      "sort": 23,
+      "active": 1
+    },
+    {
+      "id": 114,
+      "video": "/media/colaborador-14.mp4",
+      "caption": "",
+      "sort": 24,
+      "active": 1
+    },
+    {
+      "id": 115,
+      "video": "/media/colaborador-15.mp4",
+      "caption": "",
+      "sort": 25,
+      "active": 1
+    },
+    {
+      "id": 116,
+      "video": "/media/colaborador-16.mp4",
+      "caption": "",
+      "sort": 26,
+      "active": 1
+    },
+    {
+      "id": 117,
+      "video": "/media/colaborador-17.mp4",
+      "caption": "",
+      "sort": 27,
+      "active": 1
+    },
+    {
+      "id": 118,
+      "video": "/media/colaborador-18.mp4",
+      "caption": "",
+      "sort": 28,
+      "active": 1
+    },
+    {
+      "id": 119,
+      "video": "/media/colaborador-19.mp4",
+      "caption": "",
+      "sort": 29,
+      "active": 1
+    },
+    {
+      "id": 120,
+      "video": "/media/colaborador-20.mp4",
+      "caption": "",
+      "sort": 30,
+      "active": 1
+    },
+    {
+      "id": 121,
+      "video": "/media/colaborador-21.mp4",
+      "caption": "",
+      "sort": 31,
+      "active": 1
+    },
+    {
+      "id": 122,
+      "video": "/media/colaborador-22.mp4",
+      "caption": "",
+      "sort": 32,
+      "active": 1
+    },
+    {
+      "id": 123,
+      "video": "/media/colaborador-23.mp4",
+      "caption": "",
+      "sort": 33,
+      "active": 1
+    },
+    {
+      "id": 124,
+      "video": "/media/colaborador-24.mp4",
+      "caption": "",
+      "sort": 34,
+      "active": 1
+    },
+    {
+      "id": 125,
+      "video": "/media/colaborador-25.mp4",
+      "caption": "",
+      "sort": 35,
       "active": 1
     }
   ],

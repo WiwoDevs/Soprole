@@ -60,20 +60,44 @@
     <div class="capacita" style="margin-top:30px;">
       <p class="capacita__text"><%= c['proyectos.capacitacion.body'] %></p>
 
-      <% if (typeof teamPhotos !== 'undefined' && teamPhotos.length) { %>
+      <% if (typeof teamSlides !== 'undefined' && teamSlides.length) { %>
         <div class="carousel team-carousel" data-carousel>
           <button class="carousel__btn carousel__btn--prev" type="button" data-carousel-prev aria-label="Foto anterior">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
 
           <div class="carousel__track" data-carousel-track>
-            <% teamPhotos.forEach(function(photo){ %>
-              <figure class="team-slide">
-                <img src="<%= photo.image %>" alt="<%= photo.caption || 'Equipo conTIgo' %>" loading="lazy" />
-                <% if (photo.caption) { %>
-                  <figcaption class="team-slide__caption"><%= photo.caption %></figcaption>
-                <% } %>
-              </figure>
+            <% teamSlides.forEach(function(slide){ %>
+              <% if (slide.video) { %>
+                <%
+                  // El numero sale del nombre del archivo, no del indice del
+                  // slide: los primeros slides son fotos y el conteo no calza.
+                  var mColab = String(slide.video).split('colaborador-')[1];
+                  var etiquetaColaborador = mColab
+                    ? 'Testimonio del colaborador ' + parseInt(mColab, 10)
+                    : 'Testimonio de un colaborador';
+                %>
+                <%# Video del colaborador. Va SIN src: lo asigna el JS cuando
+                    el slide entra en pantalla. Con 25 clips (mas de 300 MB),
+                    cargarlos todos de entrada dejaria el sitio inutilizable.
+                    'muted' es obligatorio: los navegadores bloquean la
+                    reproduccion automatica con sonido. %>
+                <figure class="team-slide team-slide--video">
+                  <video data-team-video data-src="<%= slide.video %>"
+                         muted loop playsinline preload="none" controls
+                         aria-label="<%= etiquetaColaborador %>"></video>
+                  <% if (slide.caption) { %>
+                    <figcaption class="team-slide__caption"><%= slide.caption %></figcaption>
+                  <% } %>
+                </figure>
+              <% } else if (slide.image) { %>
+                <figure class="team-slide">
+                  <img src="<%= slide.image %>" alt="<%= slide.caption || 'Equipo conTIgo' %>" loading="lazy" />
+                  <% if (slide.caption) { %>
+                    <figcaption class="team-slide__caption"><%= slide.caption %></figcaption>
+                  <% } %>
+                </figure>
+              <% } %>
             <% }) %>
           </div>
 

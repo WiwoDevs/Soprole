@@ -670,3 +670,18 @@ body.modal-open { overflow: hidden; }
 }
 /* El velo oscuro apagaria los colores de la pieza. */
 .hero-banner--grafico::after { content: none; }
+
+/* Slides de video del carrusel "Nuestro Team" ------------------------------
+   Los clips son 16:9, asi que el slide usa esa proporcion en vez del 16:10
+   de las fotos, para no dejar franjas negras. */
+.team-slide--video { background: #0d0d18; }
+.team-slide--video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #0d0d18;
+}
+/* Sobre el video, el degradado del pie del slide compite con los controles
+   nativos del reproductor: se sube un poco para no taparlos. */
+.team-slide--video .team-slide__caption { padding-bottom: 46px; }

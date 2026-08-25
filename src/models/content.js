@@ -57,9 +57,9 @@ function roleTabs() {
   return activeSorted(data.role_tabs);
 }
 
-/** Fotos del equipo que alimentan el carrusel de "Nuestro Team". */
-function teamPhotos() {
-  return activeSorted(data.team_photos);
+/** Slides del carrusel de "Nuestro Team": admiten foto o video. */
+function teamSlides() {
+  return activeSorted(data.team_slides);
 }
 
 module.exports = {
@@ -69,5 +69,5 @@ module.exports = {
   testimonials,
   stats,
   roleTabs,
-  teamPhotos,
+  teamSlides,
 };

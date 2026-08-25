@@ -157,6 +157,50 @@
     sync();
   });
 
+
+  // --- Carrusel "Nuestro Team": solo el slide visible carga y reproduce ---
+  // Son 25 clips que suman mas de 300 MB. Sin esto el navegador intentaria
+  // descargarlos todos a la vez y la pagina quedaria inservible. Cada video
+  // se conecta a su archivo (data-src -> src) recien cuando entra en pantalla,
+  // y se pausa al salir para no dejar audio ni descargas de fondo.
+  var teamVideos = Array.prototype.slice.call(document.querySelectorAll('[data-team-video]'));
+  if (teamVideos.length && 'IntersectionObserver' in window) {
+    var reduceTeam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function activarVideo(v) {
+      if (!v.getAttribute('src')) {
+        var src = v.getAttribute('data-src');
+        if (!src) return;
+        v.setAttribute('src', src);
+      }
+      if (reduceTeam) return; // respeta a quien pidio menos movimiento
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {}); // autoplay bloqueado: sin ruido en consola
+    }
+
+    function dormirVideo(v) {
+      if (v.paused) return;
+      v.pause();
+    }
+
+    var teamObserver = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) activarVideo(e.target);
+        else dormirVideo(e.target);
+      });
+    }, { threshold: 0.6 });
+
+    teamVideos.forEach(function (v) {
+      teamObserver.observe(v);
+      // Si el usuario le da play a mano, que mande el usuario: se deja de
+      // pausar automaticamente ese video al salir de pantalla.
+      v.addEventListener('play', function () {
+        if (v.muted) return;
+        teamObserver.unobserve(v);
+      });
+    });
+  }
+
   // --- Reproductor de video ---------------------------------------------
   // Sustituye la portada por el reproductor y sabe VOLVER a la portada, para
   // que no quede un video sonando al cambiar de cápsula. Solo puede haber uno

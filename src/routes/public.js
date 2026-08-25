@@ -37,7 +37,7 @@ router.get('/proyectos', (req, res) => {
     ...baseLocals(),
     stats: Content.stats(),
     roleTabs: Content.roleTabs(),
-    teamPhotos: Content.teamPhotos(),
+    teamSlides: Content.teamSlides(),
   });
 });
 
