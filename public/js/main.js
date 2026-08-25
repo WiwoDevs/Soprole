@@ -158,48 +158,90 @@
   });
 
 
-  // --- Carrusel "Nuestro Team": solo el slide visible carga y reproduce ---
-  // Son 25 clips que suman mas de 300 MB. Sin esto el navegador intentaria
-  // descargarlos todos a la vez y la pagina quedaria inservible. Cada video
-  // se conecta a su archivo (data-src -> src) recien cuando entra en pantalla,
-  // y se pausa al salir para no dejar audio ni descargas de fondo.
-  var teamVideos = Array.prototype.slice.call(document.querySelectorAll('[data-team-video]'));
-  if (teamVideos.length && 'IntersectionObserver' in window) {
+  // --- Carrusel "Nuestro Team" ------------------------------------------
+  // Tres cosas a la vez:
+  //  1. Carga perezosa: los 25 clips suman mas de 300 MB, asi que cada video
+  //     se conecta a su archivo (data-src -> src) recien al entrar en pantalla.
+  //  2. Reproduccion automatica del slide visible, y pausa al salir.
+  //  3. Avance solo: al terminar el clip pasa al siguiente. Las fotos, que no
+  //     "terminan", avanzan por temporizador.
+  var teamCarousel = document.querySelector('.team-carousel[data-carousel]');
+  if (teamCarousel && 'IntersectionObserver' in window) {
+    var teamSlides = Array.prototype.slice.call(teamCarousel.querySelectorAll('.team-slide'));
+    var teamTrack = teamCarousel.querySelector('[data-carousel-track]');
+    var teamNext = teamCarousel.querySelector('[data-carousel-next]');
     var reduceTeam = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function activarVideo(v) {
-      if (!v.getAttribute('src')) {
-        var src = v.getAttribute('data-src');
-        if (!src) return;
-        v.setAttribute('src', src);
-      }
-      if (reduceTeam) return; // respeta a quien pidio menos movimiento
-      var p = v.play();
-      if (p && p.catch) p.catch(function () {}); // autoplay bloqueado: sin ruido en consola
+    var FOTO_MS = 5000;     // cuanto se queda una foto antes de avanzar
+    var temporizador = null;
+    var manual = false;     // el usuario tomo el control: no avanzamos solos
+
+    function limpiarTemporizador() {
+      if (temporizador) { clearTimeout(temporizador); temporizador = null; }
     }
 
-    function dormirVideo(v) {
-      if (v.paused) return;
-      v.pause();
+    function avanzar() {
+      if (manual || reduceTeam || !teamTrack) return;
+      // Se reutiliza el boton del carrusel para no duplicar la logica de
+      // desplazamiento; al llegar al final vuelve al principio.
+      if (teamNext && !teamNext.disabled) teamNext.click();
+      else teamTrack.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+
+    function entra(slide) {
+      var v = slide.querySelector('[data-team-video]');
+      if (v) {
+        if (!v.getAttribute('src')) {
+          var src = v.getAttribute('data-src');
+          if (src) v.setAttribute('src', src);
+        }
+        if (reduceTeam) return;
+        v.currentTime = 0;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {
+          // Si el navegador bloquea la reproduccion, no dejamos el carrusel
+          // congelado: se avanza igual pasado el tiempo de una foto.
+          limpiarTemporizador();
+          temporizador = setTimeout(avanzar, FOTO_MS);
+        });
+        return;
+      }
+      // Slide de foto: no hay evento "termino", asi que se usa un reloj.
+      limpiarTemporizador();
+      temporizador = setTimeout(avanzar, FOTO_MS);
+    }
+
+    function sale(slide) {
+      var v = slide.querySelector('[data-team-video]');
+      if (v && !v.paused) v.pause();
+      limpiarTemporizador();
     }
 
     var teamObserver = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
-        if (e.isIntersecting) activarVideo(e.target);
-        else dormirVideo(e.target);
+        if (e.isIntersecting) entra(e.target);
+        else sale(e.target);
       });
     }, { threshold: 0.6 });
 
-    teamVideos.forEach(function (v) {
-      teamObserver.observe(v);
-      // Si el usuario le da play a mano, que mande el usuario: se deja de
-      // pausar automaticamente ese video al salir de pantalla.
-      v.addEventListener('play', function () {
-        if (v.muted) return;
-        teamObserver.unobserve(v);
-      });
+    teamSlides.forEach(function (slide) {
+      teamObserver.observe(slide);
+      var v = slide.querySelector('[data-team-video]');
+      if (!v) return;
+      // Al terminar el clip, al siguiente.
+      v.addEventListener('ended', avanzar);
+      // Si el usuario activa el sonido o pausa a mano, deja de avanzar solo:
+      // esta viendo ese testimonio y no queremos arrebatarselo.
+      v.addEventListener('volumechange', function () { if (!v.muted) manual = true; });
+      v.addEventListener('pause', function () { if (!v.ended) manual = true; });
+    });
+
+    // Tocar las flechas o los puntos tambien detiene el avance automatico.
+    teamCarousel.addEventListener('click', function (e) {
+      if (e.target.closest('.carousel__btn, .carousel__dots')) { manual = true; limpiarTemporizador(); }
     });
   }
+
 
   // --- Reproductor de video ---------------------------------------------
   // Sustituye la portada por el reproductor y sabe VOLVER a la portada, para

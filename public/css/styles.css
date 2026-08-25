@@ -584,7 +584,7 @@ body.modal-open { overflow: hidden; }
 /* Carrusel "Nuestro Team": una foto por vista dentro de su columna */
 .team-carousel .carousel__track > .team-slide { flex: 0 0 100%; scroll-snap-align: start; }
 .team-slide { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-.team-slide img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.team-slide img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .team-slide__caption {
   position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 20px 14px;
   color: #fff; font-size: .9rem; font-weight: 600;
@@ -647,7 +647,7 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 980px) {
   .footer__soprole-logo { width: 120px; }
-  .team-slide img { aspect-ratio: 16 / 9; }
+  .team-slide img { aspect-ratio: 16 / 9; } /* ya unificado arriba */
 }
 
 /* Banner grafico de Proyectos ---------------------------------------------
@@ -685,3 +685,7 @@ body.modal-open { overflow: hidden; }
 /* Sobre el video, el degradado del pie del slide compite con los controles
    nativos del reproductor: se sube un poco para no taparlos. */
 .team-slide--video .team-slide__caption { padding-bottom: 46px; }
+
+/* Los slides no se estiran a la altura del mas alto: cada uno conserva su
+   proporcion y no aparece franja de fondo bajo el video. */
+.team-carousel .carousel__track { align-items: flex-start; }
