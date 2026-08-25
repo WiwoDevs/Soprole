@@ -243,12 +243,9 @@
       v.addEventListener('volumechange', function () {
         if (!v.muted) { manual = true; limpiarTemporizador(); }
       });
-      // Ojo: NO se usa el evento 'pause' para esto. El navegador lo dispara
-      // tambien al terminar el clip, justo antes de 'ended', asi que el primer
-      // video desactivaba el avance automatico para siempre. La intencion del
-      // usuario se detecta por su clic (los controles nativos emiten click
-      // sobre el propio <video>), no por un evento que el navegador genera solo.
-      v.addEventListener('click', function () { manual = true; limpiarTemporizador(); });
+      // Los videos no llevan controles nativos, asi que no hay nada que el
+      // usuario pueda pulsar sobre ellos: el avance solo se detiene con las
+      // flechas o los puntos del carrusel.
     });
 
     // Tocar las flechas o los puntos tambien detiene el avance automatico.

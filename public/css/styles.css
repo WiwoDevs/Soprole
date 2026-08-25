@@ -682,9 +682,10 @@ body.modal-open { overflow: hidden; }
   object-fit: cover;
   background: #0d0d18;
 }
-/* Sobre el video, el degradado del pie del slide compite con los controles
-   nativos del reproductor: se sube un poco para no taparlos. */
-.team-slide--video .team-slide__caption { padding-bottom: 46px; }
+/* Los videos van sin controles nativos: barra de reproduccion oculta.
+   Se bloquea tambien el menu contextual del navegador, que ofrece
+   "Mostrar controles" y dejaria reaparecer la barra. */
+.team-slide--video video { pointer-events: none; }
 
 /* Los slides no se estiran a la altura del mas alto: cada uno conserva su
    proporcion y no aparece franja de fondo bajo el video. */
