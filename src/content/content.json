@@ -141,7 +141,7 @@
       "page": "home",
       "title": "Del portafolio al resultado: cómo se transforman las ideas en valor",
       "body": "Un proceso estructurado que asegura que cada iniciativa aporte al negocio.\n\nEn Soprole, cada proyecto comienza con una idea. Sin embargo, no todas las ideas se transforman en iniciativas ejecutadas. Para ello, existe un proceso estructurado que permite evaluar, priorizar y ejecutar las propuestas de manera ordenada.\n\nEl modelo conTIgo define un flujo claro que parte desde la idea (input) y culmina con un resultado concreto (output). En este recorrido, las iniciativas pasan por distintas etapas donde se analiza su impacto, esfuerzo y alineación estratégica.\n\nEl primer paso es la gestión de la demanda, donde se registran todas las iniciativas. Esto asegura una única puerta de entrada y permite comparar las propuestas bajo criterios comunes como valor, esfuerzo y prioridad.\n\nPosteriormente, las iniciativas son evaluadas y clasificadas en función de su impacto y esfuerzo, utilizando herramientas como la matriz de priorización. Esto permite identificar rápidamente aquellas iniciativas con mayor potencial de valor.\n\nUna vez aprobadas, las iniciativas se transforman en proyectos formales, con alcance definido, presupuesto asignado y responsables claros. A partir de ahí, se inicia la fase de ejecución, donde se construye la solución.\n\nEl modelo también contempla el seguimiento de los beneficios, una etapa clave que permite validar si el proyecto cumplió con los resultados esperados. Esto asegura que la inversión realizada realmente genere valor para el negocio.\n\nAdemás, el portafolio de proyectos permite tener una visión consolidada de todas las iniciativas, facilitando la toma de decisiones a nivel estratégico.\n\nEn este contexto, la gestión de proyectos deja de ser solo ejecución y pasa a ser una herramienta clave de gestión estratégica.",
-      "image": "/assets/soprole/ciclo.png",
+      "image": "/assets/soprole/ciclo-1920x1080.png",
       "link": "",
       "cta": "Leer más",
       "accent": "red",
@@ -153,7 +153,7 @@
       "page": "home",
       "title": "Más allá del Go Live: el rol del cambio y la adopción en los proyectos",
       "body": "Por qué el éxito de un proyecto depende de las personas.\n\nTradicionalmente, los proyectos se medían por su cumplimiento en plazo, costo y alcance. Sin embargo, hoy existe un factor clave que define su verdadero éxito: la adopción por parte de los usuarios.\n\nEl modelo conTIgo incorpora la gestión del cambio organizacional como un componente central, reconociendo que la entrega técnica no es suficiente si la solución no se utiliza correctamente.\n\nLa gestión del cambio comienza desde las etapas tempranas del proyecto, identificando impactos en procesos, roles y personas. Esto permite anticipar riesgos y preparar a los usuarios para el cambio.\n\nUno de los elementos clave es la comunicación. Explicar el propósito del proyecto, sus beneficios y su impacto ayuda a reducir la incertidumbre y facilita la adopción.\n\nOtro aspecto relevante es la capacitación. Preparar a los usuarios para utilizar la nueva solución asegura una transición más fluida y reduce errores en la operación.\n\nEl acompañamiento no termina con el Go Live. Durante la etapa de estabilización, se realiza soporte intensivo, recogiendo feedback y ajustando la solución si es necesario.\n\nAdemás, el modelo incorpora medición de satisfacción, permitiendo evaluar la percepción del negocio respecto al proyecto y detectar oportunidades de mejora.\n\nFinalmente, el seguimiento de beneficios permite validar si los resultados esperados se materializan en la práctica.\n\nEn este contexto, el éxito de un proyecto no depende solo de la tecnología, sino de las personas que la utilizan. Por eso, la gestión del cambio se convierte en un factor clave para asegurar que las iniciativas realmente generen valor.",
-      "image": "/assets/soprole/adopcion.png",
+      "image": "/assets/soprole/adopcion-1920x1080.png",
       "link": "",
       "cta": "Leer más",
       "accent": "dark",
@@ -164,45 +164,25 @@
   "testimonials": [
     {
       "id": 1,
-      "quote": "Cuando trabajamos en equipo, hace que todo funcione",
-      "name": "Mónica Nuñez",
-      "role": "Especialista en TI",
-      "image": "/assets/public/1027a0587cd16892a534f425040d8000c03c10a2.png",
+      "quote": "ConTIgo consolidará todas las iniciativas del negocio en un único espacio, centralizando su gestión y control. Así, podremos dar seguimiento oportuno, mejorar la visibilidad y acelerar la captura de valor para el negocio.",
+      "name": "Fernanda Díaz",
+      "role": "PMO Estrategia y Transformación",
+      "area": "Gerencia Administración y Finanzas",
+      "image": "/assets/soprole/fernanda-diaz.png",
       "accent": "green",
       "sort": 1,
       "active": 1
     },
     {
       "id": 2,
-      "quote": "Cuando trabajamos en equipo, hace que todo funcione",
-      "name": "Javier Olarra",
-      "role": "Especialista en TI",
-      "image": "/assets/public/f58f3b939b17e36aea2649d17aa8a98fcb7e355a.png",
+      "quote": "ConTIgo viene a transformar la forma en que gestionamos nuestras iniciativas, conectando de manera más efectiva las necesidades del negocio con Tecnología. Nos entrega un marco común para priorizar, avanzar con mayor agilidad y visibilidad, y asegurar que cada iniciativa esté orientada a generar valor para la organización.",
+      "name": "Maiser Tapia",
+      "role": "Gerente de Compensaciones",
+      "area": "",
+      "image": "/assets/soprole/maiser-tapia.jpeg",
       "accent": "blue",
       "sort": 2,
       "active": 1
-    },
-    {
-      "_pendiente": "Testimonio y foto los levanta Claudio (enfoque: 'lo que más te gusta de conTIgo'). Al recibirlos, completar quote/image y poner active: 1.",
-      "id": 3,
-      "quote": "",
-      "name": "Maisser Tapia",
-      "role": "Personas y Organización (P&O)",
-      "image": "",
-      "accent": "green",
-      "sort": 3,
-      "active": 0
-    },
-    {
-      "_pendiente": "Testimonio y foto los levanta Claudio (enfoque: 'lo que más te gusta de conTIgo'). Al recibirlos, completar quote/image y poner active: 1.",
-      "id": 4,
-      "quote": "",
-      "name": "Fernanda Díaz",
-      "role": "Administración y Finanzas",
-      "image": "",
-      "accent": "blue",
-      "sort": 4,
-      "active": 0
     }
   ],
   "team_slides": [
