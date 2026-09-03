@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "build": "node build-static.js"
+    "build": "node build-static.js",
+    "check:media": "node check-media.js"
   },
   "engines": {
     "node": ">=18"
