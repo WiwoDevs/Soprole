@@ -342,18 +342,19 @@ button { font-family: inherit; cursor: pointer; }
 .testimonial--green { background: radial-gradient(135% 135% at 6% 0%, #ffd7c4 0%, #fdece3 30%, #f3f1fb 66%); }
 .testimonial--blue  { background: radial-gradient(135% 135% at 94% 0%, #d9e4fb 0%, #e9edfb 32%, #f4f0fb 68%); }
 .testimonial__photo { position: relative; align-self: stretch; }
-/* Marco de foto de tamaño FIJO. La imagen se recorta con object-fit: cover, de
-   modo que cualquier original —cuadrado, vertical o apaisado, con o sin
-   transparencia— ocupe exactamente el mismo hueco y quede encuadrado igual.
-   El marco cubre todo el alto de la tarjeta y sobresale por arriba, como en el
-   mockup; al crecer la tarjeta (citas largas) la foto crece con ella. */
+/* Las fotos son recortes PNG con fondo transparente. Se anclan al borde
+   (inferior + lado exterior) y crecen hacia arriba, saliéndose de la tarjeta
+   como en el mockup. Sin marco ni sombra: el recorte flota sobre el degradado.
+   El alto manda y el ancho es natural, así la figura sobresale de la tarjeta;
+   el sobrante lateral cae sobre el texto, pero es margen transparente del
+   recorte. Si alguna foto trajera la figura pegada al borde, ahí sí taparía la
+   cita: el recorte debe venir con aire a los lados. */
 .testimonial__photo img {
-  position: absolute; top: -48px; left: 12px;
-  width: calc(100% - 24px); height: calc(100% + 48px);
-  object-fit: cover; object-position: center 22%;
-  border-radius: 18px; background: #eceef6;
-  box-shadow: 0 12px 28px rgba(22, 28, 66, .18);
+  position: absolute; bottom: 0; height: 290px; width: auto; max-width: 170%;
+  object-fit: contain; object-position: bottom;
 }
+.testimonial:not(.testimonial--reverse) .testimonial__photo img { left: 0; }
+.testimonial--reverse .testimonial__photo img { right: 0; }
 .testimonial__photo-ph { width: 100%; height: 100%; display: grid; place-items: center; color: #aab; }
 .testimonial__content { display: flex; flex-direction: column; justify-content: center; padding: 22px 26px; }
 .testimonial__quote { font-style: italic; font-weight: 700; font-size: 1.08rem; line-height: 1.4; margin: 0 0 12px; }
@@ -526,9 +527,9 @@ button { font-family: inherit; cursor: pointer; }
   .form-row { grid-template-columns: 1fr; }
   .testimonial { grid-template-columns: 130px 1fr; }
   .testimonial--reverse { grid-template-columns: 1fr 130px; }
-  .testimonial__photo img {
-    top: -34px; left: 8px; width: calc(100% - 16px); height: calc(100% + 34px);
-    max-height: 230px; border-radius: 14px;
+  .testimonial:not(.testimonial--reverse) .testimonial__photo img,
+  .testimonial--reverse .testimonial__photo img {
+    height: 190px; width: 100%; max-width: none; left: 0; right: auto;
   }
 }
 

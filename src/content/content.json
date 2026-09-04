@@ -129,7 +129,7 @@
       "page": "home",
       "title": "conTIgo: la nueva forma de gestionar proyectos tecnológicos",
       "body": "Un modelo que alinea negocio y TI con foco en valor.\n\nSoprole ha dado un paso clave en la evolución de su gestión de proyectos con la implementación del modelo conTIgo, una metodología que redefine la forma en que se gestionan las iniciativas tecnológicas. Este modelo busca alinear negocio y TI, aumentar la visibilidad y asegurar la generación de valor, estableciendo un marco común para todos los proyectos.\n\nUno de los principales aportes de conTIgo es su enfoque en el valor. Cada iniciativa se evalúa no solo por su costo o complejidad, sino por el impacto que puede generar en la organización. Esto permite priorizar de manera objetiva y enfocar los recursos en aquellas iniciativas que realmente aportan beneficios.\n\nEl modelo también incorpora principios clave como la trazabilidad end-to-end, la proporcionalidad y un gobierno claro que facilita la toma de decisiones sin perder agilidad.\n\nA nivel operativo, conTIgo estructura el ciclo de vida de los proyectos desde la idea inicial hasta la entrega de resultados. Este proceso incluye etapas como iniciativa, evaluación, aprobación, ejecución y seguimiento de beneficios, asegurando un control completo del proceso.\n\nOtro elemento relevante es la integración de distintos enfoques metodológicos. El modelo combina prácticas ágiles y predictivas, permitiendo adaptarse a la naturaleza de cada proyecto. Esto significa que se puede mantener el control y la gobernanza, sin perder flexibilidad y velocidad de ejecución.\n\nFinalmente, conTIgo pone un fuerte énfasis en la adopción del cambio. Reconoce que el éxito de un proyecto no depende solo de la entrega técnica, sino de la capacidad de los usuarios para incorporar la solución en su trabajo diario.\n\nCon este modelo, Soprole avanza hacia una gestión moderna, colaborativa y orientada a resultados.",
-      "image": "/assets/public/a55b6a2e7d7295fe3db5815f084f0c420732b989.png",
+      "image": "/assets/soprole/gestion-proyectos.png",
       "link": "",
       "cta": "Leer más",
       "accent": "blue",
@@ -164,7 +164,7 @@
   "testimonials": [
     {
       "id": 1,
-      "quote": "ConTIgo consolidará todas las iniciativas del negocio en un único espacio, centralizando su gestión y control. Así, podremos dar seguimiento oportuno, mejorar la visibilidad y acelerar la captura de valor para el negocio.",
+      "quote": "ConTIgo centraliza todas las iniciativas del negocio en un único espacio, facilitando su gestión, seguimiento y control. Así, mejoramos la visibilidad y aceleramos la generación de valor para el negocio.",
       "name": "Fernanda Díaz",
       "role": "PMO Estrategia y Transformación",
       "area": "Gerencia Administración y Finanzas",
@@ -175,11 +175,11 @@
     },
     {
       "id": 2,
-      "quote": "ConTIgo viene a transformar la forma en que gestionamos nuestras iniciativas, conectando de manera más efectiva las necesidades del negocio con Tecnología. Nos entrega un marco común para priorizar, avanzar con mayor agilidad y visibilidad, y asegurar que cada iniciativa esté orientada a generar valor para la organización.",
+      "quote": "ConTIgo transforma la manera en que llevamos adelante nuestros proyectos, conectando las necesidades del negocio con Tecnología. Nos entrega un marco común para priorizar, avanzar con agilidad y asegurar que cada esfuerzo genere valor para la organización.",
       "name": "Maiser Tapia",
       "role": "Gerente de Compensaciones",
       "area": "",
-      "image": "/assets/soprole/maiser-tapia.jpeg",
+      "image": "/assets/soprole/maiser-tapia.png",
       "accent": "blue",
       "sort": 2,
       "active": 1
